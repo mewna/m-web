@@ -2,6 +2,7 @@ import {MComponent} from "../MComponent"
 import React from "react"
 import {NavLink} from "react-router-dom"
 import {NoAuth} from "../comp/NoAuth"
+import {GuildCard} from "../comp/dashboard/GuildCard";
 
 const MANAGE_GUILD = 0x00000020
 
@@ -12,15 +13,44 @@ export class Dashboard extends MComponent {
     }
 
     componentDidMount() {
+        this.setState({
+            guilds: [
+                {
+                    "permissions": 2146958591,
+                    "owner": true,
+                    "name": "amy's personal bottos",
+                    "id": "206584013790380033",
+                    "icon": null
+                },
+                {
+                    "permissions": 2146958591,
+                    "owner": true,
+                    "name": "amy incorporated™",
+                    "id": "267500017260953601",
+                    "icon": "b5f93c5470f0950430d1ad8346ca69e7"
+                },
+                {
+                    "permissions": 2146958591,
+                    "owner": true,
+                    "name": "Occasionally Things Happen Here",
+                    "id": "128316392909832192",
+                    "icon": null
+                },
+            ]
+        })
+        /*
         this.getSocket().joinChannel("dashboard:" + this.getAuth().getId(), {}, (e) => {
             this.getLogger().debug("Dashboard got socket message:", e)
             const data = e.d.data
             this.setState({guilds: data.guilds})
         })
+        */
     }
 
     componentWillUnmount() {
+        /*
         this.getSocket().leaveChannel("dashboard:" + this.getAuth().getId())
+        */
     }
 
     renderGuilds() {
@@ -28,20 +58,11 @@ export class Dashboard extends MComponent {
             let guilds = []
             let counter = 0
             this.state.guilds.filter(g => (g.permissions & MANAGE_GUILD) === MANAGE_GUILD).forEach(g => {
-                let icon = <p>icon: <img src={`https://cdn.discordapp.com/icons/${g.id}/${g.icon}.png`} alt={"guild icon"}/></p>
-                if(!g.icon) {
-                    icon = <p>no icon :(</p>
-                }
-                guilds.push(<div key={counter} style={{background: "rgba(0, 0, 0, 0.5)", margin: "1rem"}}>
-                    <p>name: {g.name}</p>
-                    {icon}
-                </div>)
+                guilds.push(<GuildCard guild={g} key={counter} className={"column is-3"}/>)
                 ++counter
             })
             return (
-                <div>
-                    {guilds}
-                </div>
+                guilds
             )
         } else {
             return (
@@ -57,10 +78,12 @@ export class Dashboard extends MComponent {
             <div>
                 <NoAuth/>
                 <section className={"section is-small"}/>
+                Dashboard!<br/>
+                <NavLink to={"/"}>&lt;-- Back home</NavLink>
                 <div className={"container has-text-left"}>
-                    Dashboard!<br/>
-                    <NavLink to={"/"}>&lt;-- Back home</NavLink>
-                    {this.renderGuilds()}
+                    <div className={"columns"}>
+                        {this.renderGuilds()}
+                    </div>
                 </div>
             </div>
         )

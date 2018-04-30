@@ -6,7 +6,7 @@ import App from './App';
 import {MewnaSocket} from './socket/Socket.js'
 import {Logger} from "./logger"
 import axios from 'axios'
-// Just doing 'import bulma' goes :fire:
+
 import './App.css'
 
 import store from './store'
