@@ -12,9 +12,10 @@ export class GuildIcon extends MComponent {
         if(this.props.className) {
             className += " " + this.props.className
         }
-        if(this.props.icon) {
+        if(this.props.guild.icon) {
             return (
-                <Icon src={`https://cdn.discordapp.com/icons/${this.props.guild.id}/${this.props.guild.icon}.png`} alt={"guild icon"} />
+                <Icon src={`https://cdn.discordapp.com/icons/${this.props.guild.id}/${this.props.guild.icon}.png`}
+                      alt={"guild icon"} className={className} />
             )
         } else {
             let chars = this.props.guild.name.split(/\s+/).map(e => e.substring(0, 1)).join("")

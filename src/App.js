@@ -7,6 +7,7 @@ import {NoAuth} from "./page/NoAuth"
 import {Provider} from 'react-redux'
 
 import {MComponent} from "./MComponent"
+import {NavbarRedux} from "./comp/Navbar";
 
 class App extends MComponent {
     constructor(props) {
@@ -16,15 +17,24 @@ class App extends MComponent {
     render() {
         return (
             <Provider store={this.getStore().getStore()}>
-                <div className="main">
+                <div className="main container">
                     <BrowserRouter>
-                        <main className="content">
-                            <div className="container">
-                                <Route exact path="/" component={IndexRedux}/>
-                                <Route exact path="/dashboard" component={Dashboard}/>
-                                <Route exact path="/noauth" component={NoAuth}/>
+                        <div>
+                            <NavbarRedux/>
+                            <div className={"columns"}>
+                                <div className={"column is-12"}>
+                                    <main className="content">
+                                        <Route exact path="/" component={IndexRedux}/>
+                                        <Route exact path="/dashboard*" component={Dashboard}/>
+                                        {/*
+                                        <Route exact path="/dashboard/:id" component={Dashboard}/>
+                                        <Route exact path="/dashboard/:id/:page" component={Dashboard}/>
+                                        */}
+                                        <Route exact path="/noauth" component={NoAuth}/>
+                                    </main>
+                                </div>
                             </div>
-                        </main>
+                        </div>
                     </BrowserRouter>
                 </div>
             </Provider>

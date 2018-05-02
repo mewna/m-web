@@ -22,6 +22,7 @@ class DiscordLoginButtonInternal extends MComponent {
     handleLoginMessage(e) {
         let data = e.data
         if(data.type && data.type === "login") {
+            this.loggedIn = true
             this.getLogger().info("Logged in with data:", data)
             // Set basic data
             this.getAuth().clearToken()
