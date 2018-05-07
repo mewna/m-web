@@ -21,8 +21,9 @@ class DiscordLoginButtonInternal extends MComponent {
 
     handleLoginMessage(e) {
         let data = e.data
-        if(data.type && data.type === "login") {
-            this.loggedIn = true
+        if(data.type && data.type === "login" && !this.getAuth().getToken()) {
+            // Something causes login message duplication, idk what.
+            // The last part of that if-statement blocks that
             this.getLogger().info("Logged in with data:", data)
             // Set basic data
             this.getAuth().clearToken()

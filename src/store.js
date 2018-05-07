@@ -2,6 +2,7 @@ import {applyMiddleware, createStore} from 'redux'
 
 const UPDATE_USER = "UPDATE_USER"
 const UPDATE_GUILDS = "UPDATE_GUILDS"
+const CLEAR = "CLEAR"
 
 const initialState = {
     user: null,
@@ -29,6 +30,9 @@ export class Store {
                 })
                 return new_state
             }
+            case CLEAR: {
+                return initialState
+            }
             default: {
                 return state
             }
@@ -49,6 +53,10 @@ export class Store {
 
     getUser() {
         return this.store.getState().user
+    }
+
+    clear() {
+        this.store.dispatch({type: CLEAR, payload: null})
     }
 }
 

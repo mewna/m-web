@@ -2,7 +2,7 @@
 @import "~bulma/sass/utilities/functions";
 
 $blurple: #7289DA;
-$redple: #DA72AC;
+$redple: #FF69B4;
 $full-white: #FFFFFF;
 $greyple: darken(#99aaB5, 10%);
 $dark-not-black: #2C2F33;
@@ -77,6 +77,7 @@ $link-active: $full-white;
 $menu-label-color: darken($full-white, 15%);
 
 @import '~bulma/bulma';
+@import '~bulma-extensions/bulma-switch/dist/bulma-switch';
 
 html, body {
   font-size: 14px !important;
@@ -225,4 +226,22 @@ nav.navbar {
 .hover:hover {
   filter: brightness(95%) !important;
   transform: translate(0px, -2px);
+}
+
+div.toggle-row {
+  padding: 2rem;
+  margin: 0.1rem 0;
+  border-radius: 4px;
+  background: $not-quite-black;
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  align-items: center;
+  align-content: center;
+  justify-content: left;
+  width: 100%;
+}
+
+.dark-hr {
+  background-color: lighten($not-quite-black, 15%);
 }

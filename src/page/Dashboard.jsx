@@ -7,6 +7,7 @@ import BubblePreloader from 'react-bubble-preloader'
 import {matchPath} from 'react-router'
 import {DashboardCard} from "../comp/dashboard/DashboardCard";
 import {GuildIcon} from "../comp/GuildIcon";
+import {Commands} from "./dashboard/Commands";
 
 const MANAGE_GUILD = 0x00000020
 
@@ -18,20 +19,25 @@ export class Dashboard extends MComponent {
 
     componentDidMount() {
         // TODO: Figure out the smart thing to do with not wasting connections
-        this.getSocket().joinChannel("dashboard:" + this.getAuth().getId(), {}, (e) => {
-            this.getLogger().debug("Dashboard got socket message:", e)
-            const data = e.d.data
-            this.setState({guilds: data.guilds})
-            // So this works, because when the user first logs in, there are no guilds send in the login message
-            // which means that this will go "loading screen"
-            // Once the socket connects, we get all the guilds and update the global user
-            // And it's all good after that
-            // :thumbsup:
-            const user = data.user
-            user.guilds = data.guilds
-            this.getStore().updateUser(user)
-        })
-        this.setState({connected: true})
+        this.getLogger().debug("Starting dashboard join...")
+        try {
+            this.getSocket().joinChannel("dashboard:" + this.getAuth().getId(), {}, (e) => {
+                this.getLogger().debug("Dashboard got socket message:", e)
+                const data = e.d.data
+                this.setState({guilds: data.guilds})
+                // So this works, because when the user first logs in, there are no guilds send in the login message
+                // which means that this will go "loading screen"
+                // Once the socket connects, we get all the guilds and update the global user
+                // And it's all good after that
+                // :thumbsup:
+                const user = data.user
+                user.guilds = data.guilds
+                this.getStore().updateUser(user)
+                this.setState({connected: true})
+            })
+        } catch(e) {
+            this.getLogger().error("Connect error:", e)
+        }
     }
 
     componentWillUnmount() {
@@ -63,14 +69,27 @@ export class Dashboard extends MComponent {
     renderGuildDashboard(match, page) {
         const guild = this.state.guilds.filter(e => e.id === match.params.id)[0]
         let backLink = ""
+        let pageName = ""
+        if(page) {
+            pageName = " - " + (page.charAt(0).toUpperCase() + page.substr(1))
+        }
         if(match.params.id) {
+            let parent = "/dashboard"
+            let backText = "Back to server list"
+            if(page) {
+                parent += "/" + guild.id
+                backText = "Back to dashboard"
+            }
             backLink = (
-                <section className={"section is-small is-not-quite-black column is-12 is-flex"}
+                <section className={"section is-small is-not-quite-black is-flex"}
                          style={{padding: "1rem", flexDirection: "row", justifyContent: "left", alignItems: "center",
-                         marginLeft: "0.75rem", width: "98%", borderRadius: "4px"}}>
-                    <GuildIcon guild={guild} /> {guild.name}
-                    <NavLink to={"/dashboard"} className={"button is-primary hover"} style={{marginLeft: "auto", marginRight: "1.5rem"}}>
-                        Back to server list
+                         margin: "0.75rem", borderRadius: "4px", width: "100%"}}>
+                    <GuildIcon guild={guild} />
+                    <div>
+                        <p className={"is-size-4"}>{guild.name}{pageName}</p>
+                    </div>
+                    <NavLink to={parent} className={"button is-primary hover"} style={{marginLeft: "auto", marginRight: "1.5rem"}}>
+                        {backText}
                     </NavLink>
                 </section>
             )
@@ -81,7 +100,7 @@ export class Dashboard extends MComponent {
                     <div className={"columns is-multiline is-paddingless is-marginless is-centered has-text-centered card-columns"}>
                         {backLink}
                         <DashboardCard name={"Commands"} shortlink={"commands"} guild={guild}>
-                            Create custom commands, enable/disable commands, and change the prefix.
+                            Enable/disable commands, and change the prefix.
                         </DashboardCard>
                         <DashboardCard name={"Notifications"} shortlink={"notifications"} guild={guild}>
                             Set up notifications for Twitch, Reddit, Twitter, and more.
@@ -95,14 +114,28 @@ export class Dashboard extends MComponent {
                         <DashboardCard name={"Music"} shortlink={"music"} guild={guild}>
                             Toggle radio and manage what people listen to.
                         </DashboardCard>
+                        <DashboardCard name={"Welcoming"} shortlink={"welcoming"} guild={guild}>
+                            Welcome/goodbye messages and join roles.
+                        </DashboardCard>
                     </div>
                 </div>
             )
         } else {
+            let pageData = ""
+            switch(page) {
+                case "commands":
+                    pageData = <Commands />
+                    break;
+                default:
+                    pageData = "Unknown page?"
+                    break;
+            }
             return (
-                <div>
-                    {backLink}<br />
-                    page: {page}
+                <div style={{width: "100%"}}>
+                    <div className={"columns is-multiline is-paddingless is-marginless is-centered has-text-centered card-columns"}>
+                        {backLink}
+                        {pageData}
+                    </div>
                 </div>
             )
         }

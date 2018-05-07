@@ -12,8 +12,9 @@ export class Icon extends MComponent {
             className += this.props.className
         }
         return (
-            <div className={className}>
-                <img className={"image circle is-60x60"} src={this.props.src} alt={"guild icon"} />
+            <div className={className}
+                 style={{display: "flex", alignItems: "center", justifyContent: "center", alignContent: "center"}}>
+                <img className={"image circle is-60x60"} src={this.props.src} alt={"icon"}/>
             </div>
         )
     }

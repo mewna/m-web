@@ -27,6 +27,7 @@ export class MewnaSocket {
 
     joinChannel(channelName, params = null, callback = () => {}) {
         if(this.channels[channelName]) {
+            this.logger.info("[CHANNEL] We're already in", channelName, "so ignoring request to join")
             return
         }
         this.channels[channelName] = this.socket.channel("esp:" + channelName, params || {})
@@ -58,6 +59,23 @@ export class MewnaSocket {
         delete this.channels[channelName]
         const end = Date.now()
         this.logger.info("[CHANNEL] +" + (end - start) + " Left:", channelName)
+    }
+
+    leaveAllChannels() {
+        let x = Object.keys(this.channels)
+        x.forEach(e => {
+            this.leaveChannel(e)
+            delete this.channels[e]
+        })
+    }
+
+    disconnect() {
+        this.socket.disconnect()
+    }
+
+    reconnect() {
+        this.disconnect()
+        this.connect()
     }
 
     logSocketMessage(channel, m) {
