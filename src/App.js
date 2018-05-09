@@ -17,25 +17,36 @@ class App extends MComponent {
     render() {
         return (
             <Provider store={this.getStore().getStore()}>
-                <div className="main container">
-                    <BrowserRouter>
-                        <div>
-                            <NavbarRedux/>
-                            <div className={"columns"}>
-                                <div className={"column is-12"}>
-                                    <main className="content">
-                                        <Route exact path="/" component={IndexRedux}/>
-                                        <Route exact path="/dashboard*" component={Dashboard}/>
-                                        {/*
+                <div>
+                    <div className="main container">
+                        <BrowserRouter>
+                            <div>
+                                <NavbarRedux/>
+                                <div className={"columns"}>
+                                    <div className={"column is-12"}>
+                                        <main className="content">
+                                            <Route exact path="/" component={IndexRedux}/>
+                                            <Route exact path="/dashboard*" component={Dashboard}/>
+                                            {/*
                                         <Route exact path="/dashboard/:id" component={Dashboard}/>
                                         <Route exact path="/dashboard/:id/:page" component={Dashboard}/>
                                         */}
-                                        <Route exact path="/noauth" component={NoAuth}/>
-                                    </main>
+                                            <Route exact path="/noauth" component={NoAuth}/>
+                                        </main>
+                                    </div>
                                 </div>
                             </div>
+                        </BrowserRouter>
+                    </div>
+                    <footer className="footer">
+                        <div className="container">
+                            <div className="content has-text-centered">
+                                <small>
+                                    (c) amy 2018 - present
+                                </small>
+                            </div>
                         </div>
-                    </BrowserRouter>
+                    </footer>
                 </div>
             </Provider>
         )

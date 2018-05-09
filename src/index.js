@@ -28,7 +28,7 @@ if(window.auth.getToken() && window.auth.getId()) {
     const logger = new Logger("FASTAUTH")
     logger.info("Have token, loading data...")
     axios.get(BACKEND_URL + "/api/cache/user/" + window.auth.getId()).then(e => {
-        const userData = JSON.parse(e.data)
+        const userData = e.data
         window.store.updateUser(userData)
         logger.info("Got user:", userData)
         window.socket.joinChannel("user:" + window.auth.getId(), {key: window.auth.getToken()})

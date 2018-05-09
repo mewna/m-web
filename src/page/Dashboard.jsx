@@ -5,9 +5,14 @@ import {GuildCard} from "../comp/dashboard/GuildCard"
 import {NavLink} from "react-router-dom"
 import BubblePreloader from 'react-bubble-preloader'
 import {matchPath} from 'react-router'
-import {DashboardCard} from "../comp/dashboard/DashboardCard";
-import {GuildIcon} from "../comp/GuildIcon";
-import {Commands} from "./dashboard/Commands";
+import {DashboardCard} from "../comp/dashboard/DashboardCard"
+import {GuildIcon} from "../comp/GuildIcon"
+import {Commands} from "./dashboard/Commands"
+import {Music} from "./dashboard/Music"
+import {Welcoming} from "./dashboard/Welcoming"
+import {Economy} from "./dashboard/Economy";
+import {Levels} from "./dashboard/Levels";
+import {Twitch} from "./dashboard/Twitch";
 
 const MANAGE_GUILD = 0x00000020
 
@@ -99,21 +104,26 @@ export class Dashboard extends MComponent {
                 <div style={{width: "100%"}}>
                     <div className={"columns is-multiline is-paddingless is-marginless is-centered has-text-centered card-columns"}>
                         {backLink}
+                        <div className={"column is-12"}>
+                            <hr className={"dark-hr"}/>
+                        </div>
                         <DashboardCard name={"Commands"} shortlink={"commands"} guild={guild}>
                             Enable/disable commands, and change the prefix.
                         </DashboardCard>
-                        <DashboardCard name={"Notifications"} shortlink={"notifications"} guild={guild}>
-                            Set up notifications for Twitch, Reddit, Twitter, and more.
+                        <DashboardCard name={"Twitch"} shortlink={"twitch"} guild={guild}>
+                            Get notified when your favourite streamers start streaming.
                         </DashboardCard>
                         <DashboardCard name={"Economy"} shortlink={"economy"} guild={guild}>
-                            Change the currency and control the economy.
+                            Change the currency symbol and control the economy.
                         </DashboardCard>
                         <DashboardCard name={"Levels"} shortlink={"levels"} guild={guild}>
-                            Turn on chat levels, reset experience, and customize the messages.
+                            Turn on chat levels, give level rewards, and customize the messages.
                         </DashboardCard>
+                        {/*
                         <DashboardCard name={"Music"} shortlink={"music"} guild={guild}>
-                            Toggle radio and manage what people listen to.
+                            Control the music in your server.
                         </DashboardCard>
+                        */}
                         <DashboardCard name={"Welcoming"} shortlink={"welcoming"} guild={guild}>
                             Welcome/goodbye messages and join roles.
                         </DashboardCard>
@@ -124,12 +134,37 @@ export class Dashboard extends MComponent {
             let pageData = ""
             switch(page) {
                 case "commands":
-                    pageData = <Commands />
-                    break;
+                    pageData = <Commands guild={guild} />
+                    break
+                /*
+                case "music":
+                    pageData = <Music guild={guild} />
+                    break
+                    */
+                case "welcoming":
+                    pageData = <Welcoming guild={guild} />
+                    break
+                case "economy":
+                    pageData = <Economy guild={guild} />
+                    break
+                case "levels":
+                    pageData = <Levels guild={guild} />
+                    break
+                case "twitch":
+                    pageData = <Twitch guild={guild} />
+                    break
                 default:
                     pageData = "Unknown page?"
-                    break;
+                    break
             }
+            pageData = (
+                <div style={{width: "100%"}}>
+                    <div className={"column is-12"}>
+                        <hr className={"dark-hr"}/>
+                    </div>
+                    {pageData}
+                </div>
+            )
             return (
                 <div style={{width: "100%"}}>
                     <div className={"columns is-multiline is-paddingless is-marginless is-centered has-text-centered card-columns"}>

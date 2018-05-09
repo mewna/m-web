@@ -6983,9 +6983,117 @@ div.toggle-row {
   flex: 1;
   flex-direction: row;
   align-items: center;
-  align-content: center;
+  align-content: left;
+  justify-content: left;
+  width: 100%;
+  height: 7rem !important;
+  min-height: 7rem !important;
+  max-height: 7rem !important; }
+
+div.toggle-col {
+  padding: 2rem;
+  margin: 0.1rem 0;
+  border-radius: 4px;
+  background: #23272A;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: left;
+  align-content: left;
   justify-content: left;
   width: 100%; }
 
+.toggle-corner-button {
+  width: 2rem !important;
+  height: 2rem !important;
+  position: relative !important;
+  bottom: 8rem !important;
+  left: 100% !important;
+  border-radius: 50% !important;
+  margin-left: -16px !important; }
+
 .dark-hr {
-  background-color: #464e54; }
+  background-color: #3a4146; }
+
+.small-spacer-v {
+  padding: 0.25rem;
+  margin: 0.25rem; }
+
+textarea.dark-textarea {
+  color: #FFFFFF;
+  background: #23272A;
+  width: 100%;
+  border-radius: 2px;
+  border: 1px solid #464e54;
+  font-size: 1em;
+  min-height: 8em;
+  resize: vertical; }
+
+textarea.dark-textarea:focus {
+  outline: none !important;
+  border: 1px solid rgba(255, 105, 180, 0.25); }
+
+.textarea-container {
+  min-height: 4rem;
+  position: relative; }
+
+.textarea-counter {
+  position: absolute;
+  bottom: 12px;
+  right: 12px; }
+
+.wide-select {
+  width: 16em !important; }
+
+.Select-control {
+  background: #23272A;
+  color: #FFFFFF;
+  border: 1px solid #464e54; }
+
+.Select.is-focused > .Select-control {
+  background: #23272A;
+  color: #FFFFFF;
+  border: 1px solid #464e54; }
+
+.Select-control .Select-input:focus, .Select.is-focused > .Select-control, .Select.is-focused:not(.is-open) > .Select-control {
+  outline: none;
+  background: #23272A; }
+
+.Select-value, .Select-input, .Select-value-label {
+  color: #FFFFFF !important; }
+
+.Select.is-focused:not(.is-open) > .Select-control {
+  border: 1px solid #464e54 !important;
+  box-shadow: none !important; }
+
+.Select-menu-outer {
+  border-bottom-right-radius: 4px;
+  border-bottom-left-radius: 4px;
+  background-color: #23272A;
+  border: 1px solid #464e54;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
+  box-sizing: border-box;
+  margin-top: -1px;
+  max-height: 200px;
+  position: absolute;
+  left: 0;
+  top: 100%;
+  width: 100%;
+  z-index: 1;
+  -webkit-overflow-scrolling: touch; }
+
+.Select-option {
+  box-sizing: border-box;
+  background-color: #23272A;
+  color: #FFFFFF;
+  cursor: pointer;
+  display: block;
+  padding: 8px 10px; }
+
+.Select-option.is-selected {
+  background-color: #2C2F33;
+  color: #FFFFFF; }
+
+.Select-option.is-focused {
+  background-color: #2C2F33;
+  color: #FFFFFF; }

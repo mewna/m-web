@@ -4,27 +4,22 @@ import {MComponent} from "../MComponent";
 
 export class DebouncedText extends MComponent {
     constructor(props) {
-        super(props)
+        super("DEBOUNCEDTEXT", props)
         if(props.callback) {
-            this.handleChange = debounce(500, false, this.props.callback)
+            this.handleChangeInternal = debounce(500, false, this.props.callback)
         } else {
-            this.handleChange = debounce(500, false, this.handleChange)
+            this.handleChangeInternal = debounce(500, false, (e) => this.getLogger().debug("target ::", e))
         }
     }
 
     handleChange(e) {
-        this.getLogger().debug('value :: ', e.target.value);
-        this.getLogger().debug('which :: ', e.which);
-    }
-
-    printChange(e) {
-        this.handleChange(e)
+        this.handleChangeInternal(e.target)
     }
 
     render() {
         return (
             <div>
-                <input type="text" className="input" onChange={e => this.printChange(e)} {...this.props} />
+                <input type="text" className="input" onChange={e => this.handleChange(e)} {...this.props} />
             </div>
         );
     }

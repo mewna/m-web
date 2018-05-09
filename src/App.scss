@@ -237,11 +237,138 @@ div.toggle-row {
   flex: 1;
   flex-direction: row;
   align-items: center;
-  align-content: center;
+  align-content: left;
+  justify-content: left;
+  width: 100%;
+  height: 7rem !important;
+  min-height: 7rem !important;
+  max-height: 7rem !important;
+}
+
+div.toggle-col {
+  padding: 2rem;
+  margin: 0.1rem 0;
+  border-radius: 4px;
+  background: $not-quite-black;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: left;
+  align-content: left;
   justify-content: left;
   width: 100%;
 }
 
+.toggle-corner-button {
+  width: 2rem !important;
+  height: 2rem !important;
+
+  position: relative !important;
+  bottom: 8rem !important;
+  left: 100% !important;
+
+  border-radius: 50% !important;
+  margin-left: -16px !important;
+}
+
 .dark-hr {
-  background-color: lighten($not-quite-black, 15%);
+  background-color: lighten($not-quite-black, 10%);
+}
+
+.small-spacer-v {
+  padding: 0.25rem;
+  margin: 0.25rem;
+}
+
+textarea.dark-textarea {
+  color: $full-white;
+  background: $not-quite-black;
+  width: 100%;
+  border-radius: 2px;
+  border: 1px solid lighten($not-quite-black, 15%);
+  font-size: 1em;
+  min-height: 8em;
+  resize: vertical;
+}
+
+textarea.dark-textarea:focus {
+  outline: none !important;
+  border: 1px solid transparentize($redple, 0.75);
+}
+
+.textarea-container {
+  min-height: 4rem;
+  position: relative;
+}
+
+.textarea-counter {
+  position: absolute;
+  bottom: 12px;
+  right: 12px;
+}
+
+// Select shit
+.wide-select {
+  width: 16em !important;
+}
+
+.Select-control {
+  background: $not-quite-black;
+  color: $full-white;
+  border: 1px solid lighten($not-quite-black, 15%);
+}
+
+.Select.is-focused > .Select-control {
+  background: $not-quite-black;
+  color: $full-white;
+  border: 1px solid lighten($not-quite-black, 15%);
+}
+
+.Select-control .Select-input:focus, .Select.is-focused > .Select-control, .Select.is-focused:not(.is-open) > .Select-control {
+  outline: none;
+  background: $not-quite-black;
+}
+
+.Select-value, .Select-input, .Select-value-label {
+  color: $full-white !important;
+}
+
+.Select.is-focused:not(.is-open) > .Select-control {
+  border: 1px solid lighten($not-quite-black, 15%) !important;
+  box-shadow: none !important;
+}
+
+.Select-menu-outer {
+  border-bottom-right-radius: 4px;
+  border-bottom-left-radius: 4px;
+  background-color: $not-quite-black;
+  border: 1px solid lighten($not-quite-black, 15%);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.06);
+  box-sizing: border-box;
+  margin-top: -1px;
+  max-height: 200px;
+  position: absolute;
+  left: 0;
+  top: 100%;
+  width: 100%;
+  z-index: 1;
+  -webkit-overflow-scrolling: touch;
+}
+
+.Select-option {
+  box-sizing: border-box;
+  background-color: $not-quite-black;
+  color: $full-white;
+  cursor: pointer;
+  display: block;
+  padding: 8px 10px;
+}
+
+.Select-option.is-selected {
+  background-color: $dark-not-black;
+  color: $full-white;
+}
+.Select-option.is-focused {
+  background-color: $dark-not-black;
+  color: $full-white;
 }
