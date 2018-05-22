@@ -22,6 +22,9 @@ export class Textarea extends MComponent {
     handleChange(e) {
         // noinspection JSUnresolvedVariable
         let input = e.target.value
+        if(input.length > MAX_CHARS) {
+            input = input.substring(0, MAX_CHARS)
+        }
         this.setState({
             chars_left: MAX_CHARS - input.length,
             textarea_value: input,

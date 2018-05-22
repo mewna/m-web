@@ -8,18 +8,20 @@ import {matchPath} from 'react-router'
 import {DashboardCard} from "../comp/dashboard/DashboardCard"
 import {GuildIcon} from "../comp/GuildIcon"
 import {Commands} from "./dashboard/Commands"
-import {Music} from "./dashboard/Music"
 import {Welcoming} from "./dashboard/Welcoming"
-import {Economy} from "./dashboard/Economy";
-import {Levels} from "./dashboard/Levels";
-import {Twitch} from "./dashboard/Twitch";
+import {Economy} from "./dashboard/Economy"
+import {Levels} from "./dashboard/Levels"
+import {Twitch} from "./dashboard/Twitch"
+
+import axios from 'axios'
+import {BACKEND_URL} from "../const";
 
 const MANAGE_GUILD = 0x00000020
 
 export class Dashboard extends MComponent {
     constructor(props) {
         super("DASHBOARD", props)
-        this.state = {guilds: null, connected: false}
+        this.state = {guilds: null, connected: false, config: null, pluginMetadata: null}
     }
 
     componentDidMount() {
@@ -36,9 +38,18 @@ export class Dashboard extends MComponent {
                 // And it's all good after that
                 // :thumbsup:
                 const user = data.user
-                user.guilds = data.guilds
-                this.getStore().updateUser(user)
-                this.setState({connected: true})
+                if(user === null || user === undefined) {
+                    this.getLogger().error("No user retrieved from API!?")
+                } else {
+                    user.guilds = data.guilds
+                    this.getStore().updateUser(user)
+                    // Fetch plugin metadata
+                    axios.get(BACKEND_URL + "/api/metadata/plugins").then(e => {
+                        this.getLogger().debug("Got plugin metadata:", e.data)
+                        this.setState({pluginMetadata: e.data})
+                        this.setState({connected: true})
+                    })
+                }
             })
         } catch(e) {
             this.getLogger().error("Connect error:", e)
@@ -54,7 +65,7 @@ export class Dashboard extends MComponent {
             let guilds = []
             let counter = 0
             this.state.guilds.filter(g => (g.permissions & MANAGE_GUILD) === MANAGE_GUILD).forEach(g => {
-                guilds.push(<GuildCard guild={g} key={counter}/>)
+                guilds.push(<GuildCard guild={g} key={counter} />)
                 ++counter
             })
             return (
@@ -68,6 +79,24 @@ export class Dashboard extends MComponent {
                     />
                 </div>
             )
+        }
+    }
+
+    renderGuildDashboardCards(guild) {
+        if(this.state.pluginMetadata) {
+            let cards = []
+            let key = 0
+            this.state.pluginMetadata.forEach(e => {
+                cards.push(
+                    <DashboardCard key={key} name={e.name} shortlink={e.name.toLowerCase()} guild={guild}>
+                        {e.desc}
+                    </DashboardCard>
+                )
+                ++key
+            })
+            return cards
+        } else {
+            return []
         }
     }
 
@@ -87,13 +116,16 @@ export class Dashboard extends MComponent {
             }
             backLink = (
                 <section className={"section is-small is-not-quite-black is-flex"}
-                         style={{padding: "1rem", flexDirection: "row", justifyContent: "left", alignItems: "center",
-                         margin: "0.75rem", borderRadius: "4px", width: "100%"}}>
+                    style={{
+                        padding: "1rem", flexDirection: "row", justifyContent: "left", alignItems: "center",
+                        margin: "0.75rem", borderRadius: "4px", width: "100%"
+                    }}>
                     <GuildIcon guild={guild} />
                     <div>
                         <p className={"is-size-4"}>{guild.name}{pageName}</p>
                     </div>
-                    <NavLink to={parent} className={"button is-primary hover"} style={{marginLeft: "auto", marginRight: "1.5rem"}}>
+                    <NavLink to={parent} className={"button is-primary hover"}
+                        style={{marginLeft: "auto", marginRight: "1.5rem"}}>
                         {backText}
                     </NavLink>
                 </section>
@@ -102,11 +134,14 @@ export class Dashboard extends MComponent {
         if(!page) {
             return (
                 <div style={{width: "100%"}}>
-                    <div className={"columns is-multiline is-paddingless is-marginless is-centered has-text-centered card-columns"}>
+                    <div
+                        className={"columns is-multiline is-paddingless is-marginless is-centered has-text-centered card-columns"}>
                         {backLink}
                         <div className={"column is-12"}>
-                            <hr className={"dark-hr"}/>
+                            <hr className={"dark-hr"} />
                         </div>
+                        {this.renderGuildDashboardCards(guild)}
+                        {/*
                         <DashboardCard name={"Commands"} shortlink={"commands"} guild={guild}>
                             Enable/disable commands, and change the prefix.
                         </DashboardCard>
@@ -119,14 +154,13 @@ export class Dashboard extends MComponent {
                         <DashboardCard name={"Levels"} shortlink={"levels"} guild={guild}>
                             Turn on chat levels, give level rewards, and customize the messages.
                         </DashboardCard>
-                        {/*
                         <DashboardCard name={"Music"} shortlink={"music"} guild={guild}>
                             Control the music in your server.
                         </DashboardCard>
-                        */}
                         <DashboardCard name={"Welcoming"} shortlink={"welcoming"} guild={guild}>
                             Welcome/goodbye messages and join roles.
                         </DashboardCard>
+                        */}
                     </div>
                 </div>
             )
@@ -160,14 +194,15 @@ export class Dashboard extends MComponent {
             pageData = (
                 <div style={{width: "100%"}}>
                     <div className={"column is-12"}>
-                        <hr className={"dark-hr"}/>
+                        <hr className={"dark-hr"} />
                     </div>
                     {pageData}
                 </div>
             )
             return (
                 <div style={{width: "100%"}}>
-                    <div className={"columns is-multiline is-paddingless is-marginless is-centered has-text-centered card-columns"}>
+                    <div
+                        className={"columns is-multiline is-paddingless is-marginless is-centered has-text-centered card-columns"}>
                         {backLink}
                         {pageData}
                     </div>
@@ -205,8 +240,8 @@ export class Dashboard extends MComponent {
         const match = this.computeParams()
         return (
             <div>
-                <NoAuth/>
-                <section className={"section is-small"}/>
+                <NoAuth />
+                <section className={"section is-small"} />
                 <div className={"columns has-text-centered is-centered is-paddingless is-marginless"}>
                     <div className="column is-10">
                         <div

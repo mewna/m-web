@@ -1,8 +1,8 @@
-import {MComponent} from "../../MComponent"
 import React from "react"
 import {DebouncedText} from "../../comp/DebouncedText"
+import {DashboardPage} from "./DashboardPage";
 
-export class Economy extends MComponent {
+export class Economy extends DashboardPage {
     constructor(props) {
         super("ECONOMY", props)
     }
@@ -17,7 +17,8 @@ export class Economy extends MComponent {
                             The symbol used for currency in this server.
                         </div>
                         <span style={{marginLeft: "auto", marginRight: "1.5rem"}}/>
-                        <DebouncedText placeholder="Default: :white_flower:" id="custom_currency_symbol" maxLength={16}/>
+                        <DebouncedText placeholder="Default: :white_flower:" id="custom_currency_symbol" maxLength={16}
+                                       value={this.state.config.currencySymbol} />
                     </div>
                 </div>
             </div>

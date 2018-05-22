@@ -1,8 +1,8 @@
-import {MComponent} from "../../MComponent"
 import {Checkbox} from "../../comp/Checkbox"
 import React from "react"
+import {DashboardPage} from "./DashboardPage";
 
-export class Music extends MComponent {
+export class Music extends DashboardPage {
     constructor(props) {
         super("MUSIC", props)
     }

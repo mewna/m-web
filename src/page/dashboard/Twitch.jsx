@@ -1,4 +1,3 @@
-import {MComponent} from "../../MComponent"
 import React from "react"
 import {BACKEND_URL} from "../../const"
 import {DebouncedText} from "../../comp/DebouncedText"
@@ -6,23 +5,26 @@ import BubblePreloader from 'react-bubble-preloader'
 
 import axios from 'axios'
 import Select from "react-select";
+import {DashboardPage} from "./DashboardPage";
 
-export class Twitch extends MComponent {
+export class Twitch extends DashboardPage {
     constructor(props) {
         super("TWITCH", props)
         this.state = {channel: null, channels: null}
     }
 
     componentDidMount() {
-        // noinspection JSUnresolvedVariable
-        axios.get(BACKEND_URL + "/api/cache/guild/" + this.props.guild.id + "/channels").then(e => {
-            const channels = e.data
-            this.setState({
-                channels: channels.filter(e => e.type === 0).sort((a, b) => a.name.localeCompare(b.name)).map(e => {
-                    return {
-                        label: "#" + e.name,
-                        value: e.id
-                    }
+        this.fetchConfig(() => {
+            // noinspection JSUnresolvedVariable
+            axios.get(BACKEND_URL + "/api/cache/guild/" + this.props.guild.id + "/channels").then(e => {
+                const channels = e.data
+                this.setState({
+                    channels: channels.filter(e => e.type === 0).sort((a, b) => a.name.localeCompare(b.name)).map(e => {
+                        return {
+                            label: "#" + e.name,
+                            value: e.id
+                        }
+                    })
                 })
             })
         })

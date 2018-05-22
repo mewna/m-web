@@ -1,4 +1,3 @@
-import {MComponent} from "../../MComponent"
 import {Checkbox} from "../../comp/Checkbox"
 import React from "react"
 import {Textarea} from "../../comp/Textarea"
@@ -7,31 +6,34 @@ import BubblePreloader from 'react-bubble-preloader'
 import {BACKEND_URL} from "../../const"
 import axios from 'axios'
 import Select from "react-select";
+import {DashboardPage} from "./DashboardPage";
 
 const LEVELS = []
 for(let i = 0; i < 100; i++) {
     LEVELS.push({value: i, label: "Level " + i})
 }
 
-export class Levels extends MComponent {
+export class Levels extends DashboardPage {
     constructor(props) {
         super("LEVELS", props)
         this.state = {roles: null, roleOptions: null}
     }
 
     componentDidMount() {
-        // noinspection JSUnresolvedVariable
-        axios.get(BACKEND_URL + "/api/cache/guild/" + this.props.guild.id + "/roles").then(e => {
-            const roles = e.data
-            this.getLogger().debug("Got roles:", roles)
-            this.setState({
-                roles: roles,
-                roleOptions: roles.sort((a, b) => a.name.localeCompare(b.name)).map(e => {
-                    return {
-                        // TODO: Colour
-                        label: e.name,
-                        value: e.id
-                    }
+        this.fetchConfig(() => {
+            // noinspection JSUnresolvedVariable
+            axios.get(BACKEND_URL + "/api/cache/guild/" + this.props.guild.id + "/roles").then(e => {
+                const roles = e.data
+                this.getLogger().debug("Got roles:", roles)
+                this.setState({
+                    roles: roles,
+                    roleOptions: roles.sort((a, b) => a.name.localeCompare(b.name)).map(e => {
+                        return {
+                            // TODO: Colour
+                            label: e.name,
+                            value: e.id
+                        }
+                    })
                 })
             })
         })
@@ -52,8 +54,14 @@ export class Levels extends MComponent {
                                 Allow users to gain xp and level up by chatting.
                             </div>
                             <span style={{marginLeft: "auto", marginRight: "1.5rem"}}/>
-                            <Checkbox id={"welcome-toggle"} className="switch is-rounded is-primary is-medium"
-                                      isChecked={true}/>
+                            <Checkbox id={"levels-enabled-toggle"} className="switch is-rounded is-primary is-medium"
+                                      isChecked={this.state.config.levelsEnabled}
+                                      callback={(_) => {
+                                          let state = Object.assign({}, this.state.config)
+                                          state.levelsEnabled = !state.levelsEnabled
+                                          this.setState({config: state})
+                                          this.getLogger().debug("Toggled levelsEnabled to:", state.levelsEnabled)
+                                      }}/>
                         </div>
                     </div>
                     <div className={"column is-12"}>
@@ -63,8 +71,14 @@ export class Levels extends MComponent {
                                 Have messages be sent in chat when someone levels up.
                             </div>
                             <span style={{marginLeft: "auto", marginRight: "1.5rem"}}/>
-                            <Checkbox id={"welcome-toggle"} className="switch is-rounded is-primary is-medium"
-                                      isChecked={true}/>
+                            <Checkbox id={"level-up-messages-toggle"} className="switch is-rounded is-primary is-medium"
+                                      isChecked={this.state.config.levelUpMessagesEnabled}
+                                      callback={(_) => {
+                                          let state = Object.assign({}, this.state.config)
+                                          state.levelUpMessagesEnabled = !state.levelUpMessagesEnabled
+                                          this.setState({config: state})
+                                          this.getLogger().debug("Toggled levelUpMessagesEnabled to:", state.levelUpMessagesEnabled)
+                                      }}/>
                         </div>
                     </div>
                     <div className={"column is-12"}>
@@ -74,8 +88,14 @@ export class Levels extends MComponent {
                                 Allow some shiny images to be sent with the level-up messages.
                             </div>
                             <span style={{marginLeft: "auto", marginRight: "1.5rem"}}/>
-                            <Checkbox id={"welcome-toggle"} className="switch is-rounded is-primary is-medium"
-                                      isChecked={true}/>
+                            <Checkbox id={"level-up-cards"} className="switch is-rounded is-primary is-medium"
+                                      isChecked={this.state.config.levelUpCards}
+                                      callback={(_) => {
+                                          let state = Object.assign({}, this.state.config)
+                                          state.levelUpCards = !state.levelUpCards
+                                          this.setState({config: state})
+                                          this.getLogger().debug("Toggled levelUpCards to:", state.levelUpCards)
+                                      }}/>
                         </div>
                     </div>
                     <div className={"column is-12"}>
@@ -85,13 +105,13 @@ export class Levels extends MComponent {
                                 The message sent when someone levels up.
                             </div>
                             <div className={"small-spacer-v"}/>
-                            <Textarea className={"dark-textarea"} value={"{user.name} leveled :up: to {level}! :tada:"}
-                                      rows={8} min-rows={8}/>
+                            <Textarea className={"dark-textarea"} rows={8} min-rows={8} value={this.state.config.levelUpMessage}/>
                         </div>
                     </div>
                     <div className={"column is-12"}>
                         <hr className={"dark-hr"}/>
                     </div>
+                    {/* TODO: This mess */}
                     <div className={"column is-12"}>
                         <div className={"toggle-row"}>
                             <div>
@@ -106,6 +126,7 @@ export class Levels extends MComponent {
                                 onChange={(e) => this.handleRoleSelect(e)}
                                 options={this.state.roleOptions}
                                 clearable={false}
+                                searchable={false}
                             />
                         </div>
                     </div>

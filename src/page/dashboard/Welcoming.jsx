@@ -1,4 +1,3 @@
-import {MComponent} from "../../MComponent"
 import {Checkbox} from "../../comp/Checkbox"
 import React from "react"
 import {Textarea} from "../../comp/Textarea"
@@ -8,41 +7,45 @@ import 'react-select/dist/react-select.css'
 import BubblePreloader from 'react-bubble-preloader'
 import axios from 'axios'
 import {BACKEND_URL} from "../../const";
+import {DashboardPage} from "./DashboardPage";
 
-export class Welcoming extends MComponent {
+export class Welcoming extends DashboardPage {
     constructor(props) {
         super("WELCOMING", props)
         this.state = {channel: null, channels: null, role: null, roles: null, roleOptions: null}
     }
 
     componentDidMount() {
-        // noinspection JSUnresolvedVariable
-        axios.get(BACKEND_URL + "/api/cache/guild/" + this.props.guild.id + "/channels").then(e => {
-            const channels = e.data
-            this.setState({
-                channels: channels.filter(e => e.type === 0).sort((a, b) => a.name.localeCompare(b.name)).map(e => {
-                    return {
-                        label: "#" + e.name,
-                        value: e.id
-                    }
+        this.fetchConfig(() => {
+            // noinspection JSUnresolvedVariable
+            axios.get(BACKEND_URL + "/api/cache/guild/" + this.props.guild.id + "/channels").then(e => {
+                const channels = e.data
+                this.setState({
+                    channels: channels.filter(e => e.type === 0).sort((a, b) => a.name.localeCompare(b.name)).map(e => {
+                        return {
+                            label: "#" + e.name,
+                            value: e.id
+                        }
+                    })
                 })
-            })
-        })
-        axios.get(BACKEND_URL + "/api/cache/guild/" + this.props.guild.id + "/roles").then(e => {
-            const roles = e.data
-            this.getLogger().debug("Got roles:", roles)
-            this.setState({
-                roles: roles,
-                roleOptions: roles.sort((a, b) => a.name.localeCompare(b.name)).map(e => {
-                    return {
-                        // TODO: Colour
-                        label: e.name,
-                        value: e.id
-                    }
+                axios.get(BACKEND_URL + "/api/cache/guild/" + this.props.guild.id + "/roles").then(e => {
+                    const roles = e.data
+                    this.getLogger().debug("Got roles:", roles)
+                    this.setState({
+                        roles: roles,
+                        roleOptions: roles.sort((a, b) => a.name.localeCompare(b.name)).map(e => {
+                            return {
+                                // TODO: Colour
+                                label: e.name,
+                                value: e.id
+                            }
+                        })
+                    })
                 })
             })
         })
     }
+
 
     handleChannelChange(e) {
         this.setState({channel: e})
