@@ -7,11 +7,14 @@ import BubblePreloader from 'react-bubble-preloader'
 import {matchPath} from 'react-router'
 import {DashboardCard} from "../comp/dashboard/DashboardCard"
 import {GuildIcon} from "../comp/GuildIcon"
-import {Commands} from "./dashboard/Commands"
-import {Welcoming} from "./dashboard/Welcoming"
+
 import {Economy} from "./dashboard/Economy"
+import {Emotes} from "./dashboard/Emotes"
 import {Levels} from "./dashboard/Levels"
+import {Misc} from "./dashboard/Misc"
+import {Music} from "./dashboard/Music"
 import {Twitch} from "./dashboard/Twitch"
+import {Welcoming} from "./dashboard/Welcoming"
 
 import axios from 'axios'
 import {BACKEND_URL} from "../const";
@@ -166,26 +169,27 @@ export class Dashboard extends MComponent {
             )
         } else {
             let pageData = ""
-            switch(page) {
-                case "commands":
-                    pageData = <Commands guild={guild} />
-                    break
-                /*
-                case "music":
-                    pageData = <Music guild={guild} />
-                    break
-                    */
-                case "welcoming":
-                    pageData = <Welcoming guild={guild} />
-                    break
+            switch(page.toLowerCase()) {
                 case "economy":
                     pageData = <Economy guild={guild} />
+                    break
+                case "emotes":
+                    pageData = <Emotes guild={guild} />
                     break
                 case "levels":
                     pageData = <Levels guild={guild} />
                     break
+                case "misc":
+                    pageData = <Misc guild={guild} />
+                    break
+                case "music":
+                    pageData = <Music guild={guild} />
+                    break
                 case "twitch":
                     pageData = <Twitch guild={guild} />
+                    break
+                case "welcoming":
+                    pageData = <Welcoming guild={guild} />
                     break
                 default:
                     pageData = "Unknown page?"
