@@ -2,7 +2,7 @@
 @import "~bulma/sass/utilities/functions";
 
 $blurple: #7289DA;
-$redple: #db325c; // #FF69B4;
+$redple: #FF69B4;
 $full-white: #FFFFFF;
 $greyple: darken(#99aaB5, 10%);
 $dark-not-black: #2C2F33;
@@ -78,6 +78,11 @@ $menu-label-color: darken($full-white, 15%);
 
 @import '~bulma/bulma';
 @import '~bulma-extensions/bulma-switch/dist/bulma-switch';
+
+// Some button shit
+.button {
+  font-weight: bold;
+}
 
 html, body {
   font-size: 14px !important;
@@ -224,7 +229,7 @@ nav.navbar {
 }
 
 .hover:hover {
-  filter: brightness(95%) !important;
+  filter: brightness(90%) !important;
   transform: translate(0px, -2px);
 }
 

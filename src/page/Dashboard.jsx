@@ -144,26 +144,6 @@ export class Dashboard extends MComponent {
                             <hr className={"dark-hr"} />
                         </div>
                         {this.renderGuildDashboardCards(guild)}
-                        {/*
-                        <DashboardCard name={"Commands"} shortlink={"commands"} guild={guild}>
-                            Enable/disable commands, and change the prefix.
-                        </DashboardCard>
-                        <DashboardCard name={"Twitch"} shortlink={"twitch"} guild={guild}>
-                            Get notified when your favourite streamers start streaming.
-                        </DashboardCard>
-                        <DashboardCard name={"Economy"} shortlink={"economy"} guild={guild}>
-                            Change the currency symbol and control the economy.
-                        </DashboardCard>
-                        <DashboardCard name={"Levels"} shortlink={"levels"} guild={guild}>
-                            Turn on chat levels, give level rewards, and customize the messages.
-                        </DashboardCard>
-                        <DashboardCard name={"Music"} shortlink={"music"} guild={guild}>
-                            Control the music in your server.
-                        </DashboardCard>
-                        <DashboardCard name={"Welcoming"} shortlink={"welcoming"} guild={guild}>
-                            Welcome/goodbye messages and join roles.
-                        </DashboardCard>
-                        */}
                     </div>
                 </div>
             )

@@ -1,7 +1,7 @@
 import {MComponent} from "../../MComponent"
 import {BACKEND_URL} from "../../const"
 import axios from 'axios'
-import {CommandToggle} from "../../comp/dashboard/CommandToggle"
+import {OptionToggle} from "../../comp/dashboard/OptionToggle"
 import React from 'react'
 
 export class DashboardPage extends MComponent {
@@ -37,7 +37,7 @@ export class DashboardPage extends MComponent {
             let names = Object.keys(this.state.config.commandSettings).sort((a, b) => a.localeCompare(b))
             let key = 0
             for(let name of names) {
-                cards.push(<CommandToggle key={key} name={name} 
+                cards.push(<OptionToggle key={key} name={`mew.${name}`} 
                     checkedCallback={() => this.state.config.commandSettings[name].enabled} 
                     callback={(_) => {
                         let states = Object.assign({}, this.state.config.commandSettings)
