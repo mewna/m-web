@@ -35,7 +35,7 @@ class Navbar extends MComponent {
                 <div className="navbar-end">
                     {community}
                     {commands}
-                    <NavLink to={`/profile/${this.props.user.id}`} className={"navbar-item"}>
+                    <NavLink to={/*`/profile/${this.props.user.id}`*/ "/dashboard"} className={"navbar-item"}>
                         <img src={this.getAvatar()} className={"circle navbar-user-avatar"} alt="avatar"/>
                         {this.props.user.username}
                     </NavLink>
