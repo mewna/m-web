@@ -2,7 +2,7 @@
 @import "~bulma/sass/utilities/functions";
 
 $blurple: #7289DA;
-$redple: #FF69B4;
+$redple: #db325c; // #FF69B4;
 $full-white: #FFFFFF;
 $greyple: darken(#99aaB5, 10%);
 $dark-not-black: #2C2F33;
@@ -376,4 +376,18 @@ textarea.dark-textarea:focus {
 .Select-option.is-focused {
   background-color: $dark-not-black;
   color: $full-white;
+}
+
+// So it turns out that react-select is retarded, and somehow thinks that 
+// putting more characters into the textarea REQUIRES expanding
+// the input through a forced CSS style right on the element.
+// yeah idk either it's retarded.
+// This fixes it through some stupid CSS selectors.
+.Select > .Select-control > * > .Select-input > input,
+// Don't always know if there'll be another nested component right there! :sob:
+.Select > .Select-control > .Select-input > input {
+  // this is so sad can we hit react
+  width: 180px;
+  min-width: 180px;
+  max-width: 180px;
 }

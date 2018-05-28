@@ -1,8 +1,8 @@
 import React from "react"
 import {BACKEND_URL} from "../../const"
 import {MComponent} from "../../MComponent"
-import {DebouncedText} from "../../comp/DebouncedText"
 import BubblePreloader from 'react-bubble-preloader'
+import {debounce} from 'throttle-debounce'
 
 import axios from 'axios'
 import Select from "react-select";
@@ -12,6 +12,7 @@ export class Twitch extends DashboardPage {
     constructor(props) {
         super("TWITCH", props)
         this.state = {channel: null, channels: null}
+        this.debouncedTwitchSearch = debounce(500, false, this.handleTwitchSearch)
     }
 
     componentDidMount() {
@@ -36,10 +37,26 @@ export class Twitch extends DashboardPage {
         this.setState({channel: e})
     }
 
+    handleTwitchSearch(e) {
+        if(e && e.trim().length > 0) {
+            this.getLogger().debug(e)
+        } else {
+            // TODO: Clear
+        }
+    }
+
     render() {
         if(this.state.channels) {
             return (
                 <div className={"has-text-left"} style={{width: "100%"}}>
+                    <div className="column is-12">
+                        <div className="notification is-danger">
+                            THIS ENTIRE THING IS NOT READY YET AT ALL. DON'T EXPECT IT TO DO ANYTHING.
+                        </div>
+                    </div>
+                    <div className={"column is-12"}>
+                        <hr className={"dark-hr"} />
+                    </div>
                     <div className={"column is-12"}>
                         <div className={"toggle-row"}>
                             <div className={"is-inline-block"}>
@@ -54,6 +71,7 @@ export class Twitch extends DashboardPage {
                                 onChange={(e) => this.handleChange(e)}
                                 options={this.state.channels}
                                 clearable={false}
+                                searchable={false}
                             />
                         </div>
                     </div>
@@ -67,8 +85,21 @@ export class Twitch extends DashboardPage {
                                 Add streamers by typing their name here.
                             </div>
                             <span style={{marginLeft: "auto", marginRight: "1.5rem"}} />
+                            {/*
                             <DebouncedText id="streamer_name" maxLength={64} placeholder="Streamer's name" />
-                            <a className="button is-primary hover" onClick={()=>{}} style={{marginLeft: "1em"}}>Add Streamer</a>
+                            */}
+                            <Select
+                                className={"wide-select"}
+                                name="channel-select"
+                                value={this.state.selectedTwitchChannel}
+                                onInputChange={(e) => this.debouncedTwitchSearch(e)}
+                                options={this.state.foundTwitchChannels}
+                                clearable={true}
+                                searchable={true}
+                                searchPromptText="Streamer's name"
+                                wrapperStyle={{width: "100%", maxWidth: "100%"}}
+                            />
+                            <a className="button is-primary hover" onClick={() => {}} style={{marginLeft: "1em"}}>Add</a>
                         </div>
                     </div>
                     <div className={"column is-12"}>

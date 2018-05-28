@@ -90,6 +90,7 @@ export class Welcoming extends DashboardPage {
                                 onChange={(e) => this.handleRoleChange(e)}
                                 options={this.state.roleOptions}
                                 clearable={false}
+                                searchable={false}
                             />
                         </div>
                     </div>

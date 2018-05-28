@@ -1,8 +1,17 @@
 import React from "react"
-import {DashboardPage} from "./DashboardPage";
+import {DashboardPage} from "./DashboardPage"
 import BubblePreloader from 'react-bubble-preloader'
-import {OptionToggle} from "../../comp/dashboard/OptionToggle";
-import {DebouncedTextarea} from "../../comp/DebouncedTextarea";
+import {OptionToggle} from "../../comp/dashboard/OptionToggle"
+import {DebouncedTextarea} from "../../comp/DebouncedTextarea"
+import Select from "react-select"
+import {BACKEND_URL} from "../../const"
+import axios from 'axios'
+import {MComponent} from '../../MComponent'
+
+const LEVELS = []
+for(let i = 0; i < 100; i++) {
+    LEVELS.push({value: i, label: "Level " + i})
+}
 
 export class Levels extends DashboardPage {
     constructor(props) {
@@ -10,11 +19,33 @@ export class Levels extends DashboardPage {
     }
 
     componentDidMount() {
-        this.fetchConfig()
+        this.fetchConfig(() => {
+            this.fetchConfig(() => {
+                // noinspection JSUnresolvedVariable
+                axios.get(BACKEND_URL + "/api/cache/guild/" + this.props.guild.id + "/roles").then(e => {
+                    const roles = e.data.sort((a, b) => a.name.localeCompare(b.name)).map(e => new Role(e.id, e.name))
+                    this.getLogger().debug("Got roles:", roles)
+                    this.setState({
+                        roles: roles,
+                        roleOptions: roles.map(e => {
+                            return {
+                                // TODO: Colour?
+                                label: e.name,
+                                value: e.id
+                            }
+                        })
+                    })
+                })
+            })
+        })
+    }
+
+    handleRoleSelect(e) {
+        // TODO: Add a new role component down below
     }
 
     render() {
-        if(this.state.config) {
+        if(this.state.config && this.state.roles) {
             return (
                 <div>
                     <OptionToggle name="Enable levels" desc="Whether or not people should gain xp by chatting in this server."
@@ -54,7 +85,36 @@ export class Levels extends DashboardPage {
                             }} value={this.state.config.levelUpMessage} />
                         </div>
                     </div>
-                    {/* TODO: Role rewards */}
+                    <div className={"column is-12"}>
+                        <hr className={"dark-hr"} />
+                    </div>
+
+                    <div className="column is-12">
+                        <div className="notification is-danger">
+                            THIS CONFIG STUFF IS NOT READY YET AT ALL. DON'T EXPECT IT TO DO ANYTHING.
+                        </div>
+                    </div>
+
+                    <div className={"column is-12"}>
+                        <div className={"toggle-row"}>
+                            <div>
+                                <p className={"title is-size-5"}>Role rewards</p>
+                                Award roles to people when they reach certain levels.
+                            </div>
+                            <span style={{marginLeft: "auto", marginRight: "1.5rem"}} />
+                            <Select
+                                className={"wide-select"}
+                                name="channel-select"
+                                value={null}
+                                onChange={(e) => this.handleRoleSelect(e)}
+                                options={this.state.roleOptions}
+                                clearable={false}
+                                searchable={false}
+                            />
+                        </div>
+                    </div>
+
+                    <RoleReward role={this.state.roles[1]} />
                     {this.renderCommands(true)}
                 </div>
             )
@@ -67,5 +127,43 @@ export class Levels extends DashboardPage {
                 </div>
             )
         }
+    }
+}
+
+class Role {
+    constructor(id, name) {
+        this.id = id
+        this.name = name
+    }
+}
+
+class RoleReward extends MComponent {
+    constructor(props) {
+        super("ROLEREWARD", props)
+        this.role = props.role
+    }
+
+    render() {
+        return (
+            <div className={"column is-12"}>
+                <div className={"toggle-row"}>
+                    <div>
+                        <p className={"title is-size-5"}>{this.role.name}</p>
+                    </div>
+                    <span style={{marginLeft: "auto", marginRight: "1.5rem"}} />
+                    <Select
+                        className={"wide-select"}
+                        name="role-select"
+                        value={LEVELS[1]}
+                        onChange={(e) => this.handleRoleSelect(e)}
+                        options={LEVELS}
+                        clearable={false}
+                    />
+                </div>
+                <div style={{position: "relative"}}>
+                    <a className={"button is-danger toggle-corner-button"}><i className="far fa-trash-alt" /></a>
+                </div>
+            </div>
+        )
     }
 }
