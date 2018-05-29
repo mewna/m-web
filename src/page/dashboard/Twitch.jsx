@@ -78,6 +78,11 @@ export class Twitch extends DashboardPage {
                     <div className={"column is-12"}>
                         <hr className={"dark-hr"} />
                     </div>
+                    <div className="column is-12">
+                        <div className="notification is-warning">
+                            TODO: Use react-autosuggest here...
+                        </div>
+                    </div>
                     <div className={"column is-12"}>
                         <div className={"toggle-row"}>
                             <div className={"is-inline-block"}>

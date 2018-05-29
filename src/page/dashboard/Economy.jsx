@@ -24,7 +24,13 @@ export class Economy extends DashboardPage {
                             </div>
                             <span style={{marginLeft: "auto", marginRight: "1.5rem"}} />
                             <DebouncedText placeholder="Default: :white_flower:" id="custom_currency_symbol" maxLength={16}
-                                value={this.state.config.currencySymbol} />
+                                value={this.state.config.currencySymbol} callback={(e) => {
+                                    let config = Object.assign({}, this.state.config)
+                                    config.currencySymbol = e.value
+                                    this.setState({config: config}, () => {
+                                        this.updateConfig()
+                                    })
+                                }} />
                         </div>
                     </div>
                     {this.renderCommands(true)}

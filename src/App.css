@@ -6861,9 +6861,6 @@ label.panel-block {
   .switch[type="checkbox"].is-unchecked-danger.is-outlined + label::after {
     background: #ff3860; }
 
-.button {
-  font-weight: bold; }
-
 html, body {
   font-size: 14px !important; }
 

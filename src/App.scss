@@ -79,11 +79,6 @@ $menu-label-color: darken($full-white, 15%);
 @import '~bulma/bulma';
 @import '~bulma-extensions/bulma-switch/dist/bulma-switch';
 
-// Some button shit
-.button {
-  font-weight: bold;
-}
-
 html, body {
   font-size: 14px !important;
 }
