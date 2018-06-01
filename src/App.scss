@@ -200,6 +200,7 @@ main.content {
   height: 60px !important;
 }
 
+// cards
 p.card-header-title.guild-title {
   width: 14em !important;
 }
@@ -209,6 +210,7 @@ p.card-header-title.guild-title {
   justify-content: left !important;
 }
 
+// navbar
 .navbar-user-avatar {
   margin-right: 0.5rem;
   width: 24px;
@@ -219,6 +221,7 @@ nav.navbar {
   font-size: 14px !important;
 }
 
+// hover helper
 .hover {
   transition-duration: 0.25s;
 }
@@ -228,6 +231,7 @@ nav.navbar {
   transform: translate(0px, -2px);
 }
 
+// row and column helpers
 div.toggle-row {
   padding: 2rem;
   margin: 0.1rem 0;
@@ -259,6 +263,7 @@ div.toggle-col {
   width: 100%;
 }
 
+// delete button
 .toggle-corner-button {
   width: 2rem !important;
   height: 2rem !important;
@@ -271,15 +276,18 @@ div.toggle-col {
   margin-left: -16px !important;
 }
 
+// hr
 .dark-hr {
   background-color: lighten($not-quite-black, 10%);
 }
 
+// Spacing helper
 .small-spacer-v {
   padding: 0.25rem;
   margin: 0.25rem;
 }
 
+// Textarea
 textarea.dark-textarea {
   color: $full-white;
   background: $not-quite-black;
@@ -385,4 +393,11 @@ textarea.dark-textarea:focus {
   width: 180px;
   min-width: 180px;
   max-width: 180px;
+}
+
+// notifications
+div.notification.is-outlined {
+  background: transparent !important;
+  border: 2px dashed $not-quite-black;
+  border-radius: 4px;
 }

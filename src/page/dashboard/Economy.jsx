@@ -27,9 +27,7 @@ export class Economy extends DashboardPage {
                                 value={this.state.config.currencySymbol} callback={(e) => {
                                     let config = Object.assign({}, this.state.config)
                                     config.currencySymbol = e.value
-                                    this.setState({config: config}, () => {
-                                        this.updateConfig()
-                                    })
+                                    this.setState({config: config}, () => this.updateConfig())
                                 }} />
                         </div>
                     </div>
@@ -38,7 +36,7 @@ export class Economy extends DashboardPage {
             )
         } else {
             return (
-                <div className="has-text-centered" style={{width: "100vw"}}>
+                <div className="has-text-centered is-centered" style={{width: "100%"}}>
                     <BubblePreloader
                         colors={["white", "white", "white"]}
                     />

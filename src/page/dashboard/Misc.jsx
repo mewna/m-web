@@ -20,7 +20,7 @@ export class Misc extends DashboardPage {
             )
         } else {
             return (
-                <div className="has-text-centered" style={{width: "100vw"}}>
+                <div className="has-text-centered is-centered" style={{width: "100%"}}>
                     <BubblePreloader
                         colors={["white", "white", "white"]}
                     />

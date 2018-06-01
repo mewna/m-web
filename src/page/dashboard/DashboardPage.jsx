@@ -21,12 +21,12 @@ export class DashboardPage extends MComponent {
     }
 
     updateConfig(callback) {
-        this.getLogger().debug("Updating config with data:", this.state.config)
+        //this.getLogger().debug("Updating config with data:", this.state.config)
         axios.post(BACKEND_URL + `/api/data/guild/${this.props.guild.id}/${this.kind}`, this.state.config,
             {headers: {"Authorization": this.getAuth().getToken()}})
             .then(e => {
                 let data = JSON.parse(e.data)
-                this.getLogger().debug("Got config API response:", data)
+                //this.getLogger().debug("Got config API response:", data)
                 callback && callback(data)
             })
     }
