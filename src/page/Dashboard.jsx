@@ -18,6 +18,7 @@ import {Welcoming} from "./dashboard/Welcoming"
 
 import axios from 'axios'
 import {BACKEND_URL} from "../const";
+import { MainWrapper } from "./MainWrapper";
 
 const MANAGE_GUILD = 0x00000020
 
@@ -224,16 +225,19 @@ export class Dashboard extends MComponent {
         const match = this.computeParams()
         return (
             <div>
-                <NoAuth />
-                <section className={"section is-small"} />
-                <div className={"columns has-text-centered is-centered is-paddingless is-marginless"}>
-                    <div className="column is-10">
-                        <div
-                            className={"columns is-multiline is-paddingless is-marginless is-centered has-text-centered card-columns"}>
-                            {this.chooseRender(match)}
+                {/* Sooooo it turns out we can't do this in App.js because it causes fire with route params. neet, I know. */}
+                <MainWrapper>
+                    <NoAuth />
+                    <section className={"section is-small"} />
+                    <div className={"columns has-text-centered is-centered is-paddingless is-marginless"}>
+                        <div className="column is-10">
+                            <div
+                                className={"columns is-multiline is-paddingless is-marginless is-centered has-text-centered card-columns"}>
+                                {this.chooseRender(match)}
+                            </div>
                         </div>
                     </div>
-                </div>
+                </MainWrapper>
             </div>
         )
     }

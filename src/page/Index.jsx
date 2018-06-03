@@ -19,15 +19,13 @@ export class Index extends MComponent {
             user = "Not logged in"
         }
         return (
-            <div className="row">
-                <div className="column column-75">
-                    <section className={"section is-small"}></section>
-                    Logged in as: {user}
-                    <div className={"container has-text-left"}>
-                        <DiscordLoginButton text="login"/><br/>
-                        <DiscordLogoutButton text="logout"/><br/>
-                        <NavLink to={"/dashboard"}>dashboard</NavLink>
-                    </div>
+            <div>
+                <section className={"section is-small"}></section>
+                Logged in as: {user}
+                <div className={"container has-text-left"}>
+                    <DiscordLoginButton text="login" /><br />
+                    <DiscordLogoutButton text="logout" /><br />
+                    <NavLink to={"/dashboard"}>dashboard</NavLink>
                 </div>
             </div>
         )

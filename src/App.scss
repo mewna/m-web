@@ -20,9 +20,9 @@ $navbar-background-color: transparent; // $redple;
 $navbar-item-color: $full-white;
 $navbar-item-hover-color: $full-white;
 $navbar-item-hover-background-color: darken($dark-not-black, 2.5%); // transparentize($greyple, 0.9); // darken($redple, 5%);
-$navbar-dropdown-background-color: transparent; // $redple;
+$navbar-dropdown-background-color: $dark-not-black; // $redple;
 $navbar-dropdown-item-hover-color: $full-white;
-$navbar-dropdown-item-hover-background-color: transparent; // darken($redple, 5%);
+$navbar-dropdown-item-hover-background-color: $not-quite-black; // darken($redple, 5%);
 
 // body
 $body-background-color: $dark-not-black;

@@ -5,9 +5,11 @@ import {IndexRedux} from "./page/Index"
 import {Dashboard} from "./page/Dashboard"
 import {NoAuth} from "./page/NoAuth"
 import {Provider} from 'react-redux'
+import {ProfilePageRedux} from './page/profile/ProfilePage'
 
 import {MComponent} from "./MComponent"
-import {NavbarRedux} from "./comp/Navbar";
+import {NavbarRedux} from "./comp/Navbar"
+import {MainWrapper} from './page/MainWrapper';
 
 class App extends MComponent {
     constructor(props) {
@@ -18,25 +20,28 @@ class App extends MComponent {
         return (
             <Provider store={this.getStore().getStore()}>
                 <div>
+                    <BrowserRouter>
+                        <div>
+                            <NavbarRedux />
+                            <Route exact path="/" render={() => {
+                                return (
+                                    <MainWrapper>
+                                        <IndexRedux />
+                                    </MainWrapper>
+                                )
+                            }} />
+                            <Route exact path="/dashboard*" component={Dashboard} />
+                            <Route exact path="/profile/:id" component={ProfilePageRedux} />
+                            <Route exact path="/noauth" render={() => {
+                                return (
+                                    <MainWrapper>
+                                        <NoAuth />
+                                    </MainWrapper>
+                                )
+                            }} />
+                        </div>
+                    </BrowserRouter>
                     <div className="main container">
-                        <BrowserRouter>
-                            <div>
-                                <NavbarRedux/>
-                                <div className={"columns"}>
-                                    <div className={"column is-12"}>
-                                        <main className="content">
-                                            <Route exact path="/" component={IndexRedux}/>
-                                            <Route exact path="/dashboard*" component={Dashboard}/>
-                                            {/*
-                                        <Route exact path="/dashboard/:id" component={Dashboard}/>
-                                        <Route exact path="/dashboard/:id/:page" component={Dashboard}/>
-                                        */}
-                                            <Route exact path="/noauth" component={NoAuth}/>
-                                        </main>
-                                    </div>
-                                </div>
-                            </div>
-                        </BrowserRouter>
                     </div>
                     <footer className="footer">
                         <div className="container">

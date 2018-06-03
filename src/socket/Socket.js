@@ -11,6 +11,7 @@ export class MewnaSocket {
 
     connect() {
         this.logger.info("[FASTCONNECT] Connecting to ESP...")
+        this.logger.info("[FASTCONNECT] Gateway: " + BACKEND_URL)
         this.socket = new Socket(BACKEND_URL.replace("http", "ws") + "/socket")
         this.socket.onError(() => {
             this.logger.error("[FASTCONNECT] Connection error! 🔥")
