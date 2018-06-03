@@ -9,7 +9,7 @@ import {ProfilePageRedux} from './page/profile/ProfilePage'
 
 import {MComponent} from "./MComponent"
 import {NavbarRedux} from "./comp/Navbar"
-import {MainWrapper} from './page/MainWrapper';
+import {Container} from './page/MainWrapper';
 
 class App extends MComponent {
     constructor(props) {
@@ -22,21 +22,22 @@ class App extends MComponent {
                 <div>
                     <BrowserRouter>
                         <div>
+                            {/* See note in Dashboard.jsx#render() for WHY we do this like this. */}
                             <NavbarRedux />
                             <Route exact path="/" render={() => {
                                 return (
-                                    <MainWrapper>
+                                    <Container>
                                         <IndexRedux />
-                                    </MainWrapper>
+                                    </Container>
                                 )
                             }} />
                             <Route exact path="/dashboard*" component={Dashboard} />
                             <Route exact path="/profile/:id" component={ProfilePageRedux} />
                             <Route exact path="/noauth" render={() => {
                                 return (
-                                    <MainWrapper>
+                                    <Container>
                                         <NoAuth />
-                                    </MainWrapper>
+                                    </Container>
                                 )
                             }} />
                         </div>

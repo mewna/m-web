@@ -18,7 +18,7 @@ import {Welcoming} from "./dashboard/Welcoming"
 
 import axios from 'axios'
 import {BACKEND_URL} from "../const";
-import { MainWrapper } from "./MainWrapper";
+import { Container } from "./MainWrapper";
 
 const MANAGE_GUILD = 0x00000020
 
@@ -225,8 +225,12 @@ export class Dashboard extends MComponent {
         const match = this.computeParams()
         return (
             <div>
-                {/* Sooooo it turns out we can't do this in App.js because it causes fire with route params. neet, I know. */}
-                <MainWrapper>
+                {/* 
+                Sooooo it turns out we can't do this in App.js because it causes fire with route params. 
+                neet, I know. 
+                This wraps the page in a nice div to give us a container and other main-element-features. 
+                */}
+                <Container>
                     <NoAuth />
                     <section className={"section is-small"} />
                     <div className={"columns has-text-centered is-centered is-paddingless is-marginless"}>
@@ -237,7 +241,7 @@ export class Dashboard extends MComponent {
                             </div>
                         </div>
                     </div>
-                </MainWrapper>
+                </Container>
             </div>
         )
     }

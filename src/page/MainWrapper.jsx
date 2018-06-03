@@ -1,10 +1,10 @@
 import {Component} from 'react'
 import React from 'react'
 
-export class MainWrapper extends Component {
+export class Container extends Component {
     render() {
         return (
-            <div className="main container">
+            <div className="container">
                 <main className="content">
                     {this.props.children}
                 </main>
