@@ -9,7 +9,7 @@ import {ProfilePageRedux} from './page/profile/ProfilePage'
 
 import {MComponent} from "./MComponent"
 import {NavbarRedux} from "./comp/Navbar"
-import {Container} from './page/MainWrapper';
+import {VHContainer} from './page/VHContainer'
 
 class App extends MComponent {
     constructor(props) {
@@ -26,18 +26,18 @@ class App extends MComponent {
                             <NavbarRedux />
                             <Route exact path="/" render={() => {
                                 return (
-                                    <Container>
+                                    <VHContainer>
                                         <IndexRedux />
-                                    </Container>
+                                    </VHContainer>
                                 )
                             }} />
                             <Route exact path="/dashboard*" component={Dashboard} />
                             <Route exact path="/profile/:id" component={ProfilePageRedux} />
                             <Route exact path="/noauth" render={() => {
                                 return (
-                                    <Container>
+                                    <VHContainer>
                                         <NoAuth />
-                                    </Container>
+                                    </VHContainer>
                                 )
                             }} />
                         </div>
