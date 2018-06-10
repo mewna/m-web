@@ -10,6 +10,8 @@ import {ProfilePageRedux} from './page/profile/ProfilePage'
 import {MComponent} from "./MComponent"
 import {NavbarRedux} from "./comp/Navbar"
 import {VHContainer} from './page/VHContainer'
+import {NotFound} from './page/NotFound';
+import Switch from 'react-router/Switch';
 
 class App extends MComponent {
     constructor(props) {
@@ -24,22 +26,25 @@ class App extends MComponent {
                         <div>
                             {/* See note in Dashboard.jsx#render() for WHY we do this like this. */}
                             <NavbarRedux />
-                            <Route exact path="/" render={() => {
-                                return (
-                                    <VHContainer>
-                                        <IndexRedux />
-                                    </VHContainer>
-                                )
-                            }} />
-                            <Route exact path="/dashboard*" component={Dashboard} />
-                            <Route exact path="/profile/:id" component={ProfilePageRedux} />
-                            <Route exact path="/noauth" render={() => {
-                                return (
-                                    <VHContainer>
-                                        <NoAuth />
-                                    </VHContainer>
-                                )
-                            }} />
+                            <Switch>
+                                <Route exact path="/" render={() => {
+                                    return (
+                                        <VHContainer>
+                                            <IndexRedux />
+                                        </VHContainer>
+                                    )
+                                }} />
+                                <Route exact path="/dashboard*" component={Dashboard} />
+                                <Route exact path="/profile/:id" component={ProfilePageRedux} />
+                                <Route exact path="/noauth" render={() => {
+                                    return (
+                                        <VHContainer>
+                                            <NoAuth />
+                                        </VHContainer>
+                                    )
+                                }} />
+                                <Route component={NotFound} />
+                            </Switch>
                         </div>
                     </BrowserRouter>
                     <div className="main container">

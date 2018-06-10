@@ -12,6 +12,7 @@ export class DebouncedTextarea extends MComponent {
         if(this.props.value) {
             initial = this.props.value.length
         }
+        this.maxChars = this.props.maxChars ? this.props.maxChars : MAX_CHARS
 
         if(props.callback) {
             this.handleChangeInternal = debounce(500, false, this.props.callback)
@@ -20,7 +21,7 @@ export class DebouncedTextarea extends MComponent {
         }
 
         this.state = {
-            chars_left: MAX_CHARS - initial,
+            chars_left: this.maxChars - initial,
             textarea_value: this.props.value,
         }
     }
@@ -28,11 +29,11 @@ export class DebouncedTextarea extends MComponent {
     handleChange(e) {
         // noinspection JSUnresolvedVariable
         let input = e.target.value
-        if(input.length > MAX_CHARS) {
-            input = input.substring(0, MAX_CHARS)
+        if(input.length > this.maxChars) {
+            input = input.substring(0, this.maxChars)
         }
         this.setState({
-            chars_left: MAX_CHARS - input.length,
+            chars_left: this.maxChars - input.length,
             textarea_value: input,
         }, () => {this.handleChangeInternal(this.state)})
     }
@@ -42,7 +43,7 @@ export class DebouncedTextarea extends MComponent {
             <div className="textarea-container">
                 <textarea onChange={(e) => this.handleChange(e)} className={"dark-textarea"} rows={8} min-rows={8}
                     value={this.state.textarea_value} />
-                <div className="textarea-counter">{MAX_CHARS - this.state.chars_left}/{MAX_CHARS}</div>
+                <div className="textarea-counter">{this.maxChars - this.state.chars_left}/{this.maxChars}</div>
             </div>
         )
     }

@@ -1,0 +1,3 @@
+[submodule "public/backgrounds"]
+	path = public/backgrounds
+	url = git@github.com:queer/m-bg.git

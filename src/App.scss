@@ -395,9 +395,150 @@ textarea.dark-textarea:focus {
   max-width: 180px;
 }
 
-// notifications
+// Notifications
 div.notification.is-outlined {
   background: transparent !important;
   border: 2px dashed $not-quite-black;
   border-radius: 4px;
+}
+
+// Profile helpers
+.profile-avatar {
+  position: absolute;
+  top: -12em;
+  border: 2px solid rgba(0, 0, 0, 0.25);
+}
+.profile-name {
+  position: absolute;
+  top: -3em;
+  left: 5em;
+  font-size: 32px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+div.profile-top-spacer {
+  margin: 8em;
+}
+
+div.profile-column {
+  margin-left: 1em;
+  margin-right: 1em;
+}
+
+div.post-column {
+  margin-bottom: 1em;
+}
+
+.rounded-corners {
+  border-radius: 4px;
+}
+
+/* Modal dialog */
+$animation-time: 0.25s;
+@keyframes modalFadeInDown {
+    0% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+@keyframes modalBgFadeInDown {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+
+.mewna-modal {
+  position: absolute;
+  background: $dark-not-black;
+  border-radius: 4px;
+  border: none !important;
+
+  animation-name: modalFadeInDown;
+  animation-duration: $animation-time;
+  animation-fill-mode: both;
+
+  @media screen and (max-width: 768px) {
+    top: 40px;
+    left: 40px;
+    right: 40px;
+    bottom: 40px;
+  }
+
+  @media screen and (min-width: 769px) {
+    width: 480px;
+    //height: 480px;
+    max-height: 75vh;
+    margin-top: calc(50vh - 37.5vh);
+    margin-left: calc(50vw - 240px);
+    display: block;
+  }
+}
+.mewna-modal:focus {
+  outline: none;
+}
+
+.mewna-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: transparentize(#000000, 0.5);
+  animation-name: modalBgFadeInDown;
+  animation-duration: $animation-time;
+  animation-fill-mode: both;
+}
+
+.modal-container {
+  padding: 2rem !important;
+}
+.modal-body::-webkit-scrollbar { 
+  display: none; 
+}
+.modal-body {
+  overflow-y: auto;
+  max-height: 45vh;
+}
+
+.profile-background-image-wrapper {
+  width: 100%;
+  height: 50px;
+  overflow: hidden;
+  border: 2px solid $full-white;
+  position: relative;
+}
+// TODO: Use this?
+.profile-background-image {}
+
+.profile-background-image-locked {
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.75);
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-title {
+  text-transform: uppercase;
+  margin-bottom: 0.25em;
+  font-weight: bold;
+}
+.is-paddingless-top {
+  padding-top: 0 !important;
 }

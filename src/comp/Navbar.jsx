@@ -78,12 +78,12 @@ class Navbar extends MComponent {
 
     navEnd() {
         const community = <a href="https://discord.gg/UwdDN6r" className="navbar-item" target="_blank" rel="noopener noreferrer">Community</a>
-        const commands = <NavLink to={"/commands"} className={"navbar-item"}>Commands</NavLink>
+        const features = <NavLink to={"/features"} className={"navbar-item"}>Features</NavLink>
         if(this.props.user && this.props.user !== {}) {
             return (
                 <div className="navbar-end">
                     {community}
-                    {commands}
+                    {features}
                     <UserMenu user={this.props.user} />
                 </div>
             )
@@ -91,7 +91,7 @@ class Navbar extends MComponent {
             return (
                 <div className="navbar-end">
                     {community}
-                    {commands}
+                    {features}
                     <DiscordLoginButton className="navbar-item has-text-white" text="Log in" />
                 </div>
             )

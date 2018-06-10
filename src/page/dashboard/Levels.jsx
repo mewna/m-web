@@ -110,13 +110,6 @@ export class Levels extends DashboardPage {
                             this.setState({config: config}, () => this.updateConfig())
                             this.getLogger().debug("Toggled levelUpMessagesEnabled: ", config.levelUpMessagesEnabled)
                         }} />
-                    <OptionToggle name="Enable level-up cards" desc="Whether or not a card with extra info should be sent when someone levels up."
-                        checkedCallback={() => this.state.config.levelUpCards} callback={() => {
-                            let config = Object.assign({}, this.state.config)
-                            config.levelUpCards = !config.levelUpCards
-                            this.setState({config: config}, () => this.updateConfig())
-                            this.getLogger().debug("Toggled levelUpCards: ", config.levelUpCards)
-                        }} />
                     <OptionToggle name="Remove previous role rewards" desc="If enabled, users will only have the highest role reward, otherwise they can have multiple."
                         checkedCallback={() => this.state.config.removePreviousRoleRewards} callback={() => {
                             let config = Object.assign({}, this.state.config)
