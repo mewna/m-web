@@ -112,7 +112,7 @@ export class Dashboard extends MComponent {
             pageName = " - " + (page.charAt(0).toUpperCase() + page.substr(1))
         }
         if(match.params.id) {
-            let parent = "/dashboard"
+            let parent = "/discord/dashboard"
             let backText = "Back to server list"
             if(page) {
                 parent += "/" + guild.id
@@ -122,7 +122,7 @@ export class Dashboard extends MComponent {
                 <section className={"section is-small is-not-quite-black is-flex"}
                     style={{
                         padding: "1rem", flexDirection: "row", justifyContent: "left", alignItems: "center",
-                        margin: "0.75rem", borderRadius: "4px", width: "100%"
+                        margin: "0.75rem", borderRadius: "8px", width: "100%"
                     }}>
                     <GuildIcon guild={guild} />
                     <div>
@@ -199,7 +199,7 @@ export class Dashboard extends MComponent {
     /**
      * We don't want to constantly un/mount this component due to it putting
      * unnecessary pressure on the ESP socket connection. So instead, we just
-     * glob on EVERYTHING that matches `/dashboard*`, then parse out the route
+     * glob on EVERYTHING that matches `/discord/dashboard*`, then parse out the route
      * parameters by ourselves. By doing this, we can avoid unneeded remounts
      * of this component, and still get the benefits of react.
      *
@@ -207,7 +207,7 @@ export class Dashboard extends MComponent {
      */
     computeParams() {
         return matchPath(this.props.match.url, {
-            path: "/dashboard/:id/:page?",
+            path: "/discord/dashboard/:id/:page?",
             exact: false,
             strict: false
         }) || {params: {}} // If no match, return a default that won't cause null dereferences

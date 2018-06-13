@@ -37,7 +37,7 @@ class DiscordLoginButtonInternal extends MComponent {
                 const userData = e.data
                 this.getStore().updateUser(userData)
                 this.getLogger().info("Got user:", userData)
-                this.props.history.push('/dashboard')
+                this.props.history.push('/discord/dashboard')
             })
         }
     }

@@ -5,13 +5,31 @@ import BubblePreloader from 'react-bubble-preloader'
 import {debounce} from 'throttle-debounce'
 
 import axios from 'axios'
-import Select from "react-select";
-import {DashboardPage} from "./DashboardPage";
+import Select from "react-select"
+import {DashboardPage} from "./DashboardPage"
+import {DebouncedText} from "../../comp/DebouncedText"
+
+const SEARCH_READY = 0
+const SEARCH_BUSY = 1
+const SEARCH_SUCCESS = 2
+const SEARCH_FAILURE = 3
+
+/*
+ * Webhook URL format:
+ * https://discordapp.com/oauth2/authorize
+ *      ?response_type=code
+ *      &client_id=CLIENT_ID
+ *      &redirect_uri=CALLBACK_URL
+ *      &scope=webhook.incoming
+ *      &state=STATE
+ *      &guild_id=GUILD_ID
+ *      &channel_id=CHANNEL_ID
+ */
 
 export class Twitch extends DashboardPage {
     constructor(props) {
         super("TWITCH", props)
-        this.state = {channel: null, channels: null}
+        this.state = {channel: null, channels: null, searchState: SEARCH_READY, streamers: []} // TODO: Make this from the config instead...
         this.debouncedTwitchSearch = debounce(500, false, this.handleTwitchSearch)
     }
 
@@ -38,8 +56,8 @@ export class Twitch extends DashboardPage {
     }
 
     handleTwitchSearch(e) {
-        if(e && e.trim().length > 0) {
-            this.getLogger().debug(e)
+        if(e.value && e.value.trim().length > 0) {
+            this.getLogger().debug(e.value)
         } else {
             // TODO: Clear
         }
@@ -47,21 +65,22 @@ export class Twitch extends DashboardPage {
 
     render() {
         if(this.state.channels) {
+            let stateSymbol = ""
+            if(this.state.searchState === SEARCH_SUCCESS) {
+                stateSymbol = <i className="fas fa-check-circle has-text-success" style={{marginRight: "1em"}} />
+            } else if(this.state.searchState === SEARCH_FAILURE) {
+                stateSymbol = <i className="fas fa-times-circle has-text-danger" style={{marginRight: "1em"}} />
+            } else {
+                stateSymbol = ""
+            }
+
             return (
                 <div className={"has-text-left"} style={{width: "100%"}}>
-                    <div className="column is-12">
-                        <div className="notification is-danger">
-                            THIS ENTIRE THING IS NOT READY YET AT ALL. DON'T EXPECT IT TO DO ANYTHING.
-                        </div>
-                    </div>
-                    <div className={"column is-12"}>
-                        <hr className={"dark-hr"} />
-                    </div>
                     <div className={"column is-12"}>
                         <div className={"toggle-row"}>
                             <div className={"is-inline-block"}>
                                 <p className={"title is-size-5"}>Message channel</p>
-                                The channel that the messages will be sent in.
+                                The channel where stream notifications are posted.
                             </div>
                             <span style={{marginLeft: "auto", marginRight: "1.5rem"}} />
                             <Select
@@ -78,11 +97,6 @@ export class Twitch extends DashboardPage {
                     <div className={"column is-12"}>
                         <hr className={"dark-hr"} />
                     </div>
-                    <div className="column is-12">
-                        <div className="notification is-warning">
-                            TODO: Use react-autosuggest here...
-                        </div>
-                    </div>
                     <div className={"column is-12"}>
                         <div className={"toggle-row"}>
                             <div className={"is-inline-block"}>
@@ -90,28 +104,58 @@ export class Twitch extends DashboardPage {
                                 Add streamers by typing their name here.
                             </div>
                             <span style={{marginLeft: "auto", marginRight: "1.5rem"}} />
-                            {/*
-                            <DebouncedText id="streamer_name" maxLength={64} placeholder="Streamer's name" />
-                            */}
-                            <Select
-                                className={"wide-select"}
-                                name="channel-select"
-                                value={this.state.selectedTwitchChannel}
-                                onInputChange={(e) => this.debouncedTwitchSearch(e)}
-                                options={this.state.foundTwitchChannels}
-                                clearable={true}
-                                searchable={true}
-                                searchPromptText="Streamer's name"
-                                wrapperStyle={{width: "100%", maxWidth: "100%"}}
-                            />
-                            <a className="button is-primary hover" onClick={() => {}} style={{marginLeft: "1em"}}>Add</a>
+                            {stateSymbol}
+                            <DebouncedText placeholder="Streamer's name" addClass={this.state.searchState === SEARCH_BUSY ? "is-loading" : ""} max-length={32} callback={(val) => {
+                                if(val.value.length > 0) {
+                                    this.setState({searchState: SEARCH_BUSY}, () => {
+                                        this.getLogger().debug("SEARCH_BUSY")
+                                        axios.get(BACKEND_URL + "/api/data/twitch/lookup/name/" + val.value).then(e => {
+                                            const data = e.data
+                                            this.getLogger().debug("data =>", data)
+                                            if(data.status === "400") {
+                                                this.setState({searchState: SEARCH_FAILURE}, () => {
+                                                    this.getLogger().debug("SEARCH_FAILURE")
+                                                    setTimeout(() => {
+                                                        this.setState({searchState: SEARCH_READY}, () => {
+                                                            this.getLogger().debug("SEARCH_READY")
+                                                        })
+                                                    }, 1000);
+                                                })
+                                            } else {
+                                                this.setState({searchState: SEARCH_SUCCESS}, () => {
+                                                    this.getLogger().debug("SEARCH_SUCCESS")
+                                                    setTimeout(() => {
+                                                        this.setState({searchState: SEARCH_READY}, () => {
+                                                            let streamers = this.state.config.twitchStreamers.slice()
+                                                            streamers.push(data)
+                                                            let config = Object.assign({}, this.state.config)
+                                                            config.twitchStreamers = streamers
+                                                            this.setState({config: config}, () => {
+                                                                this.getLogger().debug("SEARCH_READY")
+                                                            })
+                                                        })
+                                                    }, 1000);
+                                                })
+                                            }
+                                        }).catch(__ => {
+                                            this.setState({searchState: SEARCH_FAILURE}, () => {
+                                                this.getLogger().debug("SEARCH_FAILURE")
+                                                setTimeout(() => {
+                                                    this.setState({searchState: SEARCH_READY}, () => {
+                                                        this.getLogger().debug("SEARCH_READY")
+                                                    })
+                                                }, 1000);
+                                            })
+                                        })
+                                    })
+                                }
+                            }} disabled={this.state.searchState !== SEARCH_READY} />
                         </div>
                     </div>
                     <div className={"column is-12"}>
                         <hr className={"dark-hr"} />
                     </div>
-                    <TwitchStreamer name="secretlyanamy" avatar="https://static-cdn.jtvnw.net/user-default-pictures/cd618d3e-f14d-4960-b7cf-094231b04735-profile_image-300x300.jpg" />
-                    <TwitchStreamer name="MorriganSky" avatar="https://static-cdn.jtvnw.net/jtv_user_pictures/66f69f2de183a28d-profile_image-300x300.jpeg" />
+                    {this.renderStreamers()}
                 </div>
             )
         } else {
@@ -124,13 +168,36 @@ export class Twitch extends DashboardPage {
             )
         }
     }
+
+    renderStreamers() {
+        if(this.state.config && this.state.config.twitchStreamers && this.state.config.twitchStreamers.length > 0) {
+            let cards = []
+            let key = 0
+            this.state.config.twitchStreamers.forEach(e => cards.push(
+                <TwitchStreamer streamer={e} key={key++} deleteCallback={(streamer) => {
+                    let config = Object.assign({}, this.state.config)
+                    let streamers = config.twitchStreamers.splice(0, config.twitchStreamers.length)
+                    streamers = streamers.filter(e => e.id !== streamer.id)
+                    config.twitchStreamers = streamers
+                    this.setState({config: config})
+                }}/>
+            ));
+            return cards
+        } else {
+            return (
+                <div className="column is-12">
+                    <div className="notification is-outlined">
+                        You don't have any streamers. Type a streamer's name in the textbox to get started.
+                    </div>
+                </div>
+            )
+        }
+    }
 }
 
 class TwitchStreamer extends MComponent {
     constructor(props) {
-        super("TWITCH:" + props.name, props)
-        this.name = props.name
-        this.avatar = props.avatar
+        super("TWITCH:" + props.streamer.display_name, props)
     }
 
     render() {
@@ -139,14 +206,16 @@ class TwitchStreamer extends MComponent {
                 <div className={"toggle-row"}>
                     <div className={"is-flex"} style={{flexDirection: "row", alignItems: "center"}}>
                         <img
-                            src={this.props.avatar}
-                            alt={"avatar of " + this.props.name} className={"is-inline circle"} style={{width: "32px", height: "32px"}} />
-                        <span style={{marginLeft: "0.25em"}} className={"title is-size-5"}>{this.props.name}</span>
+                            src={this.props.streamer.profile_image_url}
+                            alt={"avatar of " + this.props.streamer.display_name} className={"is-inline circle"} style={{width: "32px", height: "32px"}} />
+                        <span style={{marginLeft: "0.25em"}} className={"title is-size-5"}>{this.props.streamer.display_name}</span>
                     </div>
                     <span style={{marginLeft: "auto", marginRight: "1.5rem"}} />
-                    <a className="button is-primary hover" onClick={() => {}}>Edit</a>
+                    <a className="button is-primary hover" onClick={()=>{}}>Edit</a>
                 </div>
-                <a className={"button is-danger toggle-corner-button hover"}><i className="far fa-trash-alt" /></a>
+                <a className={"button is-danger toggle-corner-button hover"} onClick={() => {
+                        this.props.deleteCallback && this.props.deleteCallback(this.props.streamer)
+                    }}><i className="far fa-trash-alt" /></a>
             </div>
         )
     }

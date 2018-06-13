@@ -19,7 +19,7 @@ export class GuildCard extends MComponent {
         }
         let buttons = (
                 <footer className="card-footer detached">
-                    <NavLink to={`/dashboard/${this.props.guild.id}`} className="card-footer-item fa-pull-left hover"><i className="fas fa-fw fa-cog"/> Manage</NavLink>
+                    <NavLink to={`/discord/dashboard/${this.props.guild.id}`} className="card-footer-item fa-pull-left hover"><i className="fas fa-fw fa-cog"/> Manage</NavLink>
                 </footer>
             )
         let children = null;

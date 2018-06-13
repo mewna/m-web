@@ -14,7 +14,7 @@ export class DashboardCard extends MComponent {
         }
         let buttons = (
             <footer className="card-footer detached">
-                <NavLink to={`/dashboard/${this.props.guild.id}/${this.props.shortlink}`} className="card-footer-item fa-pull-left hover"><i
+                <NavLink to={`/discord/dashboard/${this.props.guild.id}/${this.props.shortlink}`} className="card-footer-item fa-pull-left hover"><i
                     className="fas fa-fw fa-cog"/> Manage</NavLink>
             </footer>
         )

@@ -34,7 +34,7 @@ class App extends MComponent {
                                         </VHContainer>
                                     )
                                 }} />
-                                <Route exact path="/dashboard*" component={Dashboard} />
+                                <Route exact path="/discord/dashboard*" component={Dashboard} />
                                 <Route exact path="/profile/:id" component={ProfilePageRedux} />
                                 <Route exact path="/noauth" render={() => {
                                     return (

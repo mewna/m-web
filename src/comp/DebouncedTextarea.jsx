@@ -41,7 +41,7 @@ export class DebouncedTextarea extends MComponent {
     render() {
         return (
             <div className="textarea-container">
-                <textarea onChange={(e) => this.handleChange(e)} className={"dark-textarea"} rows={8} min-rows={8}
+                <textarea onChange={(e) => this.handleChange(e)} className={"dark-textarea"} rows={this.props["rows"]} min-rows={this.props["min-rows"]}
                     value={this.state.textarea_value} />
                 <div className="textarea-counter">{this.maxChars - this.state.chars_left}/{this.maxChars}</div>
             </div>

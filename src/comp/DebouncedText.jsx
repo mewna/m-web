@@ -10,7 +10,7 @@ export class DebouncedText extends MComponent {
         } else {
             this.handleChangeInternal = debounce(500, false, (e) => this.getLogger().debug("target ::", e))
         }
-        this.state = {value: props.value}
+        this.state = {value: props.value || ""}
     }
 
     handleChange(e) {
@@ -25,9 +25,14 @@ export class DebouncedText extends MComponent {
         let props = Object.assign({}, this.props)
         delete props.callback
         delete props.value
+        delete props.addClass
+        let className="input"
+        if(this.props.addClass && this.props.addClass.length > 0) {
+            className += " " + this.props.addClass
+        }
         return (
             <div>
-                <input type="text" className="input" onChange={(e) => this.handleChange(e)} {...props} value={this.state.value} />
+                <input type="text" className={className} onChange={(e) => this.handleChange(e)} {...props} value={this.state.value} />
             </div>
         );
     }

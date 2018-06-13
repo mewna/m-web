@@ -61,7 +61,7 @@ class UserMenuInternal extends MComponent {
                 </a>
                 <div className="navbar-dropdown is-boxed">
                     <NavLink className="navbar-item" to={`/profile/${this.props.user.id}`}>Profile</NavLink>
-                    <NavLink className="navbar-item" to="/dashboard">Dashboard</NavLink>
+                    <NavLink className="navbar-item" to="/discord/dashboard">Dashboard</NavLink>
                     <hr className="navbar-divider" />
                     <DiscordLogoutButton className="navbar-item has-text-white" text={"Log out"} />
                 </div>

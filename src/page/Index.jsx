@@ -25,7 +25,7 @@ export class Index extends MComponent {
                 <div className={"container has-text-left"}>
                     <DiscordLoginButton text="login" /><br />
                     <DiscordLogoutButton text="logout" /><br />
-                    <NavLink to={"/dashboard"}>dashboard</NavLink>
+                    <NavLink to={"/discord/dashboard"}>dashboard</NavLink>
                 </div>
             </div>
         )

@@ -15,14 +15,19 @@ class BackgroundCard extends MComponent {
 
     render() {
         return (
-            <div className="profile-background-image-wrapper rounded-corners hover">
-                <a>
-                    <img src={this.props.src} alt={this.props.alt} className="profile-background-image" />
-                    {this.props.locked ?
-                        <div className="profile-background-image-locked">
-                            <i className="fas fa-lock"></i>
-                        </div>
-                        : ""}
+            <div className="profile-background-image-wrapper rounded-corners hover"
+                onMouseOver={() => this.props.backgroundMouseOver(this.props.src.replace(".png", ""))}
+                onMouseOut={() => this.props.backgroundMouseOut()}>
+                <a onClick={() => this.props.backgroundOnClick(this.props.name, this.props.pack, this.props.src)}>
+                    {/* TODO: On-click animation registering use */}
+                    <div className="profile-background-image-container">
+                        <img src={this.props.src} alt={this.props.alt} className="profile-background-image" />
+                        {this.props.locked ?
+                            <div className="profile-background-image-locked">
+                                <i className="fas fa-lock"></i>
+                            </div>
+                            : ""}
+                    </div>
                 </a>
             </div>
         )
@@ -32,6 +37,7 @@ class BackgroundCard extends MComponent {
 class ProfileSettingsModal extends MComponent {
     constructor(props) {
         super("PROFILESETTINGSMODAL", props)
+        this.state = {aboutText: this.props.player.aboutText}
     }
 
     renderPacks() {
@@ -48,7 +54,11 @@ class ProfileSettingsModal extends MComponent {
         packs["default"].forEach(bg => {
             cards.push(
                 <div className="column is-4 is-paddingless-top" key={key++}>
-                    <BackgroundCard src={bg.path} alt={bg.name} pack={bg.pack} name={bg.pack} />
+                    <BackgroundCard src={bg.path} alt={bg.name} pack={bg.pack} name={bg.name}
+                        backgroundMouseOver={this.props.backgroundMouseOver}
+                        backgroundMouseOut={this.props.backgroundMouseOut}
+                        backgroundOnClick={this.props.backgroundOnClick}
+                    />
                 </div>
             )
             ++cardCounter
@@ -81,7 +91,10 @@ class ProfileSettingsModal extends MComponent {
             packs[e].forEach(bg => {
                 cards.push(
                     <div className="column is-4 is-paddingless-top" key={key++}>
-                        <BackgroundCard src={bg.path} alt={bg.name} pack={bg.pack} name={bg.pack}
+                        <BackgroundCard src={bg.path} alt={bg.name} pack={bg.pack} name={bg.name}
+                            backgroundMouseOver={this.props.backgroundMouseOver}
+                            backgroundMouseOut={this.props.backgroundMouseOut}
+                            backgroundOnClick={this.props.backgroundOnClick}
                             locked={packLocked} />
                     </div>
                 )
@@ -130,7 +143,11 @@ class ProfileSettingsModal extends MComponent {
                     <div className="modal-body">
                         <div>
                             <p className="modal-title">About</p>
-                            <DebouncedTextarea maxChars={150} />
+                            <DebouncedTextarea maxChars={150} rows={3} min-rows={3} value={this.state.aboutText} callback={(e) => {
+                                const val = e.textarea_value.replace(/\r?\n|\r/g, "")
+                                axios.post(BACKEND_URL + `/api/data/player/${this.props.user.id}`, {aboutText: val})
+                                    .then(e => this.props.onAboutUpdate(val))
+                            }} />
                         </div>
                         <br />
                         <div>
@@ -154,7 +171,7 @@ class ProfileSettingsModal extends MComponent {
 export class ProfilePage extends MComponent {
     constructor(props) {
         super("PROFILEPAGE", props)
-        this.state = {settingsModalOpen: false, player: null, packs: null}
+        this.state = {settingsModalOpen: false, player: null, packs: null, background: null}
     }
 
     getAvatar() {
@@ -189,7 +206,7 @@ export class ProfilePage extends MComponent {
                 axios.get(BACKEND_URL + "/api/data/player/" + this.props.user.id).then(e => {
                     let data = JSON.parse(e.data)
                     this.getLogger().debug("fetched player =>", data)
-                    this.setState({player: data})
+                    this.setState({player: data, background: data.customBackground})
                 })
                 axios.get(BACKEND_URL + "/api/metadata/backgrounds/packs").then(e => {
                     let data = e.data
@@ -210,24 +227,45 @@ export class ProfilePage extends MComponent {
         if(this.props.user && this.props.user.username && this.state.player && this.state.packs) {
             return (
                 <div>
-                    <section className="section is-medium" style={{background: `url(${this.state.player.customBackground}.png)`, backgroundSize: "cover", filter: "brightness(80%)"}} />
+                    <section className="section is-medium profile-background-section" style={{backgroundImage: `url(${this.state.background}.png)`}} />
                     <VHContainer style={{paddingLeft: "8px", paddingRight: "8px"}}>
                         <ProfileSettingsModal
                             isModalOpen={() => this.state.settingsModalOpen}
                             afterOpenModal={() => {}}
                             closeModal={() => {this.setState({settingsModalOpen: false})}}
                             packs={this.state.packs}
-                            player={this.state.player} />
+                            user={this.props.user}
+                            player={this.state.player}
+                            onAboutUpdate={(text) => {
+                                this.getLogger().debug("Update aboutText =>", text)
+                                let player = Object.assign({}, this.state.player)
+                                player.aboutText = text
+                                this.setState({player: player})
+                            }}
+                            backgroundMouseOver={bg => this.setState({background: bg}, () => this.getLogger().debug("Switched background to hover"))}
+                            backgroundMouseOut={() => this.setState({background: this.state.player.customBackground}, () => this.getLogger().debug("Switched background back"))}
+                            backgroundOnClick={(name, pack, src) => {
+                                const bg = `${pack}/${name}`
+                                axios.post(BACKEND_URL + `/api/data/player/${this.props.user.id}`, {customBackground: bg})
+                                    .then(e => {
+                                        this.getLogger().debug("Update customBackground =>", bg)
+                                        let player = Object.assign({}, this.state.player)
+                                        player.customBackground = src.replace(".png", "")
+                                        this.setState({background: player.customBackground, player: player})
+                                    })
+                            }}
+                        />
                         <div className="profile-top-spacer" />
                         <div className="columns">
-                            <div className="column is-3 profile-column is-not-quite-black rounded-corners" style={{minHeight: "11em", height: "11em", maxHeight: "15em"}}>
-                                <img src={this.getAvatar()} alt="avatar" className="profile-avatar" />
-                                <div className="profile-name">
-                                    {this.props.user.username}'s profile<span style={{marginRight: "0.25em"}} />{this.renderEdit()}
+                            <div className="column is-3 profile-column is-not-quite-black rounded-corners" style={{minHeight: "11em", height: "11em"}}>
+                                <div>
+                                    <img src={this.getAvatar()} alt="avatar" className="profile-avatar" />
+                                    <div className="profile-name">
+                                        {this.props.user.username}'s profile<span style={{marginRight: "0.25em"}} />{this.renderEdit()}
+                                    </div>
+                                    <p className="has-text-white is-size-3 has-text-weight-semibold">About</p>
+                                    {this.state.player.aboutText}
                                 </div>
-                                <p className="has-text-white is-size-3 has-text-weight-semibold">About</p>
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras vehicula mi urna,
-                                nec tincidunt erat tincidunt eget. Maecenas pretium consectetur metus.
                             </div>
                             <div className="column is-12 is-hidden-tablet" />
                             <div className="column is-9 profile-column rounded-corners">
