@@ -48,7 +48,7 @@ export class Dashboard extends MComponent {
                     user.guilds = data.guilds
                     this.getStore().updateUser(user)
                     // Fetch plugin metadata
-                    axios.get(BACKEND_URL + "/api/metadata/plugins").then(e => {
+                    axios.get(BACKEND_URL + "/api/v1/metadata/plugins").then(e => {
                         this.getLogger().debug("Got plugin metadata:", e.data)
                         this.setState({pluginMetadata: e.data})
                         this.setState({connected: true})

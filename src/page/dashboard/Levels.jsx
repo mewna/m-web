@@ -22,7 +22,7 @@ export class Levels extends DashboardPage {
         this.fetchConfig(() => {
             this.fetchConfig(() => {
                 // noinspection JSUnresolvedVariable
-                axios.get(BACKEND_URL + "/api/cache/guild/" + this.props.guild.id + "/roles").then(e => {
+                axios.get(BACKEND_URL + "/api/v1/cache/guild/" + this.props.guild.id + "/roles").then(e => {
                     const roles = e.data.sort((a, b) => a.name.localeCompare(b.name)).map(e => new Role(e.id, e.name, e.color))
                     this.getLogger().debug("Got roles:", roles)
                     this.setState({

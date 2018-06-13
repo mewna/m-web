@@ -14,7 +14,7 @@ export class DiscordLogoutButtonInternal extends MComponent {
     tryLogout(e) {
         e.preventDefault()
         // noinspection JSUnusedLocalSymbols
-        axios.post(BACKEND_URL + "/api/auth/logout", {key: this.getAuth().getToken()}).then(_ => {
+        axios.post(BACKEND_URL + "/api/v1/auth/logout", {key: this.getAuth().getToken()}).then(_ => {
             this.getAuth().clearToken()
             this.getAuth().clearId()
             this.getStore().clear()

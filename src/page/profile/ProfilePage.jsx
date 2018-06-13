@@ -145,7 +145,7 @@ class ProfileSettingsModal extends MComponent {
                             <p className="modal-title">About</p>
                             <DebouncedTextarea maxChars={150} rows={3} min-rows={3} value={this.state.aboutText} callback={(e) => {
                                 const val = e.textarea_value.replace(/\r?\n|\r/g, "")
-                                axios.post(BACKEND_URL + `/api/data/player/${this.props.user.id}`, {aboutText: val})
+                                axios.post(BACKEND_URL + `/api/v1/data/player/${this.props.user.id}`, {aboutText: val})
                                     .then(e => this.props.onAboutUpdate(val))
                             }} />
                         </div>
@@ -203,12 +203,12 @@ export class ProfilePage extends MComponent {
     tryLoad() {
         setTimeout(() => {
             if(this.props.user && this.props.user.id) {
-                axios.get(BACKEND_URL + "/api/data/player/" + this.props.user.id).then(e => {
+                axios.get(BACKEND_URL + "/api/v1/data/player/" + this.props.user.id).then(e => {
                     let data = JSON.parse(e.data)
                     this.getLogger().debug("fetched player =>", data)
                     this.setState({player: data, background: data.customBackground})
                 })
-                axios.get(BACKEND_URL + "/api/metadata/backgrounds/packs").then(e => {
+                axios.get(BACKEND_URL + "/api/v1/metadata/backgrounds/packs").then(e => {
                     let data = e.data
                     this.getLogger().debug("fetched packs =>", data)
                     this.setState({packs: data})
@@ -246,7 +246,7 @@ export class ProfilePage extends MComponent {
                             backgroundMouseOut={() => this.setState({background: this.state.player.customBackground}, () => this.getLogger().debug("Switched background back"))}
                             backgroundOnClick={(name, pack, src) => {
                                 const bg = `${pack}/${name}`
-                                axios.post(BACKEND_URL + `/api/data/player/${this.props.user.id}`, {customBackground: bg})
+                                axios.post(BACKEND_URL + `/api/v1/data/player/${this.props.user.id}`, {customBackground: bg})
                                     .then(e => {
                                         this.getLogger().debug("Update customBackground =>", bg)
                                         let player = Object.assign({}, this.state.player)

@@ -14,7 +14,7 @@ class NoAuthInternal extends MComponent {
     }
 
     tryRedir() {
-        axios.get(BACKEND_URL + "/api/heartbeat", {headers: {"authorization": this.getAuth().getToken()}})
+        axios.get(BACKEND_URL + "/api/v1/heartbeat", {headers: {"authorization": this.getAuth().getToken()}})
             .then(data => {
                 const user = data.data.check
                 this.getLogger().info("Got NoAuth data:", user)

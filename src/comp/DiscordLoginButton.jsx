@@ -33,7 +33,7 @@ class DiscordLoginButtonInternal extends MComponent {
             this.getSocket().joinChannel("user:" + data.user.id, {key: data.key})
             this.getSocket().joinChannel("cache:user:" + data.user.id)
             // Request the user data and then redirect
-            axios.get(BACKEND_URL + "/api/cache/user/" + data.user.id).then(e => {
+            axios.get(BACKEND_URL + "/api/v1/cache/user/" + data.user.id).then(e => {
                 const userData = e.data
                 this.getStore().updateUser(userData)
                 this.getLogger().info("Got user:", userData)

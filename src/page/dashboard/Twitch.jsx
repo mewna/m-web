@@ -36,7 +36,7 @@ export class Twitch extends DashboardPage {
     componentDidMount() {
         this.fetchConfig(() => {
             // noinspection JSUnresolvedVariable
-            axios.get(BACKEND_URL + "/api/cache/guild/" + this.props.guild.id + "/channels").then(e => {
+            axios.get(BACKEND_URL + "/api/v1/cache/guild/" + this.props.guild.id + "/channels").then(e => {
                 const channels = e.data
                 this.setState({
                     channels: channels.filter(e => e.type === 0).sort((a, b) => a.name.localeCompare(b.name)).map(e => {
@@ -109,7 +109,7 @@ export class Twitch extends DashboardPage {
                                 if(val.value.length > 0) {
                                     this.setState({searchState: SEARCH_BUSY}, () => {
                                         this.getLogger().debug("SEARCH_BUSY")
-                                        axios.get(BACKEND_URL + "/api/data/twitch/lookup/name/" + val.value).then(e => {
+                                        axios.get(BACKEND_URL + "/api/v1/data/twitch/lookup/name/" + val.value).then(e => {
                                             const data = e.data
                                             this.getLogger().debug("data =>", data)
                                             if(data.status === "400") {
