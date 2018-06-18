@@ -218,8 +218,6 @@ class RoleReward extends MComponent {
                         options={LEVELS}
                         clearable={false}
                     />
-                </div>
-                <div style={{position: "relative"}}>
                     <a className={"button is-danger toggle-corner-button"} onClick={e => {
                         this.props.deleteCallback && this.props.deleteCallback(this.state.level, this.props.role)
                     }}><i className="far fa-trash-alt" /></a>

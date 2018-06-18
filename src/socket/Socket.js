@@ -21,7 +21,7 @@ export class MewnaSocket {
         })
 
         this.socket.connect()
-        this.logger.info("[FASTCONNECT] ESP ready")
+        this.logger.info("[FASTCONNECT] Welcome to Mewna!")
 
         this.joinChannel("user-socket")
     }

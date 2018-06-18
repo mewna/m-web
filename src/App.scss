@@ -249,9 +249,10 @@ div.toggle-row {
   align-content: left;
   justify-content: left;
   width: 100%;
-  height: 7rem !important;
+  height: 7rem;
   min-height: 7rem !important;
-  max-height: 7rem !important;
+  max-height: 7rem;
+  position: relative;
 }
 
 div.toggle-col {
@@ -266,6 +267,7 @@ div.toggle-col {
   align-content: left;
   justify-content: left;
   width: 100%;
+  position: relative;
 }
 
 // delete button
@@ -273,12 +275,13 @@ div.toggle-col {
   width: 2rem !important;
   height: 2rem !important;
 
-  position: relative !important;
-  bottom: 8rem !important;
+  top: -1rem !important;
   left: 100% !important;
 
   border-radius: 50% !important;
   margin-left: -16px !important;
+
+  position: absolute !important;
 }
 
 // hr
@@ -437,7 +440,7 @@ div.post-column {
 }
 
 .rounded-corners {
-  border-radius: 4px;
+  border-radius: 8px;
 }
 
 /* Modal dialog */

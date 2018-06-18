@@ -145,7 +145,7 @@ class ProfileSettingsModal extends MComponent {
                             <p className="modal-title">About</p>
                             <DebouncedTextarea maxChars={150} rows={3} min-rows={3} value={this.state.aboutText} callback={(e) => {
                                 const val = e.textarea_value.replace(/\r?\n|\r/g, "")
-                                axios.post(BACKEND_URL + `/api/v1/data/player/${this.props.user.id}`, {aboutText: val})
+                                axios.post(BACKEND_URL + `/api/v1/data/player/${this.props.user.id}`, {aboutText: val}, {headers: {"Authorization": this.getAuth().getToken()}})
                                     .then(e => this.props.onAboutUpdate(val))
                             }} />
                         </div>
@@ -246,7 +246,7 @@ export class ProfilePage extends MComponent {
                             backgroundMouseOut={() => this.setState({background: this.state.player.customBackground}, () => this.getLogger().debug("Switched background back"))}
                             backgroundOnClick={(name, pack, src) => {
                                 const bg = `${pack}/${name}`
-                                axios.post(BACKEND_URL + `/api/v1/data/player/${this.props.user.id}`, {customBackground: bg})
+                                axios.post(BACKEND_URL + `/api/v1/data/player/${this.props.user.id}`, {customBackground: bg}, {headers: {"Authorization": this.getAuth().getToken()}})
                                     .then(e => {
                                         this.getLogger().debug("Update customBackground =>", bg)
                                         let player = Object.assign({}, this.state.player)
