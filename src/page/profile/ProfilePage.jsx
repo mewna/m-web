@@ -134,12 +134,10 @@ class ProfileSettingsModal extends MComponent {
                 overlayClassName="mewna-modal-overlay"
                 ariaHideApp={false}>
                 {/* ^^^ I have no fucking clue how to do this right ;-; */}
-                <div className="modal-container">
-                    <p className="is-size-4 has-text-white has-text-weight-semibold">
+                <div className="modal-container">                    
+                    <p className="is-size-4 has-text-white has-text-weight-semibold modal-header">
                         Profile Settings
                     </p>
-                    <hr className={"dark-hr"} />
-
                     <div className="modal-body">
                         <div>
                             <p className="modal-title">About</p>
@@ -155,12 +153,10 @@ class ProfileSettingsModal extends MComponent {
                             {this.renderPacks()}
                         </div>
                     </div>
-                    <hr className={"dark-hr"} />
-
-                    <p>
+                    <p className="modal-footer">
                         <a className="button is-primary hover is-size-6" onClick={this.props.closeModal}>
                             Finish
-                    </a>
+                        </a>
                     </p>
                 </div>
             </Modal>

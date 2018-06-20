@@ -7183,6 +7183,27 @@ div.post-column {
       margin-left: calc(50vw - 240px);
       display: block; } }
 
+.modal-body {
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 8px; }
+  @media screen and (min-width: 769px) {
+    .modal-body {
+      max-height: calc(75vh - 3rem - 175px); } }
+  @media screen and (max-width: 768px) {
+    .modal-body {
+      max-height: calc(100vh - 80px - 12rem); } }
+
+.modal-header {
+  padding-bottom: 0.5em;
+  margin-bottom: 0.5em;
+  border-bottom: 2px solid #3a4146; }
+
+.modal-footer {
+  margin-top: 1em;
+  padding-top: 1em;
+  border-top: 2px solid #3a4146; }
+
 .mewna-modal:focus {
   outline: none; }
 
@@ -7218,12 +7239,6 @@ div.post-column {
   display: none; 
 }
 */
-.modal-body {
-  overflow-y: auto;
-  overflow-x: hidden;
-  padding-right: 8px;
-  max-height: 50vh; }
-
 @media screen and (max-width: 767px) {
   div.profile-background-image-container {
     height: 100px; }
