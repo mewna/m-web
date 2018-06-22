@@ -7293,4 +7293,5 @@ div.profile-background-image-container:hover .profile-background-image-locked {
 
 .profile-background-section {
   background-size: cover;
-  filter: brightness(80%); }
+  width: 100vw;
+  height: 24rem; }

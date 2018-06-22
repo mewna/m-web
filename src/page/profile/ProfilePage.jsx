@@ -7,6 +7,7 @@ import Modal from 'react-modal'
 import {DebouncedTextarea} from "../../comp/DebouncedTextarea"
 import axios from 'axios'
 import {BACKEND_URL} from "../../const"
+import ProgressiveImage from 'react-progressive-bg-image'
 
 class BackgroundCard extends MComponent {
     constructor(props) {
@@ -134,7 +135,7 @@ class ProfileSettingsModal extends MComponent {
                 overlayClassName="mewna-modal-overlay"
                 ariaHideApp={false}>
                 {/* ^^^ I have no fucking clue how to do this right ;-; */}
-                <div className="modal-container">                    
+                <div className="modal-container">
                     <p className="is-size-4 has-text-white has-text-weight-semibold modal-header">
                         Profile Settings
                     </p>
@@ -221,9 +222,22 @@ export class ProfilePage extends MComponent {
 
     render() {
         if(this.props.user && this.props.user.username && this.state.player && this.state.packs) {
+            const split = this.state.background.split("/")
+            const thumbnail = split[0] + '/' + split[1] + '/thumbs/' + split[2]
             return (
                 <div>
-                    <section className="section is-medium profile-background-section" style={{backgroundImage: `url(${this.state.background}.png)`}} />
+                    <div className="profile-background-section">
+                        <ProgressiveImage
+                            src={`${this.state.background}.png`}
+                            placeholder={`${thumbnail}.png`}
+                            style={{
+                                width: "100%",
+                                height: "100%",
+                                backgroundSize: "cover",
+                                backgroundPosition: "0% 35%"
+                            }}
+                        />
+                    </div>
                     <VHContainer style={{paddingLeft: "8px", paddingRight: "8px"}}>
                         <ProfileSettingsModal
                             isModalOpen={() => this.state.settingsModalOpen}
@@ -238,8 +252,16 @@ export class ProfilePage extends MComponent {
                                 player.aboutText = text
                                 this.setState({player: player})
                             }}
-                            backgroundMouseOver={bg => this.setState({background: bg}, () => this.getLogger().debug("Switched background to hover"))}
-                            backgroundMouseOut={() => this.setState({background: this.state.player.customBackground}, () => this.getLogger().debug("Switched background back"))}
+                            backgroundMouseOver={bg => {
+                                if(this.state.player.customBackground !== bg) {
+                                    this.setState({background: bg})
+                                }
+                            }}
+                            backgroundMouseOut={() => {
+                                if(this.state.background !== this.state.player.customBackground) {
+                                    this.setState({background: this.state.player.customBackground})
+                                }
+                            }}
                             backgroundOnClick={(name, pack, src) => {
                                 const bg = `${pack}/${name}`
                                 axios.post(BACKEND_URL + `/api/v1/data/player/${this.props.user.id}`, {customBackground: bg}, {headers: {"Authorization": this.getAuth().getToken()}})
