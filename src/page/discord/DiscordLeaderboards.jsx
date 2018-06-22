@@ -29,17 +29,15 @@ export class DiscordLeaderboards extends MComponent {
         let key = 0;
         this.state.data.forEach(e => {
             cards.push(
-                <div key={key++} className="column is-12 is-not-quite-black rounded-corners" style={{
-                    marginLeft: "0.75rem", width: "calc(100% - 1.5rem)",
-                    marginTop: "0.75rem", marginBottom: "0.75rem"
-                }}>
+                <div key={key++} className="column is-12 rounded-corners leaderboards-card" style={{background: `url("${e.customBackground}.png")`}}>
+                    <div className="leaderboards-card-panel" />
                     <div className="is-flex" style={{flexDirection: "row", justifyContent: "left", alignItems: "center"}}>
+                        <Icon src={e.avatar} className={"guild-icon leaderboards-icon"} />
                         <div className="leaderboards-rank">
                             #{e.playerRank}
                         </div>
-                        <Icon src={e.avatar} className={"guild-icon"} />
                         <div className="leaderboards-username">
-                            {e.name}<span className="leaderboard-discrim">#{e.discrim}</span>
+                            {e.name}<span className="leaderboards-discrim">#{e.discrim}</span>
                         </div>
                         <div className="leaderboards-xp-container">
                             <div className="progress-bar-container">
@@ -49,7 +47,7 @@ export class DiscordLeaderboards extends MComponent {
                                 </div>
                             </div>
                         </div>
-                        <div>
+                        <div className="leaderboards-numbers">
                             <div className="leaderboards-level">
                                 LEVEL
                             </div>
@@ -68,24 +66,27 @@ export class DiscordLeaderboards extends MComponent {
         if(this.state.guild && this.state.data) {
             return (
                 <div>
+                    <div style={{overflow: "hidden"}}>
+                        <section className={"section is-flex"}
+                            style={{
+                                flexDirection: "row", justifyContent: "center", alignItems: "center",
+                                margin: "0.75rem", borderRadius: "8px", width: "100%", height: "22.5rem",
+                                background: `url("https://cdn.discordapp.com/icons/${this.state.guild.id}/${this.state.guild.icon}.png")`,
+                                backgroundSize: "cover", backgroundPosition: "50% 50%", filter: "blur(24px)"
+                            }}>
+                        </section>
+                    </div>
+                    <div className="leaderboards-guild-header">
+                        {/*<GuildIcon guild={this.state.guild} />*/}
+                        <div className="guild-header-name">
+                            <p>{this.state.guild.name} Leaderboards</p>
+                        </div>
+                    </div>
                     <VHContainer>
                         <section className="section is-small" />
                         <div className={"columns has-text-centered is-centered is-paddingless is-marginless"}>
                             <div className="column is-10">
                                 <div className={"columns is-multiline is-paddingless is-marginless is-centered has-text-centered card-columns"}>
-                                    <section className={"section is-small is-not-quite-black is-flex"}
-                                        style={{
-                                            padding: "1rem", flexDirection: "row", justifyContent: "left", alignItems: "center",
-                                            margin: "0.75rem", borderRadius: "8px", width: "100%"
-                                        }}>
-                                        <GuildIcon guild={this.state.guild} />
-                                        <div>
-                                            <p className={"is-size-4"}>{this.state.guild.name} Leaderboards</p>
-                                        </div>
-                                    </section>
-                                    <div className={"column is-12"}>
-                                        <hr className={"dark-hr"} />
-                                    </div>
                                     {this.renderProgressBars()}
                                 </div>
                             </div>

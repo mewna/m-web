@@ -119,14 +119,14 @@ export class Dashboard extends MComponent {
                 backText = "Back to dashboard"
             }
             backLink = (
-                <section className={"section is-small is-not-quite-black is-flex"}
+                <section className={"section is-small is-flex"}
                     style={{
                         padding: "1rem", flexDirection: "row", justifyContent: "left", alignItems: "center",
                         margin: "0.75rem", borderRadius: "8px", width: "100%"
                     }}>
                     <GuildIcon guild={guild} />
-                    <div>
-                        <p className={"is-size-4"}>{guild.name}{pageName}</p>
+                    <div className="guild-header-name">
+                        <p>{guild.name}{pageName}</p>
                     </div>
                     <NavLink to={parent} className={"button is-primary hover"}
                         style={{marginLeft: "auto", marginRight: "1.5rem"}}>

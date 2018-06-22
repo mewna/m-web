@@ -6917,6 +6917,21 @@ html, body {
 .guild-icon > img {
   border-radius: 5px; }
 
+.guild-icon-big {
+  width: 96px !important;
+  height: 96px !important;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  line-height: 124px;
+  border: 1.5px solid #FFFFFF;
+  margin: 0.25rem;
+  border-radius: 8px;
+  margin-right: 0.5rem !important; }
+
+.guild-icon-big > img {
+  border-radius: 5px; }
+
 .user-icon {
   border-radius: 4px; }
 
@@ -6959,6 +6974,10 @@ main.content {
 .is-60x60 {
   width: 60px !important;
   height: 60px !important; }
+
+.is-92x92 {
+  width: 92px !important;
+  height: 92px !important; }
 
 p.card-header-title.guild-title {
   width: 14em !important; }
@@ -7307,7 +7326,7 @@ div.profile-background-image-container:hover .profile-background-image-locked {
 .progress-bar-container {
   width: 256px;
   height: 32px;
-  background: #2C2F33 !important;
+  background: rgba(0, 0, 0, 0.25) !important;
   border-radius: 8px;
   margin-left: 0.25em;
   margin-right: 0.25em;
@@ -7336,16 +7355,27 @@ div.profile-background-image-container:hover .profile-background-image-locked {
 .leaderboards-xp-container {
   margin-left: auto;
   position: relative;
-  display: block; }
+  display: block;
+  z-index: 2; }
 
 .leaderboards-rank {
-  font-weight: bold;
   font-size: 1.75em;
-  margin-left: 0.5em;
-  margin-right: 0.5em; }
+  margin-left: 0.25em;
+  margin-right: 0.5em;
+  z-index: 2;
+  text-transform: uppercase; }
 
 .leaderboards-username {
-  font-size: 1.25em; }
+  font-size: 1.5em;
+  z-index: 2; }
+
+.leaderboards-numbers {
+  margin-left: 1em;
+  z-index: 2; }
+
+.leaderboards-icon {
+  z-index: 2;
+  border: transparent !important; }
 
 .leaderboards-level {
   margin-left: 0.5em;
@@ -7356,7 +7386,46 @@ div.profile-background-image-container:hover .profile-background-image-locked {
   font-size: 1.25em;
   margin-left: 0.5em;
   margin-right: 0.5em;
-  text-align: center; }
+  text-align: center;
+  font-weight: bold; }
 
-.leaderboard-discrim {
+.leaderboards-discrim {
   color: gray; }
+
+.leaderboards-card {
+  margin-left: 0.75rem;
+  width: calc(100% - 1.5rem) !important;
+  margin-top: 0.75rem;
+  margin-bottom: 0.75rem;
+  position: relative; }
+
+.leaderboards-card-panel {
+  position: absolute;
+  content: '';
+  width: calc(100% - 48px);
+  height: calc(100% - 8px);
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.5);
+  top: 4px;
+  right: 4px;
+  z-index: 1; }
+
+.guild-header-name {
+  margin-left: 1em;
+  margin-top: -8px;
+  font-size: 2em; }
+
+.leaderboards-guild-header {
+  margin-top: -24rem;
+  line-height: 24rem;
+  z-index: 100;
+  position: absolute;
+  width: 100%;
+  height: 24rem;
+  text-align: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.25);
+  padding: 1em; }
+
+.leaderboards-guild-header > .guild-header-name {
+  font-size: 2.5em; }
