@@ -6887,7 +6887,7 @@ html, body {
 
 .guild-card {
   flex: 1;
-  border-radius: 4px;
+  border-radius: 8px;
   display: inline-block;
   height: 50% !important;
   min-height: 50% !important; }
@@ -6910,7 +6910,15 @@ html, body {
   justify-content: center;
   line-height: 60px;
   border: 1.5px solid #FFFFFF;
-  margin: 0.25rem; }
+  margin: 0.25rem;
+  border-radius: 8px;
+  margin-right: 0.5rem !important; }
+
+.guild-icon > img {
+  border-radius: 5px; }
+
+.user-icon {
+  border-radius: 4px; }
 
 .circle {
   border-radius: 50% !important; }
@@ -6922,13 +6930,13 @@ html, body {
   border-top: 1px solid transparent !important; }
 
 .card.detached {
-  border-radius: 4px;
+  border-radius: 8px;
   box-shadow: none !important; }
 
 footer.card-footer.detached {
   margin-top: 0.5rem; }
   footer.card-footer.detached .card-footer-item {
-    border-radius: 4px;
+    border-radius: 8px;
     background: #23272A !important;
     box-shadow: none !important; }
   footer.card-footer.detached .card-footer-item:first-child:not(:only-child) {
@@ -7162,7 +7170,7 @@ div.post-column {
 .mewna-modal {
   position: absolute;
   background: #2C2F33;
-  border-radius: 4px;
+  border-radius: 8px;
   border: none !important;
   /*
   animation-name: modalFadeInDown;
@@ -7295,3 +7303,60 @@ div.profile-background-image-container:hover .profile-background-image-locked {
   background-size: cover;
   width: 100vw;
   height: 24rem; }
+
+.progress-bar-container {
+  width: 256px;
+  height: 32px;
+  background: #2C2F33 !important;
+  border-radius: 8px;
+  margin-left: 0.25em;
+  margin-right: 0.25em;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 4px;
+  padding-right: 4px;
+  margin-left: auto;
+  position: relative; }
+
+.progress-bar {
+  height: 24px;
+  top: 4px;
+  background: #db325c !important;
+  border-radius: 5px;
+  position: absolute;
+  max-width: 248px; }
+
+.progress-text {
+  z-index: 10;
+  position: absolute;
+  width: 100%;
+  top: 5px;
+  text-align: center; }
+
+.leaderboards-xp-container {
+  margin-left: auto;
+  position: relative;
+  display: block; }
+
+.leaderboards-rank {
+  font-weight: bold;
+  font-size: 1.75em;
+  margin-left: 0.5em;
+  margin-right: 0.5em; }
+
+.leaderboards-username {
+  font-size: 1.25em; }
+
+.leaderboards-level {
+  margin-left: 0.5em;
+  margin-right: 0.5em;
+  text-align: center; }
+
+.leaderboards-level-number {
+  font-size: 1.25em;
+  margin-left: 0.5em;
+  margin-right: 0.5em;
+  text-align: center; }
+
+.leaderboard-discrim {
+  color: gray; }

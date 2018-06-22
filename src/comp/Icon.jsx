@@ -13,8 +13,8 @@ export class Icon extends MComponent {
         }
         return (
             <div className={className}
-                 style={{display: "flex", alignItems: "center", justifyContent: "center", alignContent: "center"}}>
-                <img className={"image circle is-60x60"} src={this.props.src} alt={"icon"}/>
+                style={{display: "flex", alignItems: "center", justifyContent: "center", alignContent: "center"}}>
+                <img className={"image is-60x60"} src={this.props.src} alt={"icon"} />
             </div>
         )
     }

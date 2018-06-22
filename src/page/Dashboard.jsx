@@ -235,8 +235,7 @@ export class Dashboard extends MComponent {
                     <section className={"section is-small"} />
                     <div className={"columns has-text-centered is-centered is-paddingless is-marginless"}>
                         <div className="column is-10">
-                            <div
-                                className={"columns is-multiline is-paddingless is-marginless is-centered has-text-centered card-columns"}>
+                            <div className={"columns is-multiline is-paddingless is-marginless is-centered has-text-centered card-columns"}>
                                 {this.chooseRender(match)}
                             </div>
                         </div>

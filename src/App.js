@@ -12,6 +12,7 @@ import {NavbarRedux} from "./comp/Navbar"
 import {VHContainer} from './page/VHContainer'
 import {NotFound} from './page/NotFound';
 import Switch from 'react-router/Switch';
+import {DiscordLeaderboards} from './page/discord/DiscordLeaderboards';
 
 class App extends MComponent {
     constructor(props) {
@@ -43,6 +44,7 @@ class App extends MComponent {
                                         </VHContainer>
                                     )
                                 }} />
+                                <Route exact path="/discord/leaderboards/:id" component={DiscordLeaderboards} />
                                 <Route component={NotFound} />
                             </Switch>
                         </div>

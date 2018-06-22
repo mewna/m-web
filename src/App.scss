@@ -121,7 +121,7 @@ html, body {
 $card-outer-margin: 0rem;
 .guild-card {
   flex: 1;
-  border-radius: 4px;
+  border-radius: 8px;
   display: inline-block;
   height: 50% !important;
   min-height: 50% !important;
@@ -149,6 +149,15 @@ $card-outer-margin: 0rem;
   line-height: 60px;
   border: 1.5px solid $full-white;
   margin: 0.25rem;
+  border-radius: 8px;
+  margin-right: 0.5rem !important;
+}
+.guild-icon > img {
+  border-radius: 5px;
+}
+
+.user-icon {
+  border-radius: 4px;
 }
 
 .circle {
@@ -165,7 +174,7 @@ $card-border: transparent; // transparentize(#777, 0.5);
 }
 
 .card.detached {
-  border-radius: 4px;
+  border-radius: 8px;
   box-shadow: none !important; // 0 2px 3px rgba(10, 10, 10, 0.5), 0 0 0 1px rgba(10, 10, 10, 0.1) !important;
 }
 
@@ -173,7 +182,7 @@ footer.card-footer.detached {
   $margin: 0.5rem;
   margin-top: $margin;
   .card-footer-item {
-    border-radius: 4px;
+    border-radius: 8px;
     background: $not-quite-black !important;
     box-shadow: none !important; // 0 2px 3px rgba(10, 10, 10, 0.5), 0 0 0 1px rgba(10, 10, 10, 0.1) !important;
   }
@@ -474,7 +483,7 @@ $animation-time: 0.25s;
 .mewna-modal {
   position: absolute;
   background: $dark-not-black;
-  border-radius: 4px;
+  border-radius: 8px;
   border: none !important;
 
   /*
@@ -628,4 +637,70 @@ div.profile-background-image-container:hover .profile-background-image-locked {
   background-size: cover;
   width: 100vw;
   height: 24rem;
+}
+
+$bar-padding: 8px;
+$bar-height: 32px;
+$bar-width: 256px;
+.progress-bar-container {
+  width: $bar-width;
+  height: $bar-height;
+  background: $dark-not-black !important;
+  border-radius: 8px;
+  margin-left: 0.25em;
+  margin-right: 0.25em;
+  padding-top: $bar-padding;
+  padding-bottom: $bar-padding;
+  padding-left: $bar-padding / 2;
+  padding-right: $bar-padding / 2;
+  margin-left: auto;
+  position: relative;
+}
+.progress-bar {
+  height: $bar-height - $bar-padding;
+  top: $bar-padding / 2;
+  background: $primary !important;
+  border-radius: 5px;
+  position: absolute;
+  max-width: $bar-width - $bar-padding;
+}
+.progress-text {
+  z-index: 10;
+  position: absolute;
+  width: 100%;
+  top: $bar-padding / 2 + 1px;
+  text-align: center;
+}
+
+.leaderboards-xp-container {
+  margin-left: auto;
+  position: relative;
+  display: block;
+}
+
+.leaderboards-rank {
+  font-weight: bold;
+  font-size: 1.75em;
+  margin-left: 0.5em;
+  margin-right: 0.5em;
+}
+
+.leaderboards-username {
+  font-size: 1.25em;
+}
+
+.leaderboards-level {
+  margin-left: 0.5em;
+  margin-right: 0.5em;
+  text-align: center;
+}
+.leaderboards-level-number {
+  font-size: 1.25em;
+  margin-left: 0.5em;
+  margin-right: 0.5em;
+  text-align: center;
+}
+
+.leaderboard-discrim {
+  color: darken($full-white, 50%)
 }

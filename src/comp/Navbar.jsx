@@ -56,7 +56,7 @@ class UserMenuInternal extends MComponent {
         return (
             <div className={cls} onClick={(e) => this.handleClick(e)}>
                 <a className="navbar-link" onClick={(e) => this.doNothing(e)}>
-                    <img src={this.getAvatar()} alt="avatar" className="image is-24x24 circle is-inline-block" />
+                    <img src={this.getAvatar()} alt="avatar" className="image is-24x24 user-icon is-inline-block" />
                     <span className="is-inline-block" style={{"margin": "0.25em"}}></span>{this.props.user.username}
                 </a>
                 <div className="navbar-dropdown is-boxed">
