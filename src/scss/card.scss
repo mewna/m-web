@@ -1,0 +1,75 @@
+.guild-card.shorter > .card.detached {
+    height: 6.1rem;
+  }
+  
+  $card-outer-margin: 0rem;
+  .guild-card {
+    flex: 1;
+    border-radius: 8px;
+    display: inline-block;
+    height: 50% !important;
+    min-height: 50% !important;
+  
+    @media screen and (min-width: 769px) {
+      margin: $card-outer-margin !important;
+    }
+  
+    @media screen and (max-width: 768px) {
+      margin: 0 !important;
+      margin-top: $card-outer-margin !important;
+      margin-bottom: $card-outer-margin !important;
+    }
+    .card.detached {
+      height: 10rem;
+    }
+  }
+
+$card-border: transparent; // transparentize(#777, 0.5);
+.card-footer-item:not(:last-child) {
+  border-right: 1px solid $card-border !important;
+}
+
+.card-footer {
+  border-top: 1px solid $card-border !important;
+}
+
+.card.detached {
+  border-radius: 8px;
+  box-shadow: none !important; // 0 2px 3px rgba(10, 10, 10, 0.5), 0 0 0 1px rgba(10, 10, 10, 0.1) !important;
+}
+
+footer.card-footer.detached {
+  $margin: 0.5rem;
+  margin-top: $margin;
+  .card-footer-item {
+    border-radius: 8px;
+    background: $not-quite-black !important;
+    box-shadow: none !important; // 0 2px 3px rgba(10, 10, 10, 0.5), 0 0 0 1px rgba(10, 10, 10, 0.1) !important;
+  }
+
+  .card-footer-item:first-child:not(:only-child) {
+    margin-right: $margin / 2;
+  }
+  .card-footer-item:last-child:not(:only-child) {
+    margin-left: $margin / 2;
+  }
+}
+
+header.card-header.guild-header {
+  display: flex;
+  align-content: center;
+  justify-content: left;
+  flex-direction: row;
+  flex: 1;
+  padding-top: 0.5em;
+  padding-left: 0.5em;
+}
+
+p.card-header-title.guild-title {
+  width: 14em !important;
+}
+
+.card-columns {
+  text-align: left !important;
+  justify-content: left !important;
+}

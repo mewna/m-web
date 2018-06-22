@@ -1,0 +1,23 @@
+.profile-avatar {
+  position: absolute;
+  top: -12em;
+  border: 2px solid rgba(0, 0, 0, 0.25); }
+
+.profile-name {
+  position: absolute;
+  top: -3em;
+  left: 5em;
+  font-size: 32px;
+  display: flex;
+  flex-direction: row;
+  align-items: center; }
+
+div.profile-top-spacer {
+  margin: 8em; }
+
+div.profile-column {
+  margin-left: 1em;
+  margin-right: 1em; }
+
+div.post-column {
+  margin-bottom: 1em; }

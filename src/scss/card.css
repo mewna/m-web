@@ -1,0 +1,19 @@
+.guild-card.shorter > .card.detached {
+  height: 6.1rem; }
+
+.guild-card {
+  flex: 1;
+  border-radius: 8px;
+  display: inline-block;
+  height: 50% !important;
+  min-height: 50% !important; }
+  @media screen and (min-width: 769px) {
+    .guild-card {
+      margin: 0rem !important; } }
+  @media screen and (max-width: 768px) {
+    .guild-card {
+      margin: 0 !important;
+      margin-top: 0rem !important;
+      margin-bottom: 0rem !important; } }
+  .guild-card .card.detached {
+    height: 10rem; }

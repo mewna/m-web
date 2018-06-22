@@ -1,0 +1,8 @@
+.toggle-corner-button {
+  width: 2rem !important;
+  height: 2rem !important;
+  top: -1rem !important;
+  left: 100% !important;
+  border-radius: 50% !important;
+  margin-left: -16px !important;
+  position: absolute !important; }

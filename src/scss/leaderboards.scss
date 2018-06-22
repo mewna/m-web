@@ -1,0 +1,124 @@
+$bar-padding: 8px;
+$bar-height: 32px;
+$bar-width: 256px;
+.progress-bar-container {
+  width: $bar-width;
+  height: $bar-height;
+  background: rgba(0, 0, 0, 0.25) !important;
+  border-radius: 8px;
+  margin-left: 0.25em;
+  margin-right: 0.25em;
+  padding-top: $bar-padding;
+  padding-bottom: $bar-padding;
+  padding-left: $bar-padding / 2;
+  padding-right: $bar-padding / 2;
+  margin-left: auto;
+  position: relative;
+}
+.progress-bar {
+  height: $bar-height - $bar-padding;
+  top: $bar-padding / 2;
+  background: $primary !important;
+  border-radius: 5px;
+  position: absolute;
+  max-width: $bar-width - $bar-padding;
+}
+.progress-text {
+  z-index: 10;
+  position: absolute;
+  width: 100%;
+  top: $bar-padding / 2 + 1px;
+  text-align: center;
+}
+
+
+
+.leaderboards-xp-container {
+  margin-left: auto;
+  position: relative;
+  display: block;
+  z-index: 2;
+}
+
+.leaderboards-rank {
+  //font-size: 3em;
+  font-size: 1.75em;
+  margin-left: 0.25em;
+  margin-right: 0.5em;
+  z-index: 2;
+  //font-family: 'Yanone Kaffeesatz', 'Open Sans', sans-serif;
+  text-transform: uppercase;
+}
+
+.leaderboards-username {
+  //font-size: 2em;
+  font-size: 1.5em;
+  //margin-top: 6px;
+  z-index: 2;
+  //font-family: 'Yanone Kaffeesatz', 'Open Sans', sans-serif;
+  //text-transform: uppercase;
+}
+
+.leaderboards-numbers {
+  margin-left: 1em;
+  z-index: 2;
+}
+
+.leaderboards-icon {
+  z-index: 2;
+  border: transparent !important;
+}
+
+.leaderboards-level {
+  margin-left: 0.5em;
+  margin-right: 0.5em;
+  text-align: center;
+}
+
+.leaderboards-level-number {
+  font-size: 1.25em;
+  margin-left: 0.5em;
+  margin-right: 0.5em;
+  text-align: center;
+  font-weight: bold;
+}
+
+.leaderboards-discrim {
+  color: darken($full-white, 50%)
+}
+
+.leaderboards-card {
+  margin-left: 0.75rem;
+  // Have to override columns
+  width: calc(100% - 1.5rem) !important;
+  margin-top: 0.75rem;
+  margin-bottom: 0.75rem;
+  position: relative;
+}
+.leaderboards-card-panel {
+  position: absolute;
+  content: '';
+  width: calc(100% - 48px);
+  height: calc(100% - 8px);
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.5);
+  top: 4px;
+  right: 4px;
+  z-index: 1;
+}
+
+.leaderboards-guild-header {
+  margin-top: -24rem;
+  line-height: 24rem;
+  z-index: 100;
+  position: absolute;
+  width: 100%;
+  height: 24rem;
+  text-align: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.25);
+  padding: 1em;
+}
+.leaderboards-guild-header > .guild-header-name {
+  font-size: 2.5em;
+}

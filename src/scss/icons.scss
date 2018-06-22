@@ -1,0 +1,35 @@
+.guild-icon {
+  width: 64px !important;
+  height: 64px !important;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  line-height: 60px;
+  border: 1.5px solid $full-white;
+  margin: 0.25rem;
+  border-radius: 8px;
+  margin-right: 0.5rem !important;
+}
+.guild-icon > img {
+  border-radius: 5px;
+}
+
+.guild-icon-big {
+  width: 96px !important;
+  height: 96px !important;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  line-height: 124px;
+  border: 1.5px solid $full-white;
+  margin: 0.25rem;
+  border-radius: 8px;
+  margin-right: 0.5rem !important;
+}
+.guild-icon-big > img {
+  border-radius: 5px;
+}
+
+.user-icon {
+  border-radius: 4px;
+}

@@ -1,0 +1,124 @@
+$animation-time: 0.25s;
+// SOMEHOW
+// SOME FUCKING HOW
+// Enabling this animation causes the background of the modal to go transparent on hover events
+// idgi
+/*
+@keyframes modalFadeInDown {
+    0% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+@keyframes modalBgFadeInDown {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+*/
+
+.mewna-modal {
+  position: absolute;
+  background: $dark-not-black;
+  border-radius: 8px;
+  border: none !important;
+
+  /*
+  animation-name: modalFadeInDown;
+  animation-duration: $animation-time;
+  animation-fill-mode: both;
+  */
+
+  @media screen and (max-width: 768px) {
+    top: 40px;
+    left: 40px;
+    right: 40px;
+    bottom: 40px;
+  }
+
+  @media screen and (min-width: 769px) {
+    width: 480px;
+    //height: 480px;
+    max-height: 75vh;
+    margin-top: calc(50vh - 37.5vh);
+    margin-left: calc(50vw - 240px);
+    display: block;
+  }
+}
+
+.modal-body {
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 8px;
+  @media screen and (min-width: 769px) {
+    max-height: calc(75vh - 3rem - 175px);
+  }
+  @media screen and (max-width: 768px) {
+    max-height: calc(100vh - 80px - 12rem);
+  }
+}
+.modal-header {
+  padding-bottom: 0.5em;
+  margin-bottom: 0.5em;
+  border-bottom: 2px solid lighten($not-quite-black, 10%);
+}
+.modal-footer {
+  margin-top: 1em;
+  padding-top: 1em;
+  border-top: 2px solid lighten($not-quite-black, 10%);
+}
+
+.mewna-modal:focus {
+  outline: none;
+}
+
+.mewna-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: transparentize(#000000, 0.5);
+  animation-name: modalBgFadeInDown;
+  animation-duration: $animation-time;
+  animation-fill-mode: both;
+}
+
+.modal-container {
+  padding: 2rem !important;
+}
+
+.modal-body::-webkit-scrollbar-track {
+	-webkit-box-shadow: none; // inset 0 0 6px rgba(0,0,0,0.3);
+	border-radius: 4px;
+	background-color: transparent;
+}
+
+.modal-body::-webkit-scrollbar {
+	width: 4px;
+	background-color: transparent;
+}
+
+.modal-body::-webkit-scrollbar-thumb {
+	border-radius: 4px;
+	background-color: rgba(0,0,0,.3);
+}
+/*
+.modal-body::-webkit-scrollbar { 
+  display: none; 
+}
+*/
+
+.modal-title {
+  text-transform: uppercase;
+  margin-bottom: 0.25em;
+  font-size: 1.2em;
+  font-weight: bold;
+}
