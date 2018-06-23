@@ -71,6 +71,10 @@ div.toggle-col {
   width: 100%;
   position: relative; }
 
+.toggle-column-wrapper {
+  margin-bottom: 2em;
+  padding: 0; }
+
 .dark-hr {
   background-color: #3a4146; }
 
@@ -86,3 +90,6 @@ div.toggle-col {
 
 .is-paddingless-bottom {
   padding-bottom: 0 !important; }
+
+.is-4em-h {
+  height: 4em !important; }

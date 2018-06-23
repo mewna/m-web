@@ -6,7 +6,9 @@ import {NavLink} from "react-router-dom"
 import BubblePreloader from 'react-bubble-preloader'
 import {matchPath} from 'react-router'
 import {DashboardCard} from "../comp/dashboard/DashboardCard"
+import {GuildHeader} from '../comp/GuildHeader'
 
+import {Behaviour} from './dashboard/Behaviour'
 import {Economy} from "./dashboard/Economy"
 import {Emotes} from "./dashboard/Emotes"
 import {Levels} from "./dashboard/Levels"
@@ -16,7 +18,7 @@ import {Twitch} from "./dashboard/Twitch"
 import {Welcoming} from "./dashboard/Welcoming"
 
 import axios from 'axios'
-import {BACKEND_URL} from "../const";
+import {BACKEND_URL} from "../const"
 import {VHContainer} from "./VHContainer"
 
 const MANAGE_GUILD = 0x00000020
@@ -105,16 +107,16 @@ export class Dashboard extends MComponent {
         const guild = this.state.guilds.filter(e => e.id === match.params.id)[0]
         if(!page) {
             return (
-                <div style={{width: "100%"}}>
-                    <div
-                        className={"columns is-multiline is-paddingless is-marginless is-centered has-text-centered card-columns"}>
-                        {this.renderGuildDashboardCards(guild)}
-                    </div>
+                <div>
+                    {this.renderGuildDashboardCards(guild)}
                 </div>
             )
         } else {
             let pageData = ""
             switch(page.toLowerCase()) {
+                case "behaviour":
+                    pageData = <Behaviour guild={guild} />
+                    break;
                 case "economy":
                     pageData = <Economy guild={guild} />
                     break
@@ -140,16 +142,9 @@ export class Dashboard extends MComponent {
                     pageData = "Unknown page?"
                     break
             }
-            pageData = (
-                <div style={{width: "100%"}}>
-                    {pageData}
-                </div>
-            )
             return (
                 <div style={{width: "100%"}}>
-                    <div className={"columns is-multiline is-paddingless is-marginless is-centered has-text-left card-columns"}>
-                        {pageData}
-                    </div>
+                    {pageData}
                 </div>
             )
         }
@@ -176,9 +171,9 @@ export class Dashboard extends MComponent {
         if(match.params.id && this.state.guilds) {
             const guild = this.state.guilds.filter(e => e.id === match.params.id)[0]
             const page = match.params.page
-            let pageName = guild.name
+            let pageName = null
             if(page) {
-                pageName += " - " + (page.charAt(0).toUpperCase() + page.substr(1))
+                pageName = " - " + (page.charAt(0).toUpperCase() + page.substr(1))
             }
             let parent = "/discord/dashboard"
             let backText = "Back to server list"
@@ -187,28 +182,14 @@ export class Dashboard extends MComponent {
                 backText = "Back to dashboard"
             }
             let backLink = (
-                <NavLink to={parent} className={"button is-primary hover"}
-                    style={{marginTop: "0.5rem"}}>
+                <NavLink to={parent} className={"button is-primary hover"} style={{marginRight: "1.25em"}}>
                     {backText}
                 </NavLink>
             )
             return (
-                <div>
-                    <div style={{overflow: "hidden"}}>
-                        <section className={"section leaderboard-header-image"}
-                            style={{
-                                backgroundImage: `url("https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png")`
-                            }}>
-                        </section>
-                    </div>
-                    <div className="leaderboards-guild-header">
-                        {/*<GuildIcon guild={this.state.guild} />*/}
-                        <div className="guild-header-name">
-                            <p>{pageName}</p>
-                            {backLink}
-                        </div>
-                    </div>
-                </div>
+                <GuildHeader guild={guild} titleExtra={pageName}>
+                    {backLink}
+                </GuildHeader>
             )
         } else {
             return ""
@@ -222,7 +203,7 @@ export class Dashboard extends MComponent {
                     {this.renderGuildDashboard(match, match.params.page)}
                 </div>
             )
-        } else if(!match.params.page && match.params.id) {
+        } else if(match.params.id) {
             return (
                 <BubblePreloader
                     colors={["white", "white", "white"]}

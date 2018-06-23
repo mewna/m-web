@@ -6940,6 +6940,10 @@ div.toggle-col {
   width: 100%;
   position: relative; }
 
+.toggle-column-wrapper {
+  margin-bottom: 2em;
+  padding: 0; }
+
 .dark-hr {
   background-color: #3a4146; }
 
@@ -6955,6 +6959,9 @@ div.toggle-col {
 
 .is-paddingless-bottom {
   padding-bottom: 0 !important; }
+
+.is-4em-h {
+  height: 4em !important; }
 
 .guild-card.shorter > .card.detached {
   height: 6.1rem; }
@@ -7011,6 +7018,12 @@ p.card-header-title.guild-title {
 .card-columns {
   text-align: left !important;
   justify-content: left !important; }
+
+@media screen and (min-width: 769px) {
+  .guild-card.column:nth-of-type(3n - 2) {
+    padding-left: 0 !important; }
+  .guild-card.column:nth-of-type(3n) {
+    padding-right: 0 !important; } }
 
 .guild-icon {
   width: 64px !important;
@@ -7140,14 +7153,37 @@ textarea.dark-textarea:focus {
   max-width: 180px; }
 
 .profile-avatar {
-  position: absolute;
-  top: -12em;
   border-radius: 8px;
   width: 128px;
-  height: 128px; }
+  height: 128px;
+  display: inline-block; }
 
-div.profile-top-spacer {
-  margin: 8em; }
+div.profile-top-bar {
+  min-height: 4em;
+  margin-bottom: 2em;
+  background: #23272A;
+  margin-top: 0.75em; }
+
+.profile-header-link {
+  text-transform: uppercase;
+  font-weight: bold;
+  margin-right: 2em; }
+
+.profile-header-link:hover {
+  text-decoration: underline; }
+
+.profile-top-bar-inner:last-child {
+  margin-right: -1em !important; }
+
+.profile-top-bar-inner {
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  align-items: center;
+  margin-left: 1em;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-right: 0; }
 
 div.post-column {
   margin-bottom: 1em; }
@@ -7199,7 +7235,9 @@ div.post-column {
     width: 100%; }
   div.profile-column {
     margin-left: 1em;
-    margin-right: 1em; } }
+    margin-right: 1em; }
+  .profile-about-column {
+    margin-top: -10.5em; } }
 
 div.profile-background-image-container:hover .profile-background-image-locked {
   cursor: not-allowed;
@@ -7414,7 +7452,7 @@ div.profile-background-image-container:hover .profile-background-image-locked {
   display: flex;
   flex: 1; }
 
-.leaderboards-guild-header {
+.leaderboards-guild-header-overlay {
   display: table;
   margin-top: -24rem;
   z-index: 100;
@@ -7430,9 +7468,7 @@ div.profile-background-image-container:hover .profile-background-image-locked {
   padding: 1em; }
 
 .guild-header-name {
-  display: table-cell;
-  text-align: center;
-  vertical-align: middle; }
+  font-size: 1.5em; }
 
 @media screen and (max-width: 768px) {
   .leaderboards-card-content {

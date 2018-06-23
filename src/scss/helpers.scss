@@ -90,6 +90,11 @@ div.toggle-col {
   position: relative;
 }
 
+.toggle-column-wrapper {
+  margin-bottom: 2em;
+  padding: 0;
+}
+
 // hr
 .dark-hr {
   background-color: lighten($not-quite-black, 10%);
@@ -110,4 +115,8 @@ div.toggle-col {
 }
 .is-paddingless-bottom {
   padding-bottom: 0 !important;
+}
+
+.is-4em-h {
+  height: 4em !important;
 }

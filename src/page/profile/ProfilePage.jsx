@@ -38,7 +38,7 @@ class BackgroundCard extends MComponent {
 class ProfileSettingsModal extends MComponent {
     constructor(props) {
         super("PROFILESETTINGSMODAL", props)
-        this.state = {aboutText: this.props.player.aboutText}
+        this.state = {aboutText: this.props.player().aboutText}
     }
 
     renderPacks() {
@@ -80,7 +80,7 @@ class ProfileSettingsModal extends MComponent {
         cards = []
         // Do the rest
         Object.keys(packs).filter(e => e !== "default").forEach(e => {
-            const packLocked = this.props.player.ownedBackgroundPacks.filter(p => e === p).length === 0
+            const packLocked = this.props.player().ownedBackgroundPacks.filter(p => e === p).length === 0
             cards.push(<div className="column is-12" key={key++}>
                 <p className="modal-title is-size-6">
                     {packLocked ? <span style={{marginRight: "0.5em"}}><i className="fas fa-lock" /></span> : ""}
@@ -128,6 +128,7 @@ class ProfileSettingsModal extends MComponent {
                     // If we don't do this, stack overflow somehow.
                     // yeah idgi either :I
                     if(this.props.isModalOpen()) {
+                        this.props.backgroundMouseOut()
                         this.props.closeModal()
                     }
                 }}
@@ -145,7 +146,10 @@ class ProfileSettingsModal extends MComponent {
                             <DebouncedTextarea maxChars={150} rows={3} min-rows={3} value={this.state.aboutText} callback={(e) => {
                                 const val = e.textarea_value.replace(/\r?\n|\r/g, "")
                                 axios.post(BACKEND_URL + `/api/v1/data/player/${this.props.user.id}`, {aboutText: val}, {headers: {"Authorization": this.getAuth().getToken()}})
-                                    .then(e => this.props.onAboutUpdate(val))
+                                    .then(e => {
+                                        this.props.onAboutUpdate(val)
+                                        this.setState({aboutText: this.props.player().aboutText})
+                                    })
                             }} />
                         </div>
                         <br />
@@ -238,14 +242,29 @@ export class ProfilePage extends MComponent {
                             }}
                         />
                     </div>
-                    <VHContainer style={{paddingLeft: "8px", paddingRight: "8px"}}>
+                    <div className="profile-top-bar">
+                        <div className="container is-4em-h">
+                            <div className="columns profile-column-container is-4em-h is-flex" style={{flexDirection: "row", alignItems: "center"}}>
+                                <div className="column is-3 profile-column is-4em-h" />
+                                <div className="column is-9 profile-column is-4em-h profile-top-bar-inner">
+                                    {/*<a className="profile-header-link">Timeline</a>
+                                    <a className="profile-header-link">More info</a>*/}
+                                    <span style={{marginLeft: "auto", marginRight: "1em"}} />
+                                    <div>
+                                        {this.renderEdit()}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <VHContainer>
                         <ProfileSettingsModal
                             isModalOpen={() => this.state.settingsModalOpen}
                             afterOpenModal={() => {}}
                             closeModal={() => {this.setState({settingsModalOpen: false})}}
                             packs={this.state.packs}
                             user={this.props.user}
-                            player={this.state.player}
+                            player={() => this.state.player}
                             onAboutUpdate={(text) => {
                                 this.getLogger().debug("Update aboutText =>", text)
                                 let player = Object.assign({}, this.state.player)
@@ -273,17 +292,18 @@ export class ProfilePage extends MComponent {
                                     })
                             }}
                         />
-                        <div className="profile-top-spacer" />
                         <div className="columns profile-column-container">
-                            <div className="column is-3 profile-column is-not-quite-black rounded-corners profile-about-column">
+                            <div className="column is-3 profile-column profile-about-column">
                                 <div>
                                     <img src={this.getAvatar()} alt="avatar" className="profile-avatar" />
                                     <div className="profile-name">
-                                        {this.props.user.username}<span style={{marginLeft: "0.25em"}} />{this.renderEdit()}
+                                        {this.props.user.username}<span style={{marginLeft: "0.25em"}} />
                                     </div>
                                     <hr className="dark-hr" />
                                     <p className="profile-about-text-title">About</p>
-                                    {this.state.player.aboutText}
+                                    {this.state.player.aboutText}<br />
+                                    <strong className="has-text-white">OTHER STATS:</strong><br />
+                                    Will go here eventually I guess~
                                 </div>
                             </div>
                             <div className="column is-12 is-hidden-tablet" />

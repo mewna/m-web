@@ -52,7 +52,7 @@ export class DashboardPage extends MComponent {
             let dividerData = ""
             if(divider) {
                 dividerData = (
-                    <div className={"column is-12"}>
+                    <div className={"column is-12 toggle-column-wrapper"}>
                         <hr className={"dark-hr"} />
                     </div>
                 )

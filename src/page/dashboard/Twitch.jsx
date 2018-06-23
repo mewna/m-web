@@ -143,7 +143,7 @@ export class Twitch extends DashboardPage {
 
             return (
                 <div className={"has-text-left"} style={{width: "100%"}}>
-                    <div className={"column is-12"}>
+                    <div className={"column is-12 toggle-column-wrapper"}>
                         <div className={"toggle-row"}>
                             <div className={"is-inline-block"}>
                                 <p className={"title is-size-5"}>Message channel</p>
@@ -162,10 +162,10 @@ export class Twitch extends DashboardPage {
                             />
                         </div>
                     </div>
-                    <div className={"column is-12"}>
+                    <div className={"column is-12 toggle-column-wrapper"}>
                         <hr className={"dark-hr"} />
                     </div>
-                    <div className={"column is-12"}>
+                    <div className={"column is-12 toggle-column-wrapper"}>
                         <div className={"toggle-row"}>
                             <div className={"is-inline-block"}>
                                 <p className={"title is-size-5"}>Add a streamer</p>
@@ -232,7 +232,7 @@ export class Twitch extends DashboardPage {
                                 }} disabled={this.state.searchState !== SEARCH_READY} />
                         </div>
                     </div>
-                    <div className={"column is-12"}>
+                    <div className={"column is-12 toggle-column-wrapper"}>
                         <hr className={"dark-hr"} />
                     </div>
                     {this.renderStreamers()}
@@ -274,7 +274,7 @@ export class Twitch extends DashboardPage {
             return cards
         } else {
             return (
-                <div className="column is-12">
+                <div className="column is-12 toggle-column-wrapper">
                     <div className="notification is-outlined">
                         You don't have any streamers. Type a streamer's name in the textbox to get started.
                     </div>
@@ -329,7 +329,7 @@ class TwitchStreamer extends MComponent {
                                 config.streamStartMessagesEnabled = !config.streamStartMessagesEnabled
                                 this.setState({config: config}, () => this.props.configCallback && this.props.configCallback(this.state.config))
                             }} />
-                        <div className={"column is-12"}>
+                        <div className={"column is-12 toggle-column-wrapper"}>
                             <div className={"toggle-col"}>
                                 <div>
                                     <p className={"title is-size-5"}>Stream start message</p>
@@ -351,7 +351,7 @@ class TwitchStreamer extends MComponent {
                                 config.streamEndMessagesEnabled = !config.streamEndMessagesEnabled
                                 this.setState({config: config}, () => this.props.configCallback && this.props.configCallback(this.state.config))
                             }} />
-                        <div className={"column is-12"}>
+                        <div className={"column is-12 toggle-column-wrapper"}>
                             <div className={"toggle-col"}>
                                 <div>
                                     <p className={"title is-size-5"}>Stream end message</p>
@@ -377,7 +377,7 @@ class TwitchStreamer extends MComponent {
     render() {
         if(this.state.streamer) {
             return (
-                <div className={"column is-12"}>
+                <div className={"column is-12 toggle-column-wrapper"}>
                     <div className={"toggle-row"} style={{flexWrap: "wrap", maxHeight: "128rem", height: "initial"}}>
                         <div className={"is-flex"} style={{flexDirection: "row", alignItems: "center", flexWrap: "true"}}>
                             <img

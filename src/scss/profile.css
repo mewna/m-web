@@ -1,13 +1,36 @@
 @import url("https://fonts.googleapis.com/css?family=Open+Sans");
 .profile-avatar {
-  position: absolute;
-  top: -12em;
   border-radius: 8px;
   width: 128px;
-  height: 128px; }
+  height: 128px;
+  display: inline-block; }
 
-div.profile-top-spacer {
-  margin: 8em; }
+div.profile-top-bar {
+  min-height: 4em;
+  margin-bottom: 2em;
+  background: #23272A;
+  margin-top: 0.75em; }
+
+.profile-header-link {
+  text-transform: uppercase;
+  font-weight: bold;
+  margin-right: 2em; }
+
+.profile-header-link:hover {
+  text-decoration: underline; }
+
+.profile-top-bar-inner:last-child {
+  margin-right: -1em !important; }
+
+.profile-top-bar-inner {
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  align-items: center;
+  margin-left: 1em;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-right: 0; }
 
 div.post-column {
   margin-bottom: 1em; }
@@ -59,7 +82,9 @@ div.post-column {
     width: 100%; }
   div.profile-column {
     margin-left: 1em;
-    margin-right: 1em; } }
+    margin-right: 1em; }
+  .profile-about-column {
+    margin-top: -10.5em; } }
 
 div.profile-background-image-container:hover .profile-background-image-locked {
   cursor: not-allowed;

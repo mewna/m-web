@@ -83,7 +83,7 @@ export class Levels extends DashboardPage {
             return cards
         } else {
             return (
-                <div className="column is-12">
+                <div className="column is-12 toggle-column-wrapper">
                     <div className="notification is-outlined">
                         You don't have any role rewards. Choose a role from the dropdown to get started.
                     </div>
@@ -117,7 +117,7 @@ export class Levels extends DashboardPage {
                             this.setState({config: config}, () => this.updateConfig())
                             this.getLogger().debug("Toggled removePreviousRoleRewards: ", config.removePreviousRoleRewards)
                         }} />
-                    <div className={"column is-12"}>
+                    <div className={"column is-12 toggle-column-wrapper"}>
                         <div className={"toggle-col"}>
                             <div>
                                 <p className={"title is-size-5"}>Level-up message</p>
@@ -133,11 +133,11 @@ export class Levels extends DashboardPage {
                             }} value={this.state.config.levelUpMessage} />
                         </div>
                     </div>
-                    <div className={"column is-12"}>
+                    <div className={"column is-12 toggle-column-wrapper"}>
                         <hr className={"dark-hr"} />
                     </div>
 
-                    <div className={"column is-12"}>
+                    <div className={"column is-12 toggle-column-wrapper"}>
                         <div className={"toggle-row"}>
                             <div>
                                 <p className={"title is-size-5"}>Role rewards</p>
@@ -191,7 +191,6 @@ class RoleReward extends MComponent {
     constructor(props) {
         super("ROLEREWARD", props)
         this.state = {level: props.level}
-        this.getLogger().debug("--- my role:", this.props.role)
     }
 
     handleLevelSelect(e) {
@@ -204,7 +203,7 @@ class RoleReward extends MComponent {
 
     render() {
         return (
-            <div className={"column is-12"}>
+            <div className={"column is-12 toggle-column-wrapper"}>
                 <div className={"toggle-row"}>
                     <div>
                         <p className={"title is-size-5"}>{this.props.role.name}</p>

@@ -5,6 +5,7 @@ import axios from 'axios'
 import {BACKEND_URL} from "../../const"
 import {VHContainer} from "../VHContainer"
 import {Icon} from '../../comp/Icon'
+import {GuildHeader} from "../../comp/GuildHeader";
 
 export class DiscordLeaderboards extends MComponent {
     constructor(props) {
@@ -65,16 +66,12 @@ export class DiscordLeaderboards extends MComponent {
         if(this.state.guild && this.state.data) {
             return (
                 <div>
-                    <div style={{overflow: "hidden"}}>
-                        <section className={"section leaderboard-header-image"}
-                            style={{
-                                backgroundImage: `url("https://cdn.discordapp.com/icons/${this.state.guild.id}/${this.state.guild.icon}.png")`
-                            }}>
-                        </section>
-                    </div>
-                    <div className="leaderboards-guild-header">
-                        <div className="guild-header-name">{this.state.guild.name} Leaderboards</div>
-                    </div>
+                    <GuildHeader guild={this.state.guild}>
+                        {/*
+                        <a className="profile-header-link">Rankings</a>
+                        <a className="profile-header-link">Role Rewards</a>
+                        */}
+                    </GuildHeader>
                     <VHContainer>
                         <div className={"columns has-text-centered is-centered is-paddingless is-marginless"}>
                             <div className="column is-10">

@@ -114,7 +114,7 @@ $bar-width: 256px;
   flex: 1;
 }
 
-.leaderboards-guild-header {
+.leaderboards-guild-header-overlay {
   display: table;
   margin-top: -24rem;
   z-index: 100;
@@ -130,9 +130,7 @@ $bar-width: 256px;
   padding: 1em;
 }
 .guild-header-name {
-  display: table-cell;
-  text-align: center;
-  vertical-align: middle;
+  font-size: 1.5em;
 }
 
 // Mobile

@@ -63,7 +63,7 @@ export class Welcoming extends DashboardPage {
         if(this.state.channels && this.state.roles) {
             return (
                 <div className={"has-text-left"} style={{width: "100%"}}>
-                    <div className={"column is-12"}>
+                    <div className={"column is-12 toggle-column-wrapper"}>
                         <div className={"toggle-row"}>
                             <div className={"is-inline-block"}>
                                 <p className={"title is-size-5"}>Welcome/Goodbye message channel</p>
@@ -81,7 +81,7 @@ export class Welcoming extends DashboardPage {
                             />
                         </div>
                     </div>
-                    <div className={"column is-12"}>
+                    <div className={"column is-12 toggle-column-wrapper"}>
                         <div className={"toggle-row"}>
                             <div>
                                 <p className={"title is-size-5"}>Join role</p>
@@ -99,7 +99,7 @@ export class Welcoming extends DashboardPage {
                             />
                         </div>
                     </div>
-                    <div className={"column is-12"}>
+                    <div className={"column is-12 toggle-column-wrapper"}>
                         <hr className={"dark-hr"} />
                     </div>
                     <OptionToggle name="Enable welcome messages" desc="Allow sending a message whenever someone joins the server."
@@ -109,7 +109,7 @@ export class Welcoming extends DashboardPage {
                             this.setState({config: config}, () => this.updateConfig())
                             this.getLogger().debug("Toggled enableWelcomeMessages: ", config.enableWelcomeMessages)
                         }} />
-                    <div className={"column is-12"}>
+                    <div className={"column is-12 toggle-column-wrapper"}>
                         <div className={"toggle-col"}>
                             <div>
                                 <p className={"title is-size-5"}>Welcome message</p>
@@ -127,7 +127,7 @@ export class Welcoming extends DashboardPage {
                                 }} />
                         </div>
                     </div>
-                    <div className={"column is-12"}>
+                    <div className={"column is-12 toggle-column-wrapper"}>
                         <hr className={"dark-hr"} />
                     </div>
                     <OptionToggle name="Enable goodbye messages" desc="Allow sending a message whenever someone leaves the server."
@@ -137,7 +137,7 @@ export class Welcoming extends DashboardPage {
                             this.setState({config: config}, () => this.updateConfig())
                             this.getLogger().debug("Toggled enableGoodbyeMessages: ", config.enableGoodbyeMessages)
                         }} />
-                    <div className={"column is-12"}>
+                    <div className={"column is-12 toggle-column-wrapper"}>
                         <div className={"toggle-col"}>
                             <div>
                                 <p className={"title is-size-5"}>Goodbye message</p>

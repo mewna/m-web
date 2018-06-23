@@ -1,4 +1,3 @@
-import React from 'react'
 import {withRouter} from 'react-router-dom'
 
 import {MComponent} from "../MComponent"
@@ -33,7 +32,7 @@ class NoAuthInternal extends MComponent {
 
     render() {
         return (
-            <div/>
+            ""
         )
     }
 }

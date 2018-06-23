@@ -22,7 +22,7 @@ export class OptionToggle extends MComponent {
             desc = this.props.desc
         }
         return (
-            <div className={"column is-12"}>
+            <div className={"column is-12 toggle-column-wrapper"}>
                 <div className={"toggle-row"}>
                     <div className={"is-inline-block"}>
                         <p className={"title is-size-5"}>{this.props.name}</p>
