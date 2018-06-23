@@ -49,8 +49,6 @@ class App extends MComponent {
                             </Switch>
                         </div>
                     </BrowserRouter>
-                    <div className="main container">
-                    </div>
                     <footer className="footer">
                         <div className="container">
                             <div className="content has-text-centered">

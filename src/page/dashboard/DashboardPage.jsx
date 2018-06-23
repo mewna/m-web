@@ -37,8 +37,8 @@ export class DashboardPage extends MComponent {
             let names = Object.keys(this.state.config.commandSettings).sort((a, b) => a.localeCompare(b))
             let key = 0
             for(let name of names) {
-                cards.push(<OptionToggle key={key} name={`mew.${name}`} 
-                    checkedCallback={() => this.state.config.commandSettings[name].enabled} 
+                cards.push(<OptionToggle key={key} name={`mew.${name}`}
+                    checkedCallback={() => this.state.config.commandSettings[name].enabled}
                     callback={(_) => {
                         let states = Object.assign({}, this.state.config.commandSettings)
                         states[name].enabled = !states[name].enabled
@@ -47,17 +47,19 @@ export class DashboardPage extends MComponent {
                         this.setState({config: config}, () => this.updateConfig())
                         this.getLogger().debug("Toggled command:", name, "to:", states[name].enabled)
                     }} />)
-                    ++key
+                ++key
             }
             let dividerData = ""
             if(divider) {
-                dividerData = <hr className={"dark-hr"} />
+                dividerData = (
+                    <div className={"column is-12"}>
+                        <hr className={"dark-hr"} />
+                    </div>
+                )
             }
             return (
                 <div>
-                    <div className={"column is-12"}>
-                        {dividerData}
-                    </div>
+                    {dividerData}
                     {cards}
                 </div>
             )

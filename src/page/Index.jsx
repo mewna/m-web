@@ -14,7 +14,7 @@ export class Index extends MComponent {
         let user;
         if(this.getStore().getUser()) {
             const u = this.getStore().getUser()
-            user = u.name + "#" + u.discriminator + " -> " + u.id
+            user = u.username + "#" + u.discriminator + " -> " + u.id
         } else {
             user = "Not logged in"
         }

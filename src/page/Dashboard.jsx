@@ -6,7 +6,6 @@ import {NavLink} from "react-router-dom"
 import BubblePreloader from 'react-bubble-preloader'
 import {matchPath} from 'react-router'
 import {DashboardCard} from "../comp/dashboard/DashboardCard"
-import {GuildIcon} from "../comp/GuildIcon"
 
 import {Economy} from "./dashboard/Economy"
 import {Emotes} from "./dashboard/Emotes"
@@ -72,12 +71,10 @@ export class Dashboard extends MComponent {
                 guilds.push(<GuildCard guild={g} key={counter} />)
                 ++counter
             })
-            return (
-                guilds
-            )
+            return guilds
         } else {
             return (
-                <div className="has-text-centered" style={{width: "100vw"}}>
+                <div className="has-text-centered" style={{width: "100%"}}>
                     <BubblePreloader
                         colors={["white", "white", "white"]}
                     />
@@ -106,44 +103,11 @@ export class Dashboard extends MComponent {
 
     renderGuildDashboard(match, page) {
         const guild = this.state.guilds.filter(e => e.id === match.params.id)[0]
-        let backLink = ""
-        let pageName = ""
-        if(page) {
-            pageName = " - " + (page.charAt(0).toUpperCase() + page.substr(1))
-        }
-        if(match.params.id) {
-            let parent = "/discord/dashboard"
-            let backText = "Back to server list"
-            if(page) {
-                parent += "/" + guild.id
-                backText = "Back to dashboard"
-            }
-            backLink = (
-                <section className={"section is-small is-flex"}
-                    style={{
-                        padding: "1rem", flexDirection: "row", justifyContent: "left", alignItems: "center",
-                        margin: "0.75rem", borderRadius: "8px", width: "100%"
-                    }}>
-                    <GuildIcon guild={guild} />
-                    <div className="guild-header-name">
-                        <p>{guild.name}{pageName}</p>
-                    </div>
-                    <NavLink to={parent} className={"button is-primary hover"}
-                        style={{marginLeft: "auto", marginRight: "1.5rem"}}>
-                        {backText}
-                    </NavLink>
-                </section>
-            )
-        }
         if(!page) {
             return (
                 <div style={{width: "100%"}}>
                     <div
                         className={"columns is-multiline is-paddingless is-marginless is-centered has-text-centered card-columns"}>
-                        {backLink}
-                        <div className={"column is-12"}>
-                            <hr className={"dark-hr"} />
-                        </div>
                         {this.renderGuildDashboardCards(guild)}
                     </div>
                 </div>
@@ -178,17 +142,12 @@ export class Dashboard extends MComponent {
             }
             pageData = (
                 <div style={{width: "100%"}}>
-                    <div className={"column is-12"}>
-                        <hr className={"dark-hr"} />
-                    </div>
                     {pageData}
                 </div>
             )
             return (
                 <div style={{width: "100%"}}>
-                    <div
-                        className={"columns is-multiline is-paddingless is-marginless is-centered has-text-centered card-columns"}>
-                        {backLink}
+                    <div className={"columns is-multiline is-paddingless is-marginless is-centered has-text-left card-columns"}>
                         {pageData}
                     </div>
                 </div>
@@ -213,11 +172,72 @@ export class Dashboard extends MComponent {
         }) || {params: {}} // If no match, return a default that won't cause null dereferences
     }
 
+    renderHeader(match) {
+        if(match.params.id && this.state.guilds) {
+            const guild = this.state.guilds.filter(e => e.id === match.params.id)[0]
+            const page = match.params.page
+            let pageName = guild.name
+            if(page) {
+                pageName += " - " + (page.charAt(0).toUpperCase() + page.substr(1))
+            }
+            let parent = "/discord/dashboard"
+            let backText = "Back to server list"
+            if(page) {
+                parent += "/" + guild.id
+                backText = "Back to dashboard"
+            }
+            let backLink = (
+                <NavLink to={parent} className={"button is-primary hover"}
+                    style={{marginTop: "0.5rem"}}>
+                    {backText}
+                </NavLink>
+            )
+            return (
+                <div>
+                    <div style={{overflow: "hidden"}}>
+                        <section className={"section leaderboard-header-image"}
+                            style={{
+                                backgroundImage: `url("https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.png")`
+                            }}>
+                        </section>
+                    </div>
+                    <div className="leaderboards-guild-header">
+                        {/*<GuildIcon guild={this.state.guild} />*/}
+                        <div className="guild-header-name">
+                            <p>{pageName}</p>
+                            {backLink}
+                        </div>
+                    </div>
+                </div>
+            )
+        } else {
+            return ""
+        }
+    }
+
     chooseRender(match) {
         if(match.params.id && this.state.guilds) {
-            return this.renderGuildDashboard(match, match.params.page)
+            return (
+                <div className={"columns is-multiline is-paddingless is-marginless is-centered has-text-centered card-columns"}>
+                    {this.renderGuildDashboard(match, match.params.page)}
+                </div>
+            )
+        } else if(!match.params.page && match.params.id) {
+            return (
+                <BubblePreloader
+                    colors={["white", "white", "white"]}
+                />
+            )
         } else {
-            return this.renderGuilds()
+            return (
+                <div className="has-text-centered" style={{width: "100%"}}>
+                    <section className="section is-small" />
+                    <p className="is-size-3">Select a server</p>
+                    <div className={"columns is-multiline is-paddingless is-marginless is-centered has-text-centered card-columns"}>
+                        {this.renderGuilds()}
+                    </div>
+                </div>
+            )
         }
     }
 
@@ -225,6 +245,7 @@ export class Dashboard extends MComponent {
         const match = this.computeParams()
         return (
             <div>
+                {this.renderHeader(match)}
                 {/* 
                 Sooooo it turns out we can't do this in App.js because it causes fire with route params. 
                 neet, I know. 
@@ -232,16 +253,13 @@ export class Dashboard extends MComponent {
                 */}
                 <VHContainer>
                     <NoAuth />
-                    <section className={"section is-small"} />
                     <div className={"columns has-text-centered is-centered is-paddingless is-marginless"}>
                         <div className="column is-10">
-                            <div className={"columns is-multiline is-paddingless is-marginless is-centered has-text-centered card-columns"}>
-                                {this.chooseRender(match)}
-                            </div>
+                            {this.chooseRender(match)}
                         </div>
                     </div>
                 </VHContainer>
-            </div>
+            </div >
         )
     }
 }

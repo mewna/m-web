@@ -274,14 +274,15 @@ export class ProfilePage extends MComponent {
                             }}
                         />
                         <div className="profile-top-spacer" />
-                        <div className="columns">
-                            <div className="column is-3 profile-column is-not-quite-black rounded-corners" style={{minHeight: "11em", height: "11em"}}>
+                        <div className="columns profile-column-container">
+                            <div className="column is-3 profile-column is-not-quite-black rounded-corners profile-about-column">
                                 <div>
                                     <img src={this.getAvatar()} alt="avatar" className="profile-avatar" />
                                     <div className="profile-name">
-                                        {this.props.user.username}'s profile<span style={{marginRight: "0.25em"}} />{this.renderEdit()}
+                                        {this.props.user.username}<span style={{marginLeft: "0.25em"}} />{this.renderEdit()}
                                     </div>
-                                    <p className="has-text-white is-size-3 has-text-weight-semibold">About</p>
+                                    <hr className="dark-hr" />
+                                    <p className="profile-about-text-title">About</p>
                                     {this.state.player.aboutText}
                                 </div>
                             </div>

@@ -1,3 +1,5 @@
+@import "./bulma.scss";
+
 html, body {
   font-size: 14px !important;
 }
@@ -67,9 +69,9 @@ div.toggle-row {
   align-content: left;
   justify-content: left;
   width: 100%;
-  height: 7rem;
+  //height: 7rem;
   min-height: 7rem !important;
-  max-height: 7rem;
+  max-height: 14rem;
   position: relative;
 }
 

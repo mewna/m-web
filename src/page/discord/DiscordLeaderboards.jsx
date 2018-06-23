@@ -4,7 +4,6 @@ import BubblePreloader from 'react-bubble-preloader'
 import axios from 'axios'
 import {BACKEND_URL} from "../../const"
 import {VHContainer} from "../VHContainer"
-import {GuildIcon} from '../../comp/GuildIcon'
 import {Icon} from '../../comp/Icon'
 
 export class DiscordLeaderboards extends MComponent {
@@ -31,7 +30,7 @@ export class DiscordLeaderboards extends MComponent {
             cards.push(
                 <div key={key++} className="column is-12 rounded-corners leaderboards-card" style={{background: `url("${e.customBackground}.png")`}}>
                     <div className="leaderboards-card-panel" />
-                    <div className="is-flex" style={{flexDirection: "row", justifyContent: "left", alignItems: "center"}}>
+                    <div className="leaderboards-card-content">
                         <Icon src={e.avatar} className={"guild-icon leaderboards-icon"} />
                         <div className="leaderboards-rank">
                             #{e.playerRank}
@@ -67,23 +66,16 @@ export class DiscordLeaderboards extends MComponent {
             return (
                 <div>
                     <div style={{overflow: "hidden"}}>
-                        <section className={"section is-flex"}
+                        <section className={"section leaderboard-header-image"}
                             style={{
-                                flexDirection: "row", justifyContent: "center", alignItems: "center",
-                                margin: "0.75rem", borderRadius: "8px", width: "100%", height: "22.5rem",
-                                background: `url("https://cdn.discordapp.com/icons/${this.state.guild.id}/${this.state.guild.icon}.png")`,
-                                backgroundSize: "cover", backgroundPosition: "50% 50%", filter: "blur(24px)"
+                                backgroundImage: `url("https://cdn.discordapp.com/icons/${this.state.guild.id}/${this.state.guild.icon}.png")`
                             }}>
                         </section>
                     </div>
                     <div className="leaderboards-guild-header">
-                        {/*<GuildIcon guild={this.state.guild} />*/}
-                        <div className="guild-header-name">
-                            <p>{this.state.guild.name} Leaderboards</p>
-                        </div>
+                        <div className="guild-header-name">{this.state.guild.name} Leaderboards</div>
                     </div>
                     <VHContainer>
-                        <section className="section is-small" />
                         <div className={"columns has-text-centered is-centered is-paddingless is-marginless"}>
                             <div className="column is-10">
                                 <div className={"columns is-multiline is-paddingless is-marginless is-centered has-text-centered card-columns"}>
