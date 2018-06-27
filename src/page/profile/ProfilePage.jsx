@@ -172,26 +172,26 @@ class ProfileSettingsModal extends MComponent {
 export class ProfilePage extends MComponent {
     constructor(props) {
         super("PROFILEPAGE", props)
-        this.state = {settingsModalOpen: false, player: null, packs: null, background: null}
+        this.state = {settingsModalOpen: false, player: null, packs: null, background: null, user: null}
     }
 
     getAvatar() {
-        const base = `https://cdn.discordapp.com/avatars/${this.props.user.id}`
-        if(this.props.user.avatar) {
-            const avatar = this.props.user.avatar
+        const base = `https://cdn.discordapp.com/avatars/${this.state.user.id}`
+        if(this.state.user && this.state.user.avatar) {
+            const avatar = this.state.user.avatar
             if(avatar.startsWith("a_")) {
                 return `${base}/${avatar}.gif`
             } else {
                 return `${base}/${avatar}.png`
             }
         } else {
-            const avatar = parseInt(this.props.user.discriminator, 10) % 5
+            const avatar = parseInt(this.state.user.discriminator, 10) % 5
             return `${base}/${avatar}.png`
         }
     }
 
     renderEdit() {
-        if(this.props.match.params.id === this.props.user.id) {
+        if(this.props.match.params.id === this.state.user.id) {
             return (
                 <a className="button is-primary" onClick={() => this.setState({settingsModalOpen: true})}>Edit</a>
             )
@@ -200,11 +200,11 @@ export class ProfilePage extends MComponent {
         }
     }
 
-    // Try to load the player until we have everything needed from redux
+    // Try to load the player until we have everything needed
     tryLoad() {
         setTimeout(() => {
-            if(this.props.user && this.props.user.id) {
-                axios.get(BACKEND_URL + "/api/v1/data/player/" + this.props.user.id).then(e => {
+            if(this.props.match.params.id) {
+                axios.get(BACKEND_URL + "/api/v1/data/player/" + this.props.match.params.id).then(e => {
                     let data = JSON.parse(e.data)
                     this.getLogger().debug("fetched player =>", data)
                     this.setState({player: data, background: data.customBackground})
@@ -213,6 +213,11 @@ export class ProfilePage extends MComponent {
                     let data = e.data
                     this.getLogger().debug("fetched packs =>", data)
                     this.setState({packs: data})
+                })
+                axios.get(BACKEND_URL + "/api/v1/cache/user/" + this.props.match.params.id).then(e => {
+                    let data = e.data
+                    this.getLogger().debug("fetched packs =>", data)
+                    this.setState({user: data})
                 })
             } else {
                 this.tryLoad()
@@ -225,7 +230,7 @@ export class ProfilePage extends MComponent {
     }
 
     render() {
-        if(this.props.user && this.props.user.username && this.state.player && this.state.packs) {
+        if(this.state.user && this.state.user.username && this.state.player && this.state.packs) {
             const split = this.state.background.split("/")
             const thumbnail = split[0] + '/' + split[1] + '/thumbs/' + split[2]
             return (
@@ -263,7 +268,7 @@ export class ProfilePage extends MComponent {
                             afterOpenModal={() => {}}
                             closeModal={() => {this.setState({settingsModalOpen: false})}}
                             packs={this.state.packs}
-                            user={this.props.user}
+                            user={this.state.user}
                             player={() => this.state.player}
                             onAboutUpdate={(text) => {
                                 this.getLogger().debug("Update aboutText =>", text)
@@ -283,7 +288,7 @@ export class ProfilePage extends MComponent {
                             }}
                             backgroundOnClick={(name, pack, src) => {
                                 const bg = `${pack}/${name}`
-                                axios.post(BACKEND_URL + `/api/v1/data/player/${this.props.user.id}`, {customBackground: bg}, {headers: {"Authorization": this.getAuth().getToken()}})
+                                axios.post(BACKEND_URL + `/api/v1/data/player/${this.state.user.id}`, {customBackground: bg}, {headers: {"Authorization": this.getAuth().getToken()}})
                                     .then(e => {
                                         this.getLogger().debug("Update customBackground =>", bg)
                                         let player = Object.assign({}, this.state.player)
@@ -297,7 +302,7 @@ export class ProfilePage extends MComponent {
                                 <div>
                                     <img src={this.getAvatar()} alt="avatar" className="profile-avatar" />
                                     <div className="profile-name">
-                                        {this.props.user.username}<span style={{marginLeft: "0.25em"}} />
+                                        {this.state.user.username}<span style={{marginLeft: "0.25em"}} />
                                     </div>
                                     <hr className="dark-hr" />
                                     <p className="profile-about-text-title">About</p>
@@ -311,30 +316,30 @@ export class ProfilePage extends MComponent {
                                 <div className="columns is-multiline">
                                     {/*
                                     <div className="column is-12 is-not-quite-black rounded-corners">
-                                        <b>{this.props.user.name}</b> hasn't done anything notable yet...
+                                        <b>{this.state.user.name}</b> hasn't done anything notable yet...
                                     </div>
                                     */}
                                     <div className="column is-12 is-not-quite-black rounded-corners post-column is-flex flex-row">
                                         <span style={{marginRight: "0.25em"}}><i className="far fa-money-bill-alt"></i></span>
-                                        <span><b>{this.props.user.username}</b> donated for the first time.</span>
+                                        <span><b>{this.state.user.username}</b> donated for the first time.</span>
                                         <span style={{marginLeft: "auto", marginRight: "0.5em"}} />
                                         <span>1 minute ago</span>
                                     </div>
                                     <div className="column is-12 is-not-quite-black rounded-corners post-column is-flex flex-row">
                                         <span style={{marginRight: "0.25em"}}><i className="fas fa-trophy"></i></span>
-                                        <span><b>{this.props.user.username}</b> hit level 10 for the first time.</span>
+                                        <span><b>{this.state.user.username}</b> hit level 10 for the first time.</span>
                                         <span style={{marginLeft: "auto", marginRight: "0.5em"}} />
                                         <span>5 minutes ago</span>
                                     </div>
                                     <div className="column is-12 is-not-quite-black rounded-corners post-column is-flex flex-row">
                                         <span style={{marginRight: "0.25em"}}><i className="fas fa-trophy"></i></span>
-                                        <span><b>{this.props.user.username}</b> hit level 1 for the first time.</span>
+                                        <span><b>{this.state.user.username}</b> hit level 1 for the first time.</span>
                                         <span style={{marginLeft: "auto", marginRight: "0.5em"}} />
                                         <span>29 minutes ago</span>
                                     </div>
                                     <div className="column is-12 is-not-quite-black rounded-corners post-column is-flex flex-row">
                                         <span style={{marginRight: "0.25em"}}><i className="fas fa-paint-brush"></i></span>
-                                        <span><b>{this.props.user.username}</b> changed their background for the first time.</span>
+                                        <span><b>{this.state.user.username}</b> changed their background for the first time.</span>
                                         <span style={{marginLeft: "auto", marginRight: "0.5em"}} />
                                         <span>30 minutes ago</span>
                                     </div>

@@ -41,7 +41,7 @@ export class DiscordLeaderboards extends MComponent {
                         </div>
                         <div className="leaderboards-xp-container">
                             <div className="progress-bar-container">
-                                <div className="progress-bar" style={{width: `${(e.userXp / e.nextLevelXp) * 100}%`}} />
+                                <div className="progress-bar" style={{width: `${((e.userXp - e.currentLevelXp) / (e.nextLevelXp - e.currentLevelXp)) * 100}%`}} />
                                 <div className="progress-text">
                                     {e.nextLevelXp - e.xpNeeded} / {e.nextLevelXp} EXP
                                 </div>
@@ -66,7 +66,7 @@ export class DiscordLeaderboards extends MComponent {
         if(this.state.guild && this.state.data) {
             return (
                 <div>
-                    <GuildHeader guild={this.state.guild}>
+                    <GuildHeader guild={this.state.guild} titleExtra=" Leaderboards">
                         {/*
                         <a className="profile-header-link">Rankings</a>
                         <a className="profile-header-link">Role Rewards</a>
