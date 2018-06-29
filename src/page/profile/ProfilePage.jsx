@@ -8,6 +8,7 @@ import {DebouncedTextarea} from "../../comp/DebouncedTextarea"
 import axios from 'axios'
 import {BACKEND_URL} from "../../const"
 import ProgressiveImage from 'react-progressive-bg-image'
+import {NotFound} from '../NotFound'
 
 class BackgroundCard extends MComponent {
     constructor(props) {
@@ -145,7 +146,8 @@ class ProfileSettingsModal extends MComponent {
                             <p className="modal-title">About</p>
                             <DebouncedTextarea maxChars={150} rows={3} min-rows={3} value={this.state.aboutText} callback={(e) => {
                                 const val = e.textarea_value.replace(/\r?\n|\r/g, "")
-                                axios.post(BACKEND_URL + `/api/v1/data/player/${this.props.user.id}`, {aboutText: val}, {headers: {"Authorization": this.getAuth().getToken()}})
+                                axios.post(BACKEND_URL + `/api/v1/data/account/${this.props.player().id}/update`,
+                                    {aboutText: val, id: this.props.player().id}, {headers: {"Authorization": this.getAuth().getToken()}})
                                     .then(e => {
                                         this.props.onAboutUpdate(val)
                                         this.setState({aboutText: this.props.player().aboutText})
@@ -172,26 +174,27 @@ class ProfileSettingsModal extends MComponent {
 export class ProfilePage extends MComponent {
     constructor(props) {
         super("PROFILEPAGE", props)
-        this.state = {settingsModalOpen: false, player: null, packs: null, background: null, user: null}
+        this.state = {settingsModalOpen: false, player: null, packs: null, background: null, user: null, invalid: false}
     }
-
-    getAvatar() {
-        const base = `https://cdn.discordapp.com/avatars/${this.state.user.id}`
-        if(this.state.user && this.state.user.avatar) {
-            const avatar = this.state.user.avatar
-            if(avatar.startsWith("a_")) {
-                return `${base}/${avatar}.gif`
+    /*
+        getAvatar() {
+            const base = `https://cdn.discordapp.com/avatars/${this.state.user.id}`
+            if(this.state.user && this.state.user.avatar) {
+                const avatar = this.state.user.avatar
+                if(avatar.startsWith("a_")) {
+                    return `${base}/${avatar}.gif`
+                } else {
+                    return `${base}/${avatar}.png`
+                }
             } else {
+                const avatar = parseInt(this.state.user.discriminator, 10) % 5
                 return `${base}/${avatar}.png`
             }
-        } else {
-            const avatar = parseInt(this.state.user.discriminator, 10) % 5
-            return `${base}/${avatar}.png`
         }
-    }
-
+    */
     renderEdit() {
-        if(this.props.match.params.id === this.state.user.id) {
+        // TODO: LOL THIS IS WAY WRONG
+        if(this.props.match.params.id === this.state.player.id) {
             return (
                 <a className="button is-primary" onClick={() => this.setState({settingsModalOpen: true})}>Edit</a>
             )
@@ -204,21 +207,28 @@ export class ProfilePage extends MComponent {
     tryLoad() {
         setTimeout(() => {
             if(this.props.match.params.id) {
-                axios.get(BACKEND_URL + "/api/v1/data/player/" + this.props.match.params.id).then(e => {
+                axios.get(BACKEND_URL + `/api/v1/data/account/${this.props.match.params.id}/profile`).then(e => {
                     let data = JSON.parse(e.data)
                     this.getLogger().debug("fetched player =>", data)
-                    this.setState({player: data, background: data.customBackground})
+                    if(data.error) {
+                        // Probably an invalid thing, say something
+                        this.setState({invalid: true})
+                    } else {
+                        this.setState({player: data, background: data.customBackground})
+                    }
                 })
                 axios.get(BACKEND_URL + "/api/v1/metadata/backgrounds/packs").then(e => {
                     let data = e.data
                     this.getLogger().debug("fetched packs =>", data)
                     this.setState({packs: data})
                 })
+                /*
                 axios.get(BACKEND_URL + "/api/v1/cache/user/" + this.props.match.params.id).then(e => {
                     let data = e.data
-                    this.getLogger().debug("fetched packs =>", data)
+                    this.getLogger().debug("fetched cache =>", data)
                     this.setState({user: data})
                 })
+                */
             } else {
                 this.tryLoad()
             }
@@ -230,7 +240,11 @@ export class ProfilePage extends MComponent {
     }
 
     render() {
-        if(this.state.user && this.state.user.username && this.state.player && this.state.packs) {
+        if(this.state.invalid) {
+            return (
+                <NotFound />
+            )
+        } else if(/*this.state.user && this.state.user.username && */this.state.player && this.state.packs) {
             const split = this.state.background.split("/")
             const thumbnail = split[0] + '/' + split[1] + '/thumbs/' + split[2]
             return (
@@ -268,7 +282,7 @@ export class ProfilePage extends MComponent {
                             afterOpenModal={() => {}}
                             closeModal={() => {this.setState({settingsModalOpen: false})}}
                             packs={this.state.packs}
-                            user={this.state.user}
+                            //user={this.state.user}
                             player={() => this.state.player}
                             onAboutUpdate={(text) => {
                                 this.getLogger().debug("Update aboutText =>", text)
@@ -288,7 +302,9 @@ export class ProfilePage extends MComponent {
                             }}
                             backgroundOnClick={(name, pack, src) => {
                                 const bg = `${pack}/${name}`
-                                axios.post(BACKEND_URL + `/api/v1/data/player/${this.state.user.id}`, {customBackground: bg}, {headers: {"Authorization": this.getAuth().getToken()}})
+                                axios.post(BACKEND_URL + `/api/v1/data/account/${this.state.player.id}/update`, 
+                                    {customBackground: bg, id: this.state.player.id}, 
+                                    {headers: {"Authorization": this.getAuth().getToken()}})
                                     .then(e => {
                                         this.getLogger().debug("Update customBackground =>", bg)
                                         let player = Object.assign({}, this.state.player)
@@ -300,15 +316,17 @@ export class ProfilePage extends MComponent {
                         <div className="columns profile-column-container">
                             <div className="column is-3 profile-column profile-about-column">
                                 <div>
-                                    <img src={this.getAvatar()} alt="avatar" className="profile-avatar" />
+                                    <img src={/*this.getAvatar()*/this.state.player.avatar} alt="avatar" className="profile-avatar" />
                                     <div className="profile-name">
-                                        {this.state.user.username}<span style={{marginLeft: "0.25em"}} />
+                                        {this.state.player.displayName}<span style={{marginLeft: "0.25em"}} />
                                     </div>
                                     <hr className="dark-hr" />
                                     <p className="profile-about-text-title">About</p>
                                     {this.state.player.aboutText}<br />
+                                    {/*
                                     <strong className="has-text-white">OTHER STATS:</strong><br />
                                     Will go here eventually I guess~
+                                    */}
                                 </div>
                             </div>
                             <div className="column is-12 is-hidden-tablet" />
@@ -321,25 +339,25 @@ export class ProfilePage extends MComponent {
                                     */}
                                     <div className="column is-12 is-not-quite-black rounded-corners post-column is-flex flex-row">
                                         <span style={{marginRight: "0.25em"}}><i className="far fa-money-bill-alt"></i></span>
-                                        <span><b>{this.state.user.username}</b> donated for the first time.</span>
+                                        <span><b>{this.state.player.displayName}</b> donated for the first time.</span>
                                         <span style={{marginLeft: "auto", marginRight: "0.5em"}} />
                                         <span>1 minute ago</span>
                                     </div>
                                     <div className="column is-12 is-not-quite-black rounded-corners post-column is-flex flex-row">
                                         <span style={{marginRight: "0.25em"}}><i className="fas fa-trophy"></i></span>
-                                        <span><b>{this.state.user.username}</b> hit level 10 for the first time.</span>
+                                        <span><b>{this.state.player.displayName}</b> hit level 10 for the first time.</span>
                                         <span style={{marginLeft: "auto", marginRight: "0.5em"}} />
                                         <span>5 minutes ago</span>
                                     </div>
                                     <div className="column is-12 is-not-quite-black rounded-corners post-column is-flex flex-row">
                                         <span style={{marginRight: "0.25em"}}><i className="fas fa-trophy"></i></span>
-                                        <span><b>{this.state.user.username}</b> hit level 1 for the first time.</span>
+                                        <span><b>{this.state.player.displayName}</b> hit level 1 for the first time.</span>
                                         <span style={{marginLeft: "auto", marginRight: "0.5em"}} />
                                         <span>29 minutes ago</span>
                                     </div>
                                     <div className="column is-12 is-not-quite-black rounded-corners post-column is-flex flex-row">
                                         <span style={{marginRight: "0.25em"}}><i className="fas fa-paint-brush"></i></span>
-                                        <span><b>{this.state.user.username}</b> changed their background for the first time.</span>
+                                        <span><b>{this.state.player.displayName}</b> changed their background for the first time.</span>
                                         <span style={{marginLeft: "auto", marginRight: "0.5em"}} />
                                         <span>30 minutes ago</span>
                                     </div>

@@ -60,7 +60,7 @@ class UserMenuInternal extends MComponent {
                     <span className="is-inline-block" style={{"margin": "0.25em"}}></span>{this.props.user.username}
                 </a>
                 <div className="navbar-dropdown is-boxed">
-                    <NavLink className="navbar-item" to={`/profile/${this.props.user.id}`}>Profile</NavLink>
+                    <NavLink className="navbar-item" to={`/profile/${this.getStore().getProfileId()}`}>Profile</NavLink>
                     <NavLink className="navbar-item" to="/discord/dashboard">Dashboard</NavLink>
                     <hr className="navbar-divider" />
                     <DiscordLogoutButton className="navbar-item has-text-white" text={"Log out"} />

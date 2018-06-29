@@ -24,7 +24,7 @@ class DiscordLoginButtonInternal extends MComponent {
         if(data.type && data.type === "login" && !this.getAuth().getToken()) {
             // Something causes login message duplication, idk what.
             // The last part of that if-statement blocks that
-            this.getLogger().info("Logged in with data:", data)
+            //this.getLogger().info("Logged in with data:", data)
             // Set basic data
             this.getAuth().clearToken()
             this.getAuth().clearId()
@@ -36,7 +36,9 @@ class DiscordLoginButtonInternal extends MComponent {
             axios.get(BACKEND_URL + "/api/v1/cache/user/" + data.user.id).then(e => {
                 const userData = e.data
                 this.getStore().updateUser(userData)
+                this.getStore().updateProfileId(data.profile)
                 this.getLogger().info("Got user:", userData)
+                this.getLogger().info("Got profile:", data.profile)
                 this.props.history.push('/discord/dashboard')
             })
         }
