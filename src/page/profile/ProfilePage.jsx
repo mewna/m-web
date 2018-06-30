@@ -6,9 +6,11 @@ import BubblePreloader from 'react-bubble-preloader'
 import Modal from 'react-modal'
 import {DebouncedTextarea} from "../../comp/DebouncedTextarea"
 import axios from 'axios'
-import {BACKEND_URL} from "../../const"
+import {BACKEND_URL, MEWNA_EPOCH} from "../../const"
 import ProgressiveImage from 'react-progressive-bg-image'
 import {NotFound} from '../NotFound'
+import bigInt from "big-integer"
+import moment from "moment"
 
 class BackgroundCard extends MComponent {
     constructor(props) {
@@ -174,7 +176,8 @@ class ProfileSettingsModal extends MComponent {
 export class ProfilePage extends MComponent {
     constructor(props) {
         super("PROFILEPAGE", props)
-        this.state = {settingsModalOpen: false, player: null, packs: null, background: null, user: null, invalid: false}
+        this.state = {settingsModalOpen: false, player: null, packs: null, background: null, user: null, invalid: false, posts: []}
+        console.log("snowflake data:", moment(new Date(bigInt("128316294742147072").shiftRight(22).valueOf() + 1420070400000)).fromNow())
     }
     /*
         getAvatar() {
@@ -193,8 +196,7 @@ export class ProfilePage extends MComponent {
         }
     */
     renderEdit() {
-        // TODO: LOL THIS IS WAY WRONG
-        if(this.props.match.params.id === this.state.player.id) {
+        if(this.props.match.params.id === this.getStore().getProfileId()) {
             return (
                 <a className="button is-primary" onClick={() => this.setState({settingsModalOpen: true})}>Edit</a>
             )
@@ -222,6 +224,11 @@ export class ProfilePage extends MComponent {
                     this.getLogger().debug("fetched packs =>", data)
                     this.setState({packs: data})
                 })
+                axios.get(BACKEND_URL + `/api/v1/data/account/${this.props.match.params.id}/posts`).then(e => {
+                    let data = e.data
+                    this.getLogger().debug("fetched posts =>", data)
+                    this.setState({posts: data})
+                })
                 /*
                 axios.get(BACKEND_URL + "/api/v1/cache/user/" + this.props.match.params.id).then(e => {
                     let data = e.data
@@ -237,6 +244,105 @@ export class ProfilePage extends MComponent {
 
     componentDidMount() {
         this.tryLoad()
+    }
+
+    renderSystemPostText(post) {
+        if(post.content.data) {
+            switch(post.content.data.type) {
+                case "event.levels.global": {
+                    return `reached level ${post.content.data.level}.`
+                }
+                case "event.money": {
+                    return `earned ${post.content.data.balance} money.`
+                }
+                case "event.account.background": {
+                    return `changed their background.`
+                }
+                case "event.account.description": {
+                    return `updated their description.`
+                }
+                case "event.social.twitch": {
+                    switch(post.content.data.streamMode) {
+                        case "start": {
+                            return `started streaming on Twitch.`
+                        }
+                        case "end": {
+                            return `finished streaming on Twitch.`
+                        }
+                        default: {
+                            return `did something awesome on Twitch, but we don't know what.`
+                        }
+                    }
+                }
+                default: {
+                    return `did something awesome, but we don't know what.`
+                }
+            }
+        } else {
+            return post.content.text
+        }
+    }
+
+    renderTimeline() {
+        if(this.state.posts && this.state.posts.length > 0) {
+            let posts = []
+
+            let key = 0
+            this.state.posts.forEach(post => {
+                if(post.system) {
+                    posts.push(
+                        <div className="column is-12 is-not-quite-black rounded-corners post-column is-flex flex-row" key={key++}>
+                            {/*<span style={{marginRight: "0.25em"}}><i className="far fa-money-bill-alt"></i></span>*/}
+                            <span><b>{this.state.player.displayName}</b> {this.renderSystemPostText(post)}</span>
+                            <span style={{marginLeft: "auto", marginRight: "0.5em"}} />
+                            <span>{moment(new Date(bigInt(post.id).shiftRight(22).valueOf() + MEWNA_EPOCH)).fromNow()}</span>
+                        </div>
+                    )
+                } else {
+                    posts.push(
+                            <div className="column is-12 is-not-quite-black rounded-corners post-column is-flex flex-row" key={key++}>
+                                {/*<span style={{marginRight: "0.25em"}}><i className="far fa-money-bill-alt"></i></span>*/}
+                                <span><b>{this.state.player.displayName}</b> {post.content.text}</span>
+                                <span style={{marginLeft: "auto", marginRight: "0.5em"}} />
+                                <span>{moment(new Date(bigInt(post.id).shiftRight(22).valueOf() + MEWNA_EPOCH)).fromNow()}</span>
+                            </div>
+                        )
+                }
+            })
+            /*
+            posts.push(<div className="column is-12 is-not-quite-black rounded-corners post-column is-flex flex-row">
+                <span style={{marginRight: "0.25em"}}><i className="far fa-money-bill-alt"></i></span>
+                <span><b>{this.state.player.displayName}</b> donated for the first time.</span>
+                <span style={{marginLeft: "auto", marginRight: "0.5em"}} />
+                <span>1 minute ago</span>
+            </div>)
+            posts.push(<div className="column is-12 is-not-quite-black rounded-corners post-column is-flex flex-row">
+                <span style={{marginRight: "0.25em"}}><i className="fas fa-trophy"></i></span>
+                <span><b>{this.state.player.displayName}</b> hit level 10 for the first time.</span>
+                <span style={{marginLeft: "auto", marginRight: "0.5em"}} />
+                <span>5 minutes ago</span>
+            </div>)
+            posts.push(<div className="column is-12 is-not-quite-black rounded-corners post-column is-flex flex-row">
+                <span style={{marginRight: "0.25em"}}><i className="fas fa-trophy"></i></span>
+                <span><b>{this.state.player.displayName}</b> hit level 1 for the first time.</span>
+                <span style={{marginLeft: "auto", marginRight: "0.5em"}} />
+                <span>29 minutes ago</span>
+            </div>)
+            posts.push(<div className="column is-12 is-not-quite-black rounded-corners post-column is-flex flex-row">
+                <span style={{marginRight: "0.25em"}}><i className="fas fa-paint-brush"></i></span>
+                <span><b>{this.state.player.displayName}</b> changed their background for the first time.</span>
+                <span style={{marginLeft: "auto", marginRight: "0.5em"}} />
+                <span>30 minutes ago</span>
+            </div>)
+            */
+            return posts
+        } else {
+            return (
+                <div className="column is-12 is-not-quite-black rounded-corners">
+                    <b>{this.state.player.displayName}</b> hasn't done anything notable yet...
+                </div>
+            )
+        }
     }
 
     render() {
@@ -332,35 +438,7 @@ export class ProfilePage extends MComponent {
                             <div className="column is-12 is-hidden-tablet" />
                             <div className="column is-9 profile-column rounded-corners">
                                 <div className="columns is-multiline">
-                                    {/*
-                                    <div className="column is-12 is-not-quite-black rounded-corners">
-                                        <b>{this.state.user.name}</b> hasn't done anything notable yet...
-                                    </div>
-                                    */}
-                                    <div className="column is-12 is-not-quite-black rounded-corners post-column is-flex flex-row">
-                                        <span style={{marginRight: "0.25em"}}><i className="far fa-money-bill-alt"></i></span>
-                                        <span><b>{this.state.player.displayName}</b> donated for the first time.</span>
-                                        <span style={{marginLeft: "auto", marginRight: "0.5em"}} />
-                                        <span>1 minute ago</span>
-                                    </div>
-                                    <div className="column is-12 is-not-quite-black rounded-corners post-column is-flex flex-row">
-                                        <span style={{marginRight: "0.25em"}}><i className="fas fa-trophy"></i></span>
-                                        <span><b>{this.state.player.displayName}</b> hit level 10 for the first time.</span>
-                                        <span style={{marginLeft: "auto", marginRight: "0.5em"}} />
-                                        <span>5 minutes ago</span>
-                                    </div>
-                                    <div className="column is-12 is-not-quite-black rounded-corners post-column is-flex flex-row">
-                                        <span style={{marginRight: "0.25em"}}><i className="fas fa-trophy"></i></span>
-                                        <span><b>{this.state.player.displayName}</b> hit level 1 for the first time.</span>
-                                        <span style={{marginLeft: "auto", marginRight: "0.5em"}} />
-                                        <span>29 minutes ago</span>
-                                    </div>
-                                    <div className="column is-12 is-not-quite-black rounded-corners post-column is-flex flex-row">
-                                        <span style={{marginRight: "0.25em"}}><i className="fas fa-paint-brush"></i></span>
-                                        <span><b>{this.state.player.displayName}</b> changed their background for the first time.</span>
-                                        <span style={{marginLeft: "auto", marginRight: "0.5em"}} />
-                                        <span>30 minutes ago</span>
-                                    </div>
+                                    {this.renderTimeline()}
                                 </div>
                             </div>
                         </div>

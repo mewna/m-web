@@ -1,1 +1,3 @@
 export const BACKEND_URL = process.env.REACT_APP_BACKEND_URL
+export const DISCORD_EPOCH = 1420070400000
+export const MEWNA_EPOCH = 1518566400000
