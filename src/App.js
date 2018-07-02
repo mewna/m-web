@@ -13,6 +13,7 @@ import {VHContainer} from './page/VHContainer'
 import {NotFound} from './page/NotFound';
 import Switch from 'react-router/Switch';
 import {DiscordLeaderboards} from './page/discord/DiscordLeaderboards';
+import { PaypalCheckout } from './page/paypal/PaypalCheckout';
 
 class App extends MComponent {
     constructor(props) {
@@ -45,6 +46,7 @@ class App extends MComponent {
                                     )
                                 }} />
                                 <Route exact path="/discord/leaderboards/:id" component={DiscordLeaderboards} />
+                                <Route exact path="/paypal-checkout/:id/:sku" component={PaypalCheckout} />
                                 <Route component={NotFound} />
                             </Switch>
                         </div>

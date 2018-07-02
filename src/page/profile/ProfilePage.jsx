@@ -22,10 +22,14 @@ class BackgroundCard extends MComponent {
             <div className="profile-background-image-wrapper rounded-corners hover"
                 onMouseOver={() => this.props.backgroundMouseOver(this.props.src.replace(".png", ""))}
                 onMouseOut={() => this.props.backgroundMouseOut()}>
-                <a onClick={() => this.props.backgroundOnClick(this.props.name, this.props.pack, this.props.src)}>
+                <a onClick={() => {
+                    if(!this.props.locked) {
+                        this.props.backgroundOnClick(this.props.name, this.props.pack, this.props.src)
+                    }
+                }}>
                     {/* TODO: On-click animation registering use */}
                     <div className="profile-background-image-container">
-                        <img src={this.props.src} alt={this.props.alt} className="profile-background-image" />
+                        <img src={this.props.src} alt={this.props.alt} className={"profile-background-image" + (this.props.locked ? " profile-background-image-locked" : "")} />
                         {this.props.locked ?
                             <div className="profile-background-image-locked">
                                 <i className="fas fa-lock"></i>
@@ -42,6 +46,11 @@ class ProfileSettingsModal extends MComponent {
     constructor(props) {
         super("PROFILESETTINGSMODAL", props)
         this.state = {aboutText: this.props.player().aboutText}
+    }
+
+    handleCheckoutButton(e, sku) {
+        e.preventDefault()
+        window.open(`/paypal-checkout/${this.props.player().id}/${sku}`, "PayPal Checkout", "resizable=no,menubar=no,scrollbars=yes,status=no,height=640,width=480")
     }
 
     renderPacks() {
@@ -84,17 +93,21 @@ class ProfileSettingsModal extends MComponent {
         // Do the rest
         Object.keys(packs).filter(e => e !== "default").forEach(e => {
             const packLocked = this.props.player().ownedBackgroundPacks.filter(p => e === p).length === 0
+            const manifest = this.props.manifest.filter(m => m.sku === "Background-Pack-" + e)[0]
             cards.push(<div className="column is-12" key={key++}>
                 <p className="modal-title is-size-6">
                     {packLocked ? <span style={{marginRight: "0.5em"}}><i className="fas fa-lock" /></span> : ""}
                     {e.toUpperCase().replace("_", " ")}
-                    {packLocked ? <span style={{marginLeft: "0.5em"}} className="has-text-primary">500 <i className="fab fa-bitcoin" /></span> : ""}
                 </p>
             </div>)
             let counter = 0
             packs[e].forEach(bg => {
+                let columnClass = "column is-4 is-paddingless-top"
+                if(packLocked) {
+                    columnClass += " profile-background-image-locked"
+                }
                 cards.push(
-                    <div className="column is-4 is-paddingless-top" key={key++}>
+                    <div className={columnClass} key={key++}>
                         <BackgroundCard src={bg.path} alt={bg.name} pack={bg.pack} name={bg.name}
                             backgroundMouseOver={this.props.backgroundMouseOver}
                             backgroundMouseOut={this.props.backgroundMouseOut}
@@ -112,9 +125,24 @@ class ProfileSettingsModal extends MComponent {
                     )
                 }
             }
+            let lockCover = ""
+            if(packLocked) {
+                lockCover = (
+                    <div className="column is-12 profile-background-pack-locked-cover">
+                        <a style={{marginLeft: "1em"}} className="button is-primary hover" onClick={(e) => this.handleCheckoutButton(e, manifest.sku)}>
+                            <i className="fab fa-paypal" style={{marginRight: "0.5em"}} />Unlock for ${manifest.cents / 100} with PayPal
+                        </a>
+                    </div>
+                )
+            }
+            let containerClass = "columns is-multiline profile-background-pack-container"
+            if(packLocked) {
+                containerClass += " profile-background-pack-container-locked"
+            }
             containers.push(
-                <div className="columns is-multiline" key={key++}>
+                <div key={key++} className={containerClass}>
                     {cards}
+                    {lockCover}
                 </div>
             )
             cards = []
@@ -176,25 +204,40 @@ class ProfileSettingsModal extends MComponent {
 export class ProfilePage extends MComponent {
     constructor(props) {
         super("PROFILEPAGE", props)
-        this.state = {settingsModalOpen: false, player: null, packs: null, background: null, user: null, invalid: false, posts: []}
-        console.log("snowflake data:", moment(new Date(bigInt("128316294742147072").shiftRight(22).valueOf() + 1420070400000)).fromNow())
+        this.state = {settingsModalOpen: false, player: null, packs: null, background: null, user: null, invalid: false, posts: [], manifest: null}
     }
-    /*
-        getAvatar() {
-            const base = `https://cdn.discordapp.com/avatars/${this.state.user.id}`
-            if(this.state.user && this.state.user.avatar) {
-                const avatar = this.state.user.avatar
-                if(avatar.startsWith("a_")) {
-                    return `${base}/${avatar}.gif`
-                } else {
-                    return `${base}/${avatar}.png`
+
+    componentDidMount() {
+        this.tryLoad()
+        window.addEventListener("message", this.handleShopMessage.bind(this))
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener("message", this.handleShopMessage.bind(this))
+    }
+
+    handleShopMessage(e) {
+        let data = e.data || e.data.data
+        if(data) {
+            this.getLogger().debug(data)
+            if(data.mode === "store") {
+                this.getLogger().debug("store ->", data)
+                if(data.finished) {
+                    axios.get(BACKEND_URL + `/api/v1/data/account/${this.props.match.params.id}/profile`).then(e => {
+                        let data = JSON.parse(e.data)
+                        this.getLogger().debug("fetched player =>", data)
+                        if(data.error) {
+                            // Probably an invalid thing, say something
+                            this.setState({invalid: true})
+                        } else {
+                            this.setState({player: data, background: data.customBackground})
+                        }
+                    })
                 }
-            } else {
-                const avatar = parseInt(this.state.user.discriminator, 10) % 5
-                return `${base}/${avatar}.png`
             }
         }
-    */
+    }
+
     renderEdit() {
         if(this.props.match.params.id === this.getStore().getProfileId()) {
             return (
@@ -229,6 +272,11 @@ export class ProfilePage extends MComponent {
                     this.getLogger().debug("fetched posts =>", data)
                     this.setState({posts: data})
                 })
+                axios.get(BACKEND_URL + `/api/v1/data/store/manifest`).then(e => {
+                    let data = e.data
+                    this.getLogger().debug("fetched manifest =>", data)
+                    this.setState({manifest: data})
+                })
                 /*
                 axios.get(BACKEND_URL + "/api/v1/cache/user/" + this.props.match.params.id).then(e => {
                     let data = e.data
@@ -240,10 +288,6 @@ export class ProfilePage extends MComponent {
                 this.tryLoad()
             }
         }, 100)
-    }
-
-    componentDidMount() {
-        this.tryLoad()
     }
 
     renderSystemPostText(post) {
@@ -300,41 +344,15 @@ export class ProfilePage extends MComponent {
                     )
                 } else {
                     posts.push(
-                            <div className="column is-12 is-not-quite-black rounded-corners post-column is-flex flex-row" key={key++}>
-                                {/*<span style={{marginRight: "0.25em"}}><i className="far fa-money-bill-alt"></i></span>*/}
-                                <span><b>{this.state.player.displayName}</b> {post.content.text}</span>
-                                <span style={{marginLeft: "auto", marginRight: "0.5em"}} />
-                                <span>{moment(new Date(bigInt(post.id).shiftRight(22).valueOf() + MEWNA_EPOCH)).fromNow()}</span>
-                            </div>
-                        )
+                        <div className="column is-12 is-not-quite-black rounded-corners post-column is-flex flex-row" key={key++}>
+                            {/*<span style={{marginRight: "0.25em"}}><i className="far fa-money-bill-alt"></i></span>*/}
+                            <span><b>{this.state.player.displayName}</b> {post.content.text}</span>
+                            <span style={{marginLeft: "auto", marginRight: "0.5em"}} />
+                            <span>{moment(new Date(bigInt(post.id).shiftRight(22).valueOf() + MEWNA_EPOCH)).fromNow()}</span>
+                        </div>
+                    )
                 }
             })
-            /*
-            posts.push(<div className="column is-12 is-not-quite-black rounded-corners post-column is-flex flex-row">
-                <span style={{marginRight: "0.25em"}}><i className="far fa-money-bill-alt"></i></span>
-                <span><b>{this.state.player.displayName}</b> donated for the first time.</span>
-                <span style={{marginLeft: "auto", marginRight: "0.5em"}} />
-                <span>1 minute ago</span>
-            </div>)
-            posts.push(<div className="column is-12 is-not-quite-black rounded-corners post-column is-flex flex-row">
-                <span style={{marginRight: "0.25em"}}><i className="fas fa-trophy"></i></span>
-                <span><b>{this.state.player.displayName}</b> hit level 10 for the first time.</span>
-                <span style={{marginLeft: "auto", marginRight: "0.5em"}} />
-                <span>5 minutes ago</span>
-            </div>)
-            posts.push(<div className="column is-12 is-not-quite-black rounded-corners post-column is-flex flex-row">
-                <span style={{marginRight: "0.25em"}}><i className="fas fa-trophy"></i></span>
-                <span><b>{this.state.player.displayName}</b> hit level 1 for the first time.</span>
-                <span style={{marginLeft: "auto", marginRight: "0.5em"}} />
-                <span>29 minutes ago</span>
-            </div>)
-            posts.push(<div className="column is-12 is-not-quite-black rounded-corners post-column is-flex flex-row">
-                <span style={{marginRight: "0.25em"}}><i className="fas fa-paint-brush"></i></span>
-                <span><b>{this.state.player.displayName}</b> changed their background for the first time.</span>
-                <span style={{marginLeft: "auto", marginRight: "0.5em"}} />
-                <span>30 minutes ago</span>
-            </div>)
-            */
             return posts
         } else {
             return (
@@ -350,7 +368,7 @@ export class ProfilePage extends MComponent {
             return (
                 <NotFound />
             )
-        } else if(/*this.state.user && this.state.user.username && */this.state.player && this.state.packs) {
+        } else if(this.state.player && this.state.packs && this.state.manifest) {
             const split = this.state.background.split("/")
             const thumbnail = split[0] + '/' + split[1] + '/thumbs/' + split[2]
             return (
@@ -388,6 +406,7 @@ export class ProfilePage extends MComponent {
                             afterOpenModal={() => {}}
                             closeModal={() => {this.setState({settingsModalOpen: false})}}
                             packs={this.state.packs}
+                            manifest={this.state.manifest}
                             //user={this.state.user}
                             player={() => this.state.player}
                             onAboutUpdate={(text) => {
@@ -408,8 +427,8 @@ export class ProfilePage extends MComponent {
                             }}
                             backgroundOnClick={(name, pack, src) => {
                                 const bg = `${pack}/${name}`
-                                axios.post(BACKEND_URL + `/api/v1/data/account/${this.state.player.id}/update`, 
-                                    {customBackground: bg, id: this.state.player.id}, 
+                                axios.post(BACKEND_URL + `/api/v1/data/account/${this.state.player.id}/update`,
+                                    {customBackground: bg, id: this.state.player.id},
                                     {headers: {"Authorization": this.getAuth().getToken()}})
                                     .then(e => {
                                         this.getLogger().debug("Update customBackground =>", bg)

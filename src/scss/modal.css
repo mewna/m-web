@@ -103,4 +103,9 @@
   text-transform: uppercase;
   margin-bottom: 0.25em;
   font-size: 1.2em;
-  font-weight: bold; }
+  font-weight: bold;
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  justify-content: left;
+  align-items: center; }

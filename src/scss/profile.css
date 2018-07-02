@@ -86,12 +86,18 @@ div.post-column {
   .profile-about-column {
     margin-top: -10.5em; } }
 
-div.profile-background-image-container:hover .profile-background-image-locked {
+.profile-background-image-locked {
+  cursor: not-allowed; }
+
+div.profile-background-image-container > img.profile-background-image-locked {
+  filter: brightness(50%); }
+
+div.profile-background-image-container .profile-background-image-locked {
+  color: #cccccc;
   cursor: not-allowed;
   position: absolute;
   top: 0;
   left: 0;
-  background: rgba(0, 0, 0, 0.75);
   width: 100%;
   height: 100%;
   display: flex;
@@ -104,3 +110,16 @@ div.profile-background-image-container:hover .profile-background-image-locked {
   background-size: cover;
   width: 100vw;
   height: 24rem; }
+
+.profile-background-pack-container-locked {
+  position: relative; }
+
+.profile-background-pack-locked-cover {
+  position: absolute;
+  width: 100%;
+  height: calc(100% - 3em);
+  top: 3em;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  align-items: center; }
