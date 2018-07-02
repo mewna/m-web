@@ -9,7 +9,7 @@ import axios from 'axios'
 import {MComponent} from '../../MComponent'
 
 const LEVELS = []
-for(let i = 0; i < 100; i++) {
+for(let i = 1; i < 100; i++) {
     LEVELS.push({value: i, label: "Level " + i})
 }
 
