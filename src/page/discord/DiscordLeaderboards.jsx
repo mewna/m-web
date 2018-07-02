@@ -32,12 +32,14 @@ export class DiscordLeaderboards extends MComponent {
                 <div key={key++} className="column is-12 rounded-corners leaderboards-card" style={{background: `url("${e.customBackground}.png")`}}>
                     <div className="leaderboards-card-panel" />
                     <div className="leaderboards-card-content">
-                        <Icon src={e.avatar} className={"guild-icon leaderboards-icon"} />
+                        <div className="leaderboards-icon">
+                            <a href={`/profile/${e.accountId}`}><Icon src={e.avatar} className={"guild-icon leaderboards-icon"} /></a>
+                        </div>
                         <div className="leaderboards-rank">
                             #{e.playerRank}
                         </div>
                         <div className="leaderboards-username">
-                            {e.name}<span className="leaderboards-discrim">#{e.discrim}</span>
+                            <a href={`/profile/${e.accountId}`}>{e.name}<span className="leaderboards-discrim">#{e.discrim}</span></a>
                         </div>
                         <div className="leaderboards-xp-container">
                             <div className="progress-bar-container">
