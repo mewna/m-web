@@ -54,7 +54,9 @@ class DiscordLoginButtonInternal extends MComponent {
         const p = Object.assign({}, this.props)
         delete p.staticContext // omegalul
         return (
-            <a href="" onClick={e => this.tryLogin(e)} {...p}>{this.props.text}</a>
+            <div className={p.className}>
+                <a href="" onClick={e => this.tryLogin(e)} className={p.innerClass}>{this.props.text}</a>
+            </div>
         )
     }
 }

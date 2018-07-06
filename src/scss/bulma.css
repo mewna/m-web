@@ -4450,7 +4450,7 @@ a.navbar-item,
   a.navbar-item:hover, a.navbar-item.is-active,
   .navbar-link:hover,
   .navbar-link.is-active {
-    background-color: #26292c;
+    background-color: transparent;
     color: #FFFFFF; }
 
 .navbar-item {
@@ -4566,7 +4566,7 @@ a.navbar-item,
     .navbar.is-transparent .navbar-item.has-dropdown.is-active .navbar-link, .navbar.is-transparent .navbar-item.has-dropdown.is-hoverable:hover .navbar-link {
       background-color: transparent !important; }
     .navbar.is-transparent .navbar-dropdown a.navbar-item:hover {
-      background-color: #23272A;
+      background-color: #171a1c;
       color: #FFFFFF; }
     .navbar.is-transparent .navbar-dropdown a.navbar-item.is-active {
       background-color: whitesmoke;
@@ -4606,7 +4606,7 @@ a.navbar-item,
     justify-content: flex-end;
     margin-left: auto; }
   .navbar-dropdown {
-    background-color: #2C2F33;
+    background-color: #23272A;
     border-bottom-left-radius: 6px;
     border-bottom-right-radius: 6px;
     border-top: 2px solid #dbdbdb;
@@ -4624,7 +4624,7 @@ a.navbar-item,
     .navbar-dropdown a.navbar-item {
       padding-right: 3rem; }
       .navbar-dropdown a.navbar-item:hover {
-        background-color: #23272A;
+        background-color: #171a1c;
         color: #FFFFFF; }
       .navbar-dropdown a.navbar-item.is-active {
         background-color: whitesmoke;
@@ -4681,7 +4681,7 @@ a.navbar-item,
   .navbar-link.is-active:not(:hover) {
     background-color: transparent; }
   .navbar-item.has-dropdown:hover .navbar-link, .navbar-item.has-dropdown.is-active .navbar-link {
-    background-color: #26292c; } }
+    background-color: transparent; } }
 
 .pagination {
   font-size: 1rem;

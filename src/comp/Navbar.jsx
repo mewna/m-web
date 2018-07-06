@@ -60,7 +60,7 @@ class UserMenuInternal extends MComponent {
                     <span className="is-inline-block" style={{"margin": "0.25em"}}></span>{this.props.user.username}
                 </a>
                 <div className="navbar-dropdown is-boxed">
-                    <NavLink className="navbar-item" to={`/profile/${this.getStore().getProfileId()}`}>Profile</NavLink>
+                    <NavLink className="navbar-item" to={`/profile/${this.props.profileId}`}>Profile</NavLink>
                     <NavLink className="navbar-item" to="/discord/dashboard">Dashboard</NavLink>
                     <hr className="navbar-divider" />
                     <DiscordLogoutButton className="navbar-item has-text-white" text={"Log out"} />
@@ -84,7 +84,7 @@ class Navbar extends MComponent {
                 <div className="navbar-end">
                     {community}
                     {features}
-                    <UserMenu user={this.props.user} />
+                    <UserMenu user={this.props.user} profileId={this.props.profileId} />
                 </div>
             )
         } else {
@@ -92,7 +92,7 @@ class Navbar extends MComponent {
                 <div className="navbar-end">
                     {community}
                     {features}
-                    <DiscordLoginButton className="navbar-item has-text-white" text="Log in" />
+                    <DiscordLoginButton className="navbar-item has-text-white" innerClass="login-button" text="Login" />
                 </div>
             )
         }
@@ -104,7 +104,8 @@ class Navbar extends MComponent {
                 <div className="container">
                     <div className="navbar-brand">
                         <NavLink to="/" className="navbar-item no-hover">
-                            <p className="is-size-3 logo nav-max-height">
+                            <p className="is-size-3 logo nav-max-height logo-container">
+                                <img src="/mewna-big-eyes.svg" className="logo image is-inline-block" style={{marginRight: "0.25em"}} alt="" />
                                 Mewna
                             </p>
                         </NavLink>
@@ -132,7 +133,8 @@ class Navbar extends MComponent {
 
 function mapStateToProps(state) {
     return {
-        user: state.user
+        user: state.user,
+        profileId: state.profileId
     }
 }
 

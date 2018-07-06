@@ -260,7 +260,9 @@ export class Twitch extends DashboardPage {
                         let streamers = config.twitchStreamers.splice(0, config.twitchStreamers.length)
                         streamers = streamers.filter(e => e.id !== streamer.id)
                         config.twitchStreamers = streamers
-                        this.setState({config: config})
+                        this.setState({config: config}, () => {
+                            this.updateConfig()
+                        })
                     }}
                     resolveStreamerCallback={streamer => {
                         let streamers = Object.assign({}, this.state.streamers || {})

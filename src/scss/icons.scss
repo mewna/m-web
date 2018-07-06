@@ -35,3 +35,14 @@
 .user-icon {
   border-radius: 4px;
 }
+
+img.logo {
+  max-height: 2.5rem;
+}
+
+p.logo-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  align-content: center;
+}
