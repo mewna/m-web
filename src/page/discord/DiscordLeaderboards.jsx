@@ -25,43 +25,55 @@ export class DiscordLeaderboards extends MComponent {
     }
 
     renderProgressBars() {
-        let cards = []
-        let key = 0;
-        this.state.data.forEach(e => {
-            cards.push(
-                <div key={key++} className="column is-12 rounded-corners leaderboards-card" style={{background: `url("${e.customBackground}.png")`}}>
-                    <div className="leaderboards-card-panel" />
-                    <div className="leaderboards-card-content">
-                        <div className="leaderboards-icon">
-                            <a href={`/profile/${e.accountId}`}><Icon src={e.avatar} className={"guild-icon leaderboards-icon"} /></a>
-                        </div>
-                        <div className="leaderboards-rank">
-                            #{e.playerRank}
-                        </div>
-                        <div className="leaderboards-username">
-                            <a href={`/profile/${e.accountId}`}>{e.name}<span className="leaderboards-discrim">#{e.discrim}</span></a>
-                        </div>
-                        <div className="leaderboards-xp-container">
-                            <div className="progress-bar-container">
-                                <div className="progress-bar" style={{width: `${((e.userXp - e.currentLevelXp) / (e.nextLevelXp - e.currentLevelXp)) * 100}%`}} />
-                                <div className="progress-text">
-                                    {e.nextLevelXp - e.xpNeeded} / {e.nextLevelXp} EXP
+        if(this.state.data && this.state.data.length > 0) {
+            let cards = []
+            let key = 0;
+            this.state.data.forEach(e => {
+                cards.push(
+                    <div key={key++} className="column is-12 rounded-corners leaderboards-card" style={{background: `url("${e.customBackground}.png")`}}>
+                        <div className="leaderboards-card-panel" />
+                        <div className="leaderboards-card-content">
+                            <div className="leaderboards-icon">
+                                <a href={`/profile/${e.accountId}`}><Icon src={e.avatar} className={"guild-icon leaderboards-icon"} /></a>
+                            </div>
+                            <div className="leaderboards-rank">
+                                #{e.playerRank}
+                            </div>
+                            <div className="leaderboards-username">
+                                <a href={`/profile/${e.accountId}`}>{e.name}<span className="leaderboards-discrim">#{e.discrim}</span></a>
+                            </div>
+                            <div className="leaderboards-xp-container">
+                                <div className="progress-bar-container">
+                                    <div className="progress-bar" style={{width: `${((e.userXp - e.currentLevelXp) / (e.nextLevelXp - e.currentLevelXp)) * 100}%`}} />
+                                    <div className="progress-text">
+                                        {e.nextLevelXp - e.xpNeeded} / {e.nextLevelXp} EXP
+                                </div>
+                                </div>
+                            </div>
+                            <div className="leaderboards-numbers">
+                                <div className="leaderboards-level">
+                                    LEVEL
+                            </div>
+                                <div className="leaderboards-level-number">
+                                    {e.userLevel}
                                 </div>
                             </div>
                         </div>
-                        <div className="leaderboards-numbers">
-                            <div className="leaderboards-level">
-                                LEVEL
-                            </div>
-                            <div className="leaderboards-level-number">
-                                {e.userLevel}
-                            </div>
+                    </div>
+                )
+            })
+            return cards
+        } else {
+            return (
+                <div className="column is-12 rounded-corners is-not-quite-black">
+                    <div className="leaderboards-card-content has-text-centered" style={{justifyContent: "center"}}>
+                        <div className="leaderboards-username">
+                            Nobody is ranked yet. Start chatting to get ranked!
                         </div>
                     </div>
                 </div>
             )
-        })
-        return cards
+        }
     }
 
     render() {
