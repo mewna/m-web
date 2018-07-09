@@ -27,17 +27,30 @@ window.socket.connect()
 if(window.auth.getToken() && window.auth.getId()) {
     const logger = new Logger("FASTAUTH")
     logger.info("Have token, loading data...")
-    axios.get(BACKEND_URL + "/api/v1/cache/user/" + window.auth.getId()).then(user => {
-        axios.get(BACKEND_URL + "/api/v1/data/account/links/discord/" + window.auth.getId()).then(profile => {
-            const userData = user.data
-            const profileId = profile.data
-            window.store.updateUser(userData)
-            window.store.updateProfileId(profileId)
-            logger.info("Got user:", userData)
-            logger.info("Got profile:", profileId)
-            window.socket.joinChannel("user:" + window.auth.getId(), {key: window.auth.getToken()})
+
+    axios.get(BACKEND_URL + "/api/v1/heartbeat", {headers: {"authorization": window.auth.getToken()}})
+        .then(data => {
+            const user = data.data.check
+            logger.info("Got NoAuth data:", user)
+            if(!user || user === null || user === undefined) {
+                logger.warn("NoAuth triggered")
+                this.getAuth().clearToken()
+                this.getAuth().clearId()
+                window.history.pushState('/')
+            } else {
+                axios.get(BACKEND_URL + "/api/v1/cache/user/" + window.auth.getId()).then(user => {
+                    axios.get(BACKEND_URL + "/api/v1/data/account/links/discord/" + window.auth.getId()).then(profile => {
+                        const userData = user.data
+                        const profileId = profile.data
+                        window.store.updateUser(userData)
+                        window.store.updateProfileId(profileId)
+                        logger.info("Got user:", userData)
+                        logger.info("Got profile:", profileId)
+                        window.socket.joinChannel("user:" + window.auth.getId(), {key: window.auth.getToken()})
+                    })
+                })
+            }
         })
-    })
 } else {
     window.auth.clearToken()
     window.auth.clearId()
