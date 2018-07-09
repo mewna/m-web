@@ -34,7 +34,12 @@ export class DiscordLeaderboards extends MComponent {
                         <div className="leaderboards-card-panel" />
                         <div className="leaderboards-card-content">
                             <div className="leaderboards-icon">
-                                <a href={`/profile/${e.accountId}`}><Icon src={e.avatar} className={"guild-icon leaderboards-icon"} /></a>
+                                <a href={`/profile/${e.accountId}`}>
+                                    <Icon src={e.avatar} className={"guild-icon leaderboards-icon"} 
+                                        onError={(e) => {
+                                            return `https://cdn.discordapp.com/embed/avatars/${parseInt(e.discrim, 10) % 5}.png`
+                                        }} />
+                                </a>
                             </div>
                             <div className="leaderboards-rank">
                                 #{e.playerRank}
