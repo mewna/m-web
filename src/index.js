@@ -34,8 +34,8 @@ if(window.auth.getToken() && window.auth.getId()) {
             logger.info("Got NoAuth data:", user)
             if(!user || user === null || user === undefined) {
                 logger.warn("NoAuth triggered")
-                this.getAuth().clearToken()
-                this.getAuth().clearId()
+                window.auth.clearToken()
+                window.auth.clearId()
                 window.history.pushState('/')
             } else {
                 axios.get(BACKEND_URL + "/api/v1/cache/user/" + window.auth.getId()).then(user => {
