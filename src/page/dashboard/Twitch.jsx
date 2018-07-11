@@ -64,7 +64,7 @@ class ChannelSelector extends MComponent {
 export class Twitch extends DashboardPage {
     constructor(props) {
         super("TWITCH", props)
-        this.state = {channel: null, channels: null, searchState: SEARCH_READY, streamers: {}}
+        this.state = {channels: null, searchState: SEARCH_READY, streamers: {}}
     }
 
     componentDidMount() {
@@ -105,7 +105,11 @@ export class Twitch extends DashboardPage {
     }
 
     handleHookChannelChange(val) {
-        this.setState({channel: val})
+        let state = Object.assign({}, this.state)
+        state.config.twitchWebhookChannel = val.value
+        this.setState(state, () => {
+            this.updateConfig()
+        })
     }
 
     handleStreamerConfigUpdate(incomingConfig) {
