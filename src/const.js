@@ -1,11 +1,12 @@
+// https://daveceddia.com/multiple-environments-with-react/
 let backendUrl
 
 const hostname = window && window.location && window.location.hostname
 
 if(hostname === "mewna.com") {
-    backendUrl = "https://esp.mewna.com/"
+    backendUrl = "https://esp.mewna.com"
 } else if(hostname === "mewna.app") {
-    backendUrl = "https://esp.mewna.app/"
+    backendUrl = "https://esp.mewna.app"
 } else {
     backendUrl = process.env.REACT_APP_BACKEND_URL
 }
