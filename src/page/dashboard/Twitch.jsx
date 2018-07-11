@@ -153,7 +153,7 @@ export class Twitch extends DashboardPage {
                             <Select
                                 className={"wide-select"}
                                 name="channel-select"
-                                value={this.state.channel}
+                                value={this.state.config.twitchWebhookChannel}
                                 onChange={(e) => this.handleHookChannelChange(e)}
                                 options={this.state.channels}
                                 clearable={false}
