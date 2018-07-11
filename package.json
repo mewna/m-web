@@ -46,6 +46,7 @@
     "react-dev-utils": "^5.0.1",
     "react-dom": "^16.3.2",
     "react-modal": "^3.4.5",
+    "react-onclickoutside": "^6.7.1",
     "react-progressive-bg-image": "^3.0.0",
     "react-redux": "^5.0.7",
     "react-router": "^4.2.0",
