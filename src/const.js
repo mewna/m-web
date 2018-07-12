@@ -9,6 +9,7 @@ if(hostname === "mewna.com") {
     backendUrl = "https://esp.mewna.app"
 } else {
     backendUrl = process.env.REACT_APP_BACKEND_URL
+    require('preact/debug')
 }
 
 export const BACKEND_URL = backendUrl // process.env.REACT_APP_BACKEND_URL

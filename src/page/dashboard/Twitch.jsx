@@ -257,26 +257,36 @@ export class Twitch extends DashboardPage {
         if(this.state.config && this.state.config.twitchStreamers && this.state.config.twitchStreamers.length > 0) {
             let cards = []
             let key = 0
-            this.state.config.twitchStreamers.forEach(e => cards.push(
-                <TwitchStreamer streamer={this.state.streamers[e.id]} streamerId={e.id} config={e} key={key++}
-                    deleteCallback={(streamer) => {
-                        let config = Object.assign({}, this.state.config)
-                        let streamers = config.twitchStreamers.splice(0, config.twitchStreamers.length)
-                        streamers = streamers.filter(e => e.id !== streamer.id)
-                        config.twitchStreamers = streamers
-                        this.setState({config: config}, () => {
-                            this.updateConfig()
-                        })
-                    }}
-                    resolveStreamerCallback={streamer => {
-                        let streamers = Object.assign({}, this.state.streamers || {})
-                        streamers[streamer.id] = streamer
-                        this.setState({streamers: streamers})
-                    }}
-                    configCallback={(config) => {
-                        this.handleStreamerConfigUpdate(config)
-                    }} />
-            ));
+            this.state.config.twitchStreamers.forEach(configStreamer => {
+                cards.push(
+                    <TwitchStreamer streamer={this.state.streamers[configStreamer.id]} streamerId={configStreamer.id} config={configStreamer} key={key++}
+                        deleteCallback={(streamer) => {
+                            let config = Object.assign({}, this.state.config)
+                            let streamers = config.twitchStreamers.filter(e => e.id !== streamer.id)
+                            // This is absolutely stupid, but I have no idea why this works
+                            // when the "correct"-looking way of doing it fails
+                            // Basically, if the state is just directly updated, we get stuff
+                            // that renders wrong, for reasons beyond me. If we first set it
+                            // to an empty array, THEN update and setState({}), it works fine.
+                            // I have no idea why, but this works, so don't touch it. 
+                            config.twitchStreamers = []
+                            this.setState({config: config}, () => {
+                                config.twitchStreamers = streamers
+                                this.setState({config: config}, () => {
+                                    this.updateConfig(() => this.getLogger().debug("Updated config:", config))
+                                })
+                            })
+                        }}
+                        resolveStreamerCallback={streamer => {
+                            let streamers = Object.assign({}, this.state.streamers || {})
+                            streamers[streamer.id] = streamer
+                            this.setState({streamers: streamers})
+                        }}
+                        configCallback={(config) => {
+                            this.handleStreamerConfigUpdate(config)
+                        }} />
+                )
+            })
             return cards
         } else {
             return (
@@ -308,15 +318,17 @@ class Streamer {
 
 class TwitchStreamer extends MComponent {
     constructor(props) {
-        super("TWITCH", props)
+        super("TWITCHSTREAMER", props)
         this.state = {expanded: false, streamer: null, config: props.config}
     }
 
     componentDidMount() {
         if(this.props.streamer) {
+            this.getLogger().debug("Rendering with streamer:", this.props.streamer)
             this.setState({streamer: this.props.streamer})
         } else {
             axios.get(BACKEND_URL + "/api/v1/data/twitch/lookup/id/" + this.props.streamerId).then(e => {
+                this.getLogger().debug("Rendering with streamer:", e.data)
                 this.setState({streamer: e.data})
                 this.props.resolveStreamerCallback && this.props.resolveStreamerCallback(e.data)
             })
@@ -397,6 +409,9 @@ class TwitchStreamer extends MComponent {
                         </a>
                         {this.renderInner()}
                         <a className={"button is-danger toggle-corner-button hover"} onClick={() => {
+                            if(this.props.streamerId !== this.state.streamer.id) {
+                                this.getLogger().warn("streamerId (", this.props.streamerId, ") !== this.state.streamer.id (", this.state.streamer.id, ")!")
+                            }
                             this.props.deleteCallback && this.props.deleteCallback(this.state.streamer)
                         }}><i className="far fa-trash-alt" /></a>
                     </div>
