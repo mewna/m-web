@@ -10,7 +10,7 @@ import {BACKEND_URL, MEWNA_EPOCH} from "../../const"
 import ProgressiveImage from 'react-progressive-bg-image'
 import {NotFound} from '../NotFound'
 import bigInt from "big-integer"
-import moment from "moment"
+import {formatRelative} from 'date-fns'
 
 class BackgroundCard extends MComponent {
     constructor(props) {
@@ -332,6 +332,7 @@ export class ProfilePage extends MComponent {
             let posts = []
 
             let key = 0
+            const now = new Date()
             this.state.posts.forEach(post => {
                 if(post.system) {
                     posts.push(
@@ -339,7 +340,7 @@ export class ProfilePage extends MComponent {
                             {/*<span style={{marginRight: "0.25em"}}><i className="far fa-money-bill-alt"></i></span>*/}
                             <span><b>{this.state.player.displayName}</b> {this.renderSystemPostText(post)}</span>
                             <span style={{marginLeft: "auto", marginRight: "0.5em"}} />
-                            <span>{moment(new Date(bigInt(post.id).shiftRight(22).valueOf() + MEWNA_EPOCH)).fromNow()}</span>
+                            <span>{formatRelative(new Date(bigInt(post.id).shiftRight(22).valueOf() + MEWNA_EPOCH), now)}</span>
                         </div>
                     )
                 } else {
@@ -348,7 +349,7 @@ export class ProfilePage extends MComponent {
                             {/*<span style={{marginRight: "0.25em"}}><i className="far fa-money-bill-alt"></i></span>*/}
                             <span><b>{this.state.player.displayName}</b> {post.content.text}</span>
                             <span style={{marginLeft: "auto", marginRight: "0.5em"}} />
-                            <span>{moment(new Date(bigInt(post.id).shiftRight(22).valueOf() + MEWNA_EPOCH)).fromNow()}</span>
+                            <span>{formatRelative(new Date(bigInt(post.id).shiftRight(22).valueOf() + MEWNA_EPOCH), now)}</span>
                         </div>
                     )
                 }
