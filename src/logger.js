@@ -1,9 +1,11 @@
+import {PROD} from './const'
+
 export class Logger {
     constructor(name) {
         this.name = name
     }
 
-    log(...args) {
+    _log(...args) {
         const inputLevel = args.shift()
         let logLevel = "INFO"
         let color = "#0000FF"
@@ -42,18 +44,20 @@ export class Logger {
     }
 
     debug() {
-        this.log("DEBUG", arguments)
+        if(!PROD) {
+            this._log("DEBUG", arguments)
+        }
     }
 
     info() {
-        this.log("INFO", arguments)
+        this._log("INFO", arguments)
     }
 
     warn() {
-        this.log("WARN", arguments)
+        this._log("WARN", arguments)
     }
 
     error() {
-        this.log("ERROR", arguments)
+        this._log("ERROR", arguments)
     }
 }
