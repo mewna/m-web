@@ -20,13 +20,29 @@ import {Welcoming} from "./dashboard/Welcoming"
 import axios from 'axios'
 import {BACKEND_URL} from "../const"
 import {VHContainer} from "./VHContainer"
+import {withRouter} from 'react-router-dom'
 
 const MANAGE_GUILD = 0x00000020
 
-export class Dashboard extends MComponent {
+class DashboardInternal extends MComponent {
     constructor(props) {
         super("DASHBOARD", props)
-        this.state = {guilds: null, connected: false, config: null, pluginMetadata: null}
+        // /api/v1/cache/guild/:id/exists
+        this.state = {guilds: null, connected: false, config: null, pluginMetadata: null, existStates: {}}
+    }
+
+    async fetchGuildsExist(guilds) {
+        let data = {}
+        let promises = []
+        guilds.forEach(async e => {
+            let promise = axios.get(`${BACKEND_URL}/api/v1/cache/guild/${e.id}/exists`).then(res => data[e.id] = res.data)
+            promises.push(promise)
+        })
+        await Promise.all(promises)
+        this.setState({existStates: data}, () => {
+            this.getLogger().debug("fetched states:", this.state.existStates)
+            this.getLogger().debug("have:", Object.keys(this.state.existStates).length, "and expect:", this.state.guilds.length)
+        })
     }
 
     componentDidMount() {
@@ -36,7 +52,8 @@ export class Dashboard extends MComponent {
             this.getSocket().joinChannel("dashboard:" + this.getAuth().getId(), {}, (e) => {
                 this.getLogger().debug("Dashboard got socket message:", e)
                 const data = e.d.data
-                this.setState({guilds: data.guilds})
+                this.setState({guilds: data.guilds.filter(g => (g.permissions & MANAGE_GUILD) === MANAGE_GUILD)}, 
+                    () => this.fetchGuildsExist(this.state.guilds))
                 // So this works, because when the user first logs in, there are no guilds send in the login message
                 // which means that this will go "loading screen"
                 // Once the socket connects, we get all the guilds and update the global user
@@ -59,18 +76,42 @@ export class Dashboard extends MComponent {
         } catch(e) {
             this.getLogger().error("Connect error:", e)
         }
+        window.addEventListener("message", this.handleAddMessage.bind(this))
     }
 
     componentWillUnmount() {
+        window.removeEventListener("message", this.handleAddMessage.bind(this))
         this.getSocket().leaveChannel("dashboard:" + this.getAuth().getId())
     }
 
+    handleAddMessage(e) {
+        let data = e.data
+        if(data.bot_added) {
+            this.getLogger().info("Joined", data.guild_id)
+            const link = `/discord/dashboard/${data.guild_id}`
+            this.props.history.push(link)
+        }
+    }
+
     renderGuilds() {
-        if(this.state.guilds) {
+        if(this.state.guilds && Object.keys(this.state.existStates).length === this.state.guilds.length) {
             let guilds = []
             let counter = 0
             this.state.guilds.filter(g => (g.permissions & MANAGE_GUILD) === MANAGE_GUILD).forEach(g => {
-                guilds.push(<GuildCard guild={g} key={counter} />)
+                guilds.push(<GuildCard guild={g} key={counter} callback={guild => {
+                    if(this.state.existStates[guild.id].exists) {
+                        // push history state
+                        this.getLogger().info("Have guild", guild.id, "->", this.state.existStates[guild.id])
+                        const link = `/discord/dashboard/${guild.id}`
+                        this.props.history.push(link)
+                    } else {
+                        // open oauth prompt
+                        this.getLogger().info("Don't have guild", guild.id)
+                        this.getLogger().info("Creating guild add prompt...")
+                        window.open(BACKEND_URL + `/api/v1/connect/discord/bot/add/start?guild=${guild.id}`,
+                            "Discord webhook authorization", "resizable=no,menubar=no,scrollbars=yes,status=no,height=640,width=480")
+                    }
+                }}/>)
                 ++counter
             })
             return guilds
@@ -244,3 +285,5 @@ export class Dashboard extends MComponent {
         )
     }
 }
+
+export const Dashboard = withRouter(DashboardInternal)
