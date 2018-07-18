@@ -100,20 +100,3 @@ textarea.dark-textarea:focus {
   padding-bottom: 4px;
   padding-left: 16px;
   padding-right: 16px; }
-
-.index-button > .button {
-  width: 16em;
-  height: 3em;
-  margin: 1em; }
-
-/*
-.index-button > .button.is-primary {
-  box-shadow: 0px 4px 0px transparentize($redple, 0.5);
-}
-*/
-.index-button-container {
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-content: center;
-  align-items: center; }

@@ -79,23 +79,27 @@ class Navbar extends MComponent {
     navEnd() {
         const community = <a href="https://discord.gg/UwdDN6r" className="navbar-item" target="_blank" rel="noopener noreferrer">Community</a>
         const features = <NavLink to={"/features"} className={"navbar-item"}>Features</NavLink>
+        let userButton = null
         if(this.props.user && this.props.user !== {}) {
-            return (
-                <div className="navbar-end">
-                    {community}
-                    {features}
-                    <UserMenu user={this.props.user} profileId={this.props.profileId} />
-                </div>
-            )
+            userButton = <UserMenu user={this.props.user} profileId={this.props.profileId} />
         } else {
-            return (
-                <div className="navbar-end">
+            userButton = <DiscordLoginButton className="navbar-item has-text-white" innerClass="login-button" text="Login" />
+        }
+        return (
+            <span className="nav-menu-span">
+                <div className="navbar-start">
                     {community}
                     {features}
-                    <DiscordLoginButton className="navbar-item has-text-white" innerClass="login-button" text="Login" />
                 </div>
-            )
-        }
+                <a className="navbar-item" href="https://twitter.com/mewnabot" target="_blank" rel="noopener noreferrer">
+                    <i className="fab fa-twitter navbar-icon nav-twitter" />
+                </a>
+                <a className="navbar-item" href="https://discord.gg/UwdDN6r" target="_blank" rel="noopener noreferrer">
+                    <i className="fab fa-discord navbar-icon nav-discord" />
+                </a>
+                {userButton}
+            </span>
+        )
     }
 
     render() {
@@ -103,11 +107,9 @@ class Navbar extends MComponent {
             <nav className="navbar">
                 <div className="container">
                     <div className="navbar-brand">
-                        <NavLink to="/" className="navbar-item no-hover">
-                            <p className="is-size-3 logo nav-max-height logo-container">
-                                <img src="/mewna-big-eyes.svg" className="logo image is-inline-block" style={{marginRight: "0.25em"}} alt="" />
-                                Mewna
-                            </p>
+                        <NavLink to="/" className="navbar-item no-hover is-size-3 logo nav-max-height logo-container">
+                            <img src="/mewna-big-eyes.svg" className="logo image is-inline-block" style={{marginRight: "0.25em"}} alt="" />
+                            Mewna
                         </NavLink>
                         <span className="navbar-burger burger" data-target="navbarMenu" onClick={() => {
                             // The following code is based off a toggle menu by @Bradcomp

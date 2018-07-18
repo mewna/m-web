@@ -14,6 +14,7 @@ import {NotFound} from './page/NotFound';
 import Switch from 'react-router/Switch';
 import {DiscordLeaderboards} from './page/discord/DiscordLeaderboards';
 import { PaypalCheckout } from './page/paypal/PaypalCheckout';
+import { Features } from './page/Features';
 
 class App extends MComponent {
     constructor(props) {
@@ -26,16 +27,10 @@ class App extends MComponent {
                 <div>
                     <BrowserRouter>
                         <div>
-                            {/* See note in Dashboard.jsx#render() for WHY we do this like this. */}
                             <NavbarRedux />
                             <Switch>
-                                <Route exact path="/" render={() => {
-                                    return (
-                                        <VHContainer>
-                                            <IndexRedux />
-                                        </VHContainer>
-                                    )
-                                }} />
+                                <Route exact path="/" component={IndexRedux} />
+                                <Route exact path="/features" component={Features} />
                                 <Route exact path="/discord/dashboard*" component={Dashboard} />
                                 <Route exact path="/profile/:id" component={ProfilePageRedux} />
                                 <Route exact path="/noauth" render={() => {

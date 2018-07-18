@@ -6,7 +6,6 @@ import {DiscordLogoutButton} from "../comp/DiscordLogoutButton"
 */
 import React from "react"
 import {connect} from 'react-redux'
-import {VHContainer} from './VHContainer'
 
 export class Index extends MComponent {
     constructor(props) {
@@ -14,48 +13,50 @@ export class Index extends MComponent {
     }
 
     render() {
-        /*
-        let user;
-        if(this.getStore().getUser()) {
-            const u = this.getStore().getUser()
-            user = u.username + "#" + u.discriminator + " -> " + u.id
-        } else {
-            user = "Not logged in"
-        }
         return (
-            <div>
-                <section className={"section is-small"}></section>
-                Logged in as: {user}
-                <div className={"container has-text-left"}>
-                    <DiscordLoginButton text="login" /><br />
-                    <DiscordLogoutButton text="logout" /><br />
-                    <NavLink to={"/discord/dashboard"}>dashboard</NavLink>
+            <div className="container index-container" style={{position: "inherit"}}>
+                <div className="index-background is-hidden-mobile">
+                    <div className="index-background-image" />
+                </div>
+                <div className={"index-top-spacer-div is-hidden-mobile"} />
+                <div className="columns">
+                    <div className="column is-6">
+                        <section className="section is-medium has-text-centered">
+                            {/*<h1 className="title has-text-white is-size-3">Better social integration.</h1>*/}
+                            <h1 className="title has-text-white is-size-3">Engage your community.</h1>
+                            <p>
+                                {/*
+                                Mewna is a bot for Discord that automates notifications to your community.<br />
+                                Twitch supported and more on the way.
+                                Mewna brings notifications directly to your Discord community,<br />
+                                with Twitch supported and more on the way.
+                                */}
+                                Mewna is a <a href="https://discord.com/" className="is-text-link">Discord</a> bot that helps engage your server,<br />
+                                with features from chat levels to Twitch notifications.
+                            </p>
+                            <div className="index-button-container">
+                                <DiscordLoginButton className="is-inline-block index-button hover" innerClass="button is-primary" text="Get started" />
+                                <div className="index-button hover">
+                                    <NavLink to="/features" className="button has-text-white is-black is-borderless">Learn more</NavLink>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                    <div className="column is-6">
+                        <section className="section is-medium has-text-centered">
+                            <div className="index-mewna-content">
+                                <div className="index-mewna-content-inner">
+                                    <img src="/discord-box.png" alt="discord" className="index-mewna-floaty-box floaty-box-1" />
+                                    <img src="/twitch-box.png" alt="twitch" className="index-mewna-floaty-box floaty-box-2" />
+                                    <img src="/unknown-box.png" alt="unknown" className="index-mewna-floaty-box floaty-box-3" />
+                                    <img src="/unknown-box.png" alt="unknown" className="index-mewna-floaty-box floaty-box-4" />
+                                    <img src="/mewna-laptop.svg" alt="mewna" className="index-mewna-image" />
+                                </div>
+                            </div>
+                        </section>
+                    </div>
                 </div>
             </div>
-        )
-        */
-
-        return (
-            <VHContainer>
-                <section className="section is-medium has-text-centered">
-                    <h1 className="title has-text-white is-size-3">Better social integration.</h1>
-                    <p>
-                        {/*
-                        Mewna is a bot for Discord that automates notifications to your community.<br />
-                        Twitch supported and more on the way.
-                        */}
-                        Mewna brings notifications directly to your community, with Twitch<br />
-                        supported and more on the way.
-                    </p>
-                    <div className="index-button-container">
-                        <DiscordLoginButton className="is-inline-block index-button hover" innerClass="button is-primary" text="Get started" />
-                        <div className="index-button hover">
-                            <NavLink to="/features" className="button has-text-white is-not-quite-black is-borderless">Learn more</NavLink>
-                        </div>
-                    </div>
-                </section>
-                <section className={"section is-small"} />
-            </VHContainer>
         )
     }
 }

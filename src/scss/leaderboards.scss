@@ -209,3 +209,42 @@ $bar-width: 256px;
     font-size: 2.5em;
   }
 }
+
+div.columns > div.leaderboards-card:first-child > div.leaderboards-card-content > .leaderboards-icon > a > div.leaderboards-icon::after,
+div.columns > div.leaderboards-card:nth-child(2) > div.leaderboards-card-content > .leaderboards-icon > a > div.leaderboards-icon::after,
+div.columns > div.leaderboards-card:nth-child(3) > div.leaderboards-card-content > .leaderboards-icon > a > div.leaderboards-icon::after {
+  content: "";
+  width: 32px;
+  height: 32px;
+  background-repeat: no-repeat;
+  position: absolute;
+  top: 0;
+  transform: rotateZ(45deg);
+}
+@media screen and (max-width: 768px) {
+  div.columns > div.leaderboards-card:first-child > div.leaderboards-card-content > .leaderboards-icon > a > div.leaderboards-icon::after,
+  div.columns > div.leaderboards-card:nth-child(2) > div.leaderboards-card-content > .leaderboards-icon > a > div.leaderboards-icon::after,
+  div.columns > div.leaderboards-card:nth-child(3) > div.leaderboards-card-content > .leaderboards-icon > a > div.leaderboards-icon::after {
+    content: "";
+    left: calc(50% + 12px);
+  }
+}
+@media screen and (min-width: 769px) {
+  div.columns > div.leaderboards-card:first-child > div.leaderboards-card-content > .leaderboards-icon > a > div.leaderboards-icon::after,
+  div.columns > div.leaderboards-card:nth-child(2) > div.leaderboards-card-content > .leaderboards-icon > a > div.leaderboards-icon::after,
+  div.columns > div.leaderboards-card:nth-child(3) > div.leaderboards-card-content > .leaderboards-icon > a > div.leaderboards-icon::after {
+    left: 60px;
+  }
+}
+
+div.columns > div.leaderboards-card:first-child > div.leaderboards-card-content > .leaderboards-icon > a > div.leaderboards-icon::after {
+  background: url("/crown-gold.svg");
+}
+div.columns > div.leaderboards-card:nth-child(2) > div.leaderboards-card-content > .leaderboards-icon > a > div.leaderboards-icon::after {
+  background: url("/crown-silver.svg");
+  filter: brightness(1.25);
+}
+div.columns > div.leaderboards-card:nth-child(3) > div.leaderboards-card-content > .leaderboards-icon > a > div.leaderboards-icon::after {
+  background: url("/crown-bronze.svg");
+  filter: brightness(1.25);
+}

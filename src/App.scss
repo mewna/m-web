@@ -6,21 +6,4 @@
 @import "scss/profile.scss";
 @import "scss/modal.scss";
 @import "scss/leaderboards.scss";
-
-// navbar
-.navbar-user-avatar {
-  margin-right: 0.5rem;
-  width: 24px;
-  height: 24px;
-}
-
-nav.navbar {
-  font-size: 14px !important;
-}
-
-// Notifications
-div.notification.is-outlined {
-  background: transparent !important;
-  border: 2px dashed $not-quite-black;
-  border-radius: 8px;
-}
+@import "scss/index.scss";

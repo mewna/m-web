@@ -1,0 +1,197 @@
+@import "variables.scss";
+
+.index-mewna-content {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+.index-mewna-content-inner {
+  position: relative;
+  width: 300px;
+}
+
+.index-mewna-image {
+  width: 256px;
+}
+
+.index-mewna-floaty-box {
+  width: 64px;
+  position: absolute;
+}
+
+$animation-time: 2s;
+.floaty-box-1 {
+  top: 10px;
+  left: -32px;
+  animation: float-box $animation-time infinite;
+  animation-timing-function: ease-in-out;
+}
+.floaty-box-2 {
+  top: -48px;
+  left: 64px;
+  animation: float-box $animation-time infinite;
+  animation-timing-function: ease-in-out;
+  animation-delay: -0.56s;
+}
+.floaty-box-3 {
+  top: 10px;
+  right: 64px;
+  animation: float-box $animation-time infinite;
+  animation-timing-function: ease-in-out;
+  animation-delay: -1.12s;
+}
+.floaty-box-4 {
+  top: -40px;
+  right: -32px;
+  animation: float-box $animation-time infinite;
+  animation-timing-function: ease-in-out;
+  animation-delay: -1.58s;
+}
+
+@keyframes float-box {
+  0%, 100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+.index-button > .button {
+  width: 16em;
+  height: 3em;
+  margin: 1em;
+  /*
+  box-shadow: 0px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.index-button > .button.is-primary {
+  box-shadow: 0px 4px 0px transparentize($redple, 0.5);
+  */
+}
+
+
+.index-button-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+}
+
+.index-top-spacer-div {
+  margin-top: 12rem;
+}
+
+.index-container {
+  height: 100vh;
+}
+
+@media screen and (max-width: 768px) {
+  .index-button-container {
+    flex-direction: column;
+  }
+  .index-button > .button {
+    margin-bottom: 0;
+    margin-top: 0.5em;
+  }
+}
+
+.index-background-image {
+  position: absolute; // fixed;
+  width: 100vw;
+  height: 100%;
+  min-height: 100%;
+  top: 0;
+  left: 0;
+  background: url("/index-background-2.svg") left bottom no-repeat;
+  background-size: 100vw;
+}
+
+@media screen and (min-width: 769px) {
+  .index-background {
+    position: absolute; // fixed;
+    width: 100vw;
+    height: 100%;
+    min-height: 100%;
+    top: 0;
+    left: 0;
+    background: $not-quite-black;
+    z-index: -1;
+  }
+}
+
+// ------------------------------------------ //
+
+$feature-row-height: 60vh;
+$feature-container-height: 40;
+
+@media screen and (max-width: 768px) {
+  .features-column-reverse-mobile {
+    display: flex;
+    flex-direction: column-reverse;
+  }
+}
+
+.features-background-image {
+  background: url("/index-background-2.svg") left bottom no-repeat;
+  min-width: 100%;
+  //min-height: $feature-row-height;
+  height: 256px;
+  background-size: 100%;
+}
+.features-background-image-2 {
+  background: url("/index-background-3.svg") left bottom no-repeat;
+  min-width: 100%;
+  //min-height: $feature-row-height;
+  height: 256px;
+  background-size: 100%;
+}
+.background-flipped {
+  transform: scaleY(-1) scaleX(-1);
+}
+
+.features-container {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  height: $feature-container-height;
+}
+
+.features-fullwidth {
+  width: 100%;
+}
+
+.features-floaty-box-1 {
+  top: -40px;
+  right: 32px;
+  animation: float-box $animation-time infinite;
+  animation-timing-function: ease-in-out;
+  animation-delay: -1.58s;
+}
+
+.features-column-vcenter {
+  display: flex;
+  align-items: center;
+}
+
+.features-column-hcenter {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+
+@media screen and (max-width: 768px) {
+  .features-column-hcenter, .features-column-vcenter {
+    flex-basis: initial;
+  }
+}
+
+.features-cta {
+  background: $not-quite-black;
+}

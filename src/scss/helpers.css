@@ -96,3 +96,55 @@ div.toggle-col {
 
 .is-borderless {
   border: none; }
+
+a.is-text-link {
+  border-bottom: 1px solid #FFFFFF; }
+
+a.logo-container {
+  padding-top: 0; }
+
+nav.navbar {
+  margin-top: 0.5rem; }
+
+i.navbar-icon {
+  font-size: 1.5em; }
+
+.nav-menu-span {
+  display: flex;
+  width: 100%; }
+  @media screen and (max-width: 768px) {
+    .nav-menu-span {
+      flex-direction: column; } }
+  @media screen and (min-width: 769px) {
+    .nav-menu-span {
+      flex-direction: row; } }
+
+@media screen and (max-width: 768px) {
+  .nav-twitter::after {
+    font-size: 0.75em;
+    margin-left: 0.75em;
+    content: "Twitter"; }
+  .nav-discord::after {
+    font-size: 0.75em;
+    margin-left: 0.75em;
+    content: "Discord"; } }
+
+.has-text-supercentered {
+  display: flex;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+  text-align: center; }
+
+.navbar-user-avatar {
+  margin-right: 0.5rem;
+  width: 24px;
+  height: 24px; }
+
+nav.navbar {
+  font-size: 14px !important; }
+
+div.notification.is-outlined {
+  background: transparent !important;
+  border: 2px dashed #23272A;
+  border-radius: 8px; }

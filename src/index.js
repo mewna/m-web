@@ -36,7 +36,7 @@ if(window.auth.getToken() && window.auth.getId()) {
                 logger.warn("NoAuth triggered")
                 window.auth.clearToken()
                 window.auth.clearId()
-                window.history.pushState('/')
+                window.history.pushState(null, null, '/')
             } else {
                 axios.get(BACKEND_URL + "/api/v1/cache/user/" + window.auth.getId()).then(user => {
                     axios.get(BACKEND_URL + "/api/v1/data/account/links/discord/" + window.auth.getId()).then(profile => {
