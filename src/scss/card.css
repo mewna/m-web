@@ -60,3 +60,33 @@ p.card-header-title.guild-title {
     padding-left: 0 !important; }
   .guild-card.column:nth-of-type(3n) {
     padding-right: 0 !important; } }
+
+.guild-card-wrapper {
+  position: relative;
+  border-radius: 8px;
+  height: 12rem;
+  margin: 1rem;
+  border: 1px solid gray;
+  overflow: hidden; }
+
+.guild-card-background {
+  height: 100%;
+  border-radius: 8px;
+  background-color: #23272A;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: 50% 50%;
+  transition: all .35s ease-in-out; }
+
+.guild-card-background:hover {
+  transform: scale(1.2); }
+
+.guild-card-name {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  text-align: center;
+  padding: 4px;
+  background: rgba(0, 0, 0, 0.6);
+  border-bottom-left-radius: 7px;
+  border-bottom-right-radius: 7px; }

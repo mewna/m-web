@@ -12,45 +12,23 @@ export class GuildCard extends MComponent {
     }
 
     render() {
-        let className = "guild-card shorter column is-4 has-text-left"
-        if(this.props.className) {
-            className += " " + this.props.className
-        }
-        let buttons = (
-                <footer className="card-footer detached">
-                    <a onClick={() => {
-                        this.getLogger().debug("clicked manage ->", this.props.guild.id)
-                        this.props.callback && this.props.callback(this.props.guild)
-                    }} className="card-footer-item fa-pull-left hover">
-                        <i className="fas fa-fw fa-cog"/> Manage
-                    </a>
-                    {/*
-                    <NavLink to={`/discord/dashboard/${this.props.guild.id}`} className="card-footer-item fa-pull-left hover"><i className="fas fa-fw fa-cog"/> Manage</NavLink>
-                    */}
-                </footer>
-            )
-        let children = null;
-        if(this.props.children) {
-            children = (
-                <div className="card-content">
-                    <div className="content">
-                        {this.props.children}
-                    </div>
-                </div>
-            )
-        }
+        let cardBackground = `url("https://cdn.discordapp.com/icons/${this.props.guild.id}/${this.props.guild.icon}.png?size=1024")`
+
         return (
-            <div className={className}>
-                <div className="card detached">
-                    <header className="card-header guild-header">
-                        {this.renderIcon()}
-                        <p className="card-header-title guild-title">
+            <div className="column is-4 guild-card-column">
+                <a onClick={() => {
+                    this.getLogger().debug("clicked manage ->", this.props.guild.id)
+                    this.props.callback && this.props.callback(this.props.guild)
+                }} style={{width: "100%"}}>
+                    <div className="guild-card-wrapper">
+                        <div className="guild-card-background" style={{
+                            backgroundImage: cardBackground
+                        }} />
+                        <div className="guild-card-name">
                             {this.props.guild.name}
-                        </p>
-                    </header>
-                    {children}
-                </div>
-                {buttons}
+                        </div>
+                    </div>
+                </a>
             </div>
         )
     }

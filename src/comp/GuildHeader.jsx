@@ -13,7 +13,7 @@ export class GuildHeader extends MComponent {
                 <div style={{overflow: "hidden"}}>
                     <section className={"section leaderboard-header-image"}
                         style={{
-                            backgroundImage: `url("https://cdn.discordapp.com/icons/${this.props.guild.id}/${this.props.guild.icon}.png")`
+                            backgroundImage: `url("https://cdn.discordapp.com/icons/${this.props.guild.id}/${this.props.guild.icon}.png?size=1024")`
                         }}>
                     </section>
                 </div>
