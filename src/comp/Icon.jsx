@@ -23,7 +23,9 @@ export class Icon extends MComponent {
         return (
             <div className={className}
                 style={style}>
-                <img className={imageClass} src={this.props.src} onError={this.props.onError || (() => {})} alt={"icon"} />
+                <img className={imageClass} src={this.props.src} onError={e => {
+                    e.target.src = this.props.alternate
+                }} alt={"icon"} />
             </div>
         )
     }

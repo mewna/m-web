@@ -36,16 +36,14 @@ export class DiscordLeaderboards extends MComponent {
                             <div className="leaderboards-icon">
                                 <a href={`/profile/${e.accountId}`}>
                                     <Icon src={e.avatar} className={"guild-icon leaderboards-icon"} 
-                                        onError={(e) => {
-                                            return `https://cdn.discordapp.com/embed/avatars/${parseInt(e.discrim, 10) % 5}.png`
-                                        }} />
+                                        alternate={`https://cdn.discordapp.com/embed/avatars/${parseInt(e.discrim, 10) % 5}.png`} />
                                 </a>
                             </div>
                             <div className="leaderboards-rank">
                                 #{e.playerRank}
                             </div>
                             <div className="leaderboards-username">
-                                <a href={`/profile/${e.accountId}`}>{e.name}<span className="leaderboards-discrim">#{e.discrim}</span></a>
+                                <a href={`/profile/${e.accountId}`}>{e.name || "Unknown user"}<span className="leaderboards-discrim">#{e.discrim || "-1"}</span></a>
                             </div>
                             <div className="leaderboards-xp-container">
                                 <div className="progress-bar-container">
