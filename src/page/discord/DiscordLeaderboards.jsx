@@ -25,7 +25,7 @@ export class DiscordLeaderboards extends MComponent {
     }
 
     renderProgressBars() {
-        if(this.state.data && this.state.data.length > 0) {
+        if(this.state.data && this.state.data.forEach && this.state.data.length > 0) {
             let cards = []
             let key = 0;
             this.state.data.forEach(e => {
