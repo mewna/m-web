@@ -1,6 +1,6 @@
 import React from 'react'
 import {MComponent} from "../MComponent"
-import {withRouter} from 'react-router-dom'
+import {withRouter, NavLink} from 'react-router-dom'
 
 import {BACKEND_URL} from "../const"
 
@@ -53,11 +53,19 @@ class DiscordLoginButtonInternal extends MComponent {
     render() {
         const p = Object.assign({}, this.props)
         delete p.staticContext // omegalul
-        return (
-            <div className={p.className}>
-                <a href="" onClick={e => this.tryLogin(e)} className={p.innerClass}>{this.props.text}</a>
-            </div>
-        )
+        if(this.getStore().getUser() !== null) {
+            return (
+                <div className={p.className}>
+                    <NavLink to="/discord/dashboard" className={p.innerClass}>{this.props.text}</NavLink>
+                </div>
+            )
+        } else {
+            return (
+                <div className={p.className}>
+                    <a href="" onClick={e => this.tryLogin(e)} className={p.innerClass}>{this.props.text}</a>
+                </div>
+            )
+        }
     }
 }
 
