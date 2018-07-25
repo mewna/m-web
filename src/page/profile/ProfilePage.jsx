@@ -204,7 +204,16 @@ class ProfileSettingsModal extends MComponent {
 export class ProfilePage extends MComponent {
     constructor(props) {
         super("PROFILEPAGE", props)
-        this.state = {settingsModalOpen: false, player: null, packs: null, background: null, user: null, invalid: false, posts: [], manifest: null}
+        this.state = {
+            settingsModalOpen: false, 
+            player: null, 
+            packs: null, 
+            background: null, 
+            user: null, 
+            invalid: false, 
+            posts: [], 
+            manifest: null
+        }
     }
 
     componentDidMount() {
@@ -248,10 +257,19 @@ export class ProfilePage extends MComponent {
         }
     }
 
+    componentDidUpdate() {
+        if(this.state.id && this.props.match.params.id) {
+            if(this.props.match.params.id !== this.state.id) {
+                this.tryLoad()
+            }
+        }
+    }
+
     // Try to load the player until we have everything needed
     tryLoad() {
         setTimeout(() => {
             if(this.props.match.params.id) {
+                this.setState({id: this.props.match.params.id})
                 axios.get(BACKEND_URL + `/api/v1/data/account/${this.props.match.params.id}/profile`).then(e => {
                     let data = JSON.parse(e.data)
                     this.getLogger().debug("fetched player =>", data)
