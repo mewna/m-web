@@ -11,4 +11,7 @@ RUN yarn install --silent
 RUN yarn global add serve react-scripts
 RUN yarn build
 
-CMD serve -s build
+RUN mkdir -pv run
+RUN cp -r build run/
+
+CMD cd run/ && serve -s build
