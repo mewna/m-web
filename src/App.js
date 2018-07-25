@@ -15,6 +15,7 @@ import Switch from 'react-router/Switch';
 import {DiscordLeaderboards} from './page/discord/DiscordLeaderboards';
 import { PaypalCheckout } from './page/paypal/PaypalCheckout';
 import { Features } from './page/Features';
+import { Commands } from './page/discord/Commands';
 
 class App extends MComponent {
     constructor(props) {
@@ -40,6 +41,7 @@ class App extends MComponent {
                                         </VHContainer>
                                     )
                                 }} />
+                                <Route exact path="/discord/commands" component={Commands} />
                                 <Route exact path="/discord/leaderboards/:id" component={DiscordLeaderboards} />
                                 <Route exact path="/paypal-checkout/:id/:sku" component={PaypalCheckout} />
                                 <Route component={NotFound} />
