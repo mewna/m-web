@@ -6,7 +6,7 @@ WORKDIR /app
 
 COPY . /app
 
-RUN rm -f /app/yarn.lock
+#RUN rm -f /app/yarn.lock
 RUN yarn install --silent
 RUN yarn global add serve react-scripts
 RUN yarn build
