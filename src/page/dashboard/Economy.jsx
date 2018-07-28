@@ -23,7 +23,7 @@ export class Economy extends DashboardPage {
                                 The symbol used for currency in this server.
                             </div>
                             <span style={{marginLeft: "auto", marginRight: "1.5rem"}} />
-                            <DebouncedText placeholder="Default: :white_flower:" id="custom_currency_symbol" maxLength={16}
+                            <DebouncedText placeholder="Default: :white_flower:" id="custom_currency_symbol" maxLength={64}
                                 value={this.state.config.currencySymbol} callback={(e) => {
                                     let config = Object.assign({}, this.state.config)
                                     config.currencySymbol = e.value
