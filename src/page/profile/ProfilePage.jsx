@@ -271,7 +271,7 @@ export class ProfilePage extends MComponent {
             if(this.props.match.params.id) {
                 this.setState({id: this.props.match.params.id})
                 axios.get(BACKEND_URL + `/api/v1/data/account/${this.props.match.params.id}/profile`).then(e => {
-                    let data = JSON.parse(e.data)
+                    let data = e.data
                     this.getLogger().debug("fetched player =>", data)
                     if(data.error) {
                         // Probably an invalid thing, say something
