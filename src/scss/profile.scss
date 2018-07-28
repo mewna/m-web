@@ -90,6 +90,7 @@ div.post-column {
 @media screen and (min-width: 769px) {
   div.profile-background-image-container {
     height: 50px;
+    width: 100%;
   }
   .profile-background-image-wrapper {
     width: 100%;
@@ -110,6 +111,14 @@ div.post-column {
 
   .profile-about-column {
     margin-top: -10.5em;
+  }
+
+  .profile-background-image-thumb {
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
   }
 }
 
@@ -142,9 +151,7 @@ div.profile-background-image-container .profile-background-image-locked {
   height: 24rem;
 }
 
-.profile-background-pack-container {
-
-}
+.profile-background-pack-container {}
 
 .profile-background-pack-container-locked {
   position: relative;

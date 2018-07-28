@@ -20,7 +20,7 @@ class BackgroundCard extends MComponent {
     render() {
         return (
             <div className="profile-background-image-wrapper rounded-corners hover"
-                onMouseOver={() => this.props.backgroundMouseOver(this.props.src.replace(".png", ""))}
+                onMouseOver={() => this.props.backgroundMouseOver(this.props.src.replace(".png", "").replace("/thumbs", ""))}
                 onMouseOut={() => this.props.backgroundMouseOut()}>
                 <a onClick={() => {
                     if(!this.props.locked) {
@@ -29,7 +29,11 @@ class BackgroundCard extends MComponent {
                 }}>
                     {/* TODO: On-click animation registering use */}
                     <div className="profile-background-image-container">
-                        <img src={this.props.src} alt={this.props.alt} className={"profile-background-image" + (this.props.locked ? " profile-background-image-locked" : "")} />
+                        <img src={this.props.src} alt={this.props.alt}
+                            className={
+                                "profile-background-image profile-background-image-thumb"
+                                + (this.props.locked ? " profile-background-image-locked" : "")
+                            } />
                         {this.props.locked ?
                             <div className="profile-background-image-locked">
                                 <i className="fas fa-lock"></i>
@@ -53,6 +57,11 @@ class ProfileSettingsModal extends MComponent {
         window.open(`/paypal-checkout/${this.props.player().id}/${sku}`, "PayPal Checkout", "resizable=no,menubar=no,scrollbars=yes,status=no,height=640,width=480")
     }
 
+    pathToThumb(path) {
+        let s = path.substr(1).split("/")
+        return '/' + s[0] + '/' + s[1] + '/thumbs/' + s[2]
+    }
+
     renderPacks() {
         // fucking retarded deepcopy :tada:
         const packs = JSON.parse(JSON.stringify(this.props.packs))
@@ -67,7 +76,7 @@ class ProfileSettingsModal extends MComponent {
         packs["default"].forEach(bg => {
             cards.push(
                 <div className="column is-4 is-paddingless-top" key={key++}>
-                    <BackgroundCard src={bg.path} alt={bg.name} pack={bg.pack} name={bg.name}
+                    <BackgroundCard src={this.pathToThumb(bg.path)} alt={bg.name} pack={bg.pack} name={bg.name}
                         backgroundMouseOver={this.props.backgroundMouseOver}
                         backgroundMouseOut={this.props.backgroundMouseOut}
                         backgroundOnClick={this.props.backgroundOnClick}
@@ -108,7 +117,7 @@ class ProfileSettingsModal extends MComponent {
                 }
                 cards.push(
                     <div className={columnClass} key={key++}>
-                        <BackgroundCard src={bg.path} alt={bg.name} pack={bg.pack} name={bg.name}
+                        <BackgroundCard src={this.pathToThumb(bg.path)} alt={bg.name} pack={bg.pack} name={bg.name}
                             backgroundMouseOver={this.props.backgroundMouseOver}
                             backgroundMouseOut={this.props.backgroundMouseOut}
                             backgroundOnClick={this.props.backgroundOnClick}
@@ -205,13 +214,13 @@ export class ProfilePage extends MComponent {
     constructor(props) {
         super("PROFILEPAGE", props)
         this.state = {
-            settingsModalOpen: false, 
-            player: null, 
-            packs: null, 
-            background: null, 
-            user: null, 
-            invalid: false, 
-            posts: [], 
+            settingsModalOpen: false,
+            player: null,
+            packs: null,
+            background: null,
+            user: null,
+            invalid: false,
+            posts: [],
             manifest: null
         }
     }
