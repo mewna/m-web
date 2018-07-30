@@ -76,6 +76,6 @@ export class Store {
     }
 }
 
-const store = new Store()
+export const store = new Store()
 
 export default store;

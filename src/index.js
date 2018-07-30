@@ -11,7 +11,7 @@ import './App.css'
 
 import store from './store'
 import {auth} from "./auth"
-import {BACKEND_URL} from "./const";
+import {BACKEND_URL} from "./const"
 
 window.store = store
 window.auth = auth

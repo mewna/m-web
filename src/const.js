@@ -1,7 +1,12 @@
+import {MewnaSocket} from './socket/Socket'
+import {auth as _auth} from "./auth"
+import {store as _store} from './store'
+
 // https://daveceddia.com/multiple-environments-with-react/
 let backendUrl
-let prod = false
+let prod = process.env.NODE_ENV === 'production' // false
 
+/*
 const hostname = window && window.location && window.location.hostname
 
 if(hostname === "mewna.com") {
@@ -13,6 +18,12 @@ if(hostname === "mewna.com") {
 } else {
     backendUrl = process.env.REACT_APP_BACKEND_URL
 }
+*/
+backendUrl = process.env.REACT_APP_BACKEND_URL
+
+export const auth = _auth
+export const store = _store
+export const socket = new MewnaSocket()
 
 export const BACKEND_URL = backendUrl // process.env.REACT_APP_BACKEND_URL
 export const DISCORD_EPOCH = 1420070400000

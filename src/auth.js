@@ -1,8 +1,25 @@
 import {Logger} from "./logger"
+import Cookies from 'universal-cookie'
+
+class CookieStore {
+    _cookies = new Cookies()
+
+    setItem(item, value) {
+        return this._cookies.set(item, value, { path: '/' })
+    }
+
+    getItem(item) {
+        return this._cookies.get(item)
+    }
+
+    removeItem(item) {
+        return this._cookies.remove(item)
+    }
+}
 
 export class Auth {
     constructor() {
-        this.store = window.localStorage
+        this.store = new CookieStore() // window.localStorage
         this.logger = new Logger("AUTH")
     }
 
@@ -16,7 +33,7 @@ export class Auth {
 
     setToken(token) {
         if(this.getToken()) {
-            this.logger.info("Token set with token present?")
+            this.logger.error("Token set with token present?")
         } else {
             this.store.setItem("token", token)
         }

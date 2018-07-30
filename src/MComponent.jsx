@@ -1,6 +1,7 @@
 import {Component} from 'react'
 
 import {Logger} from "./logger"
+import {socket, auth, store} from './const'
 
 export class MComponent extends Component {
     constructor(name, props) {
@@ -9,15 +10,15 @@ export class MComponent extends Component {
     }
 
     getSocket() {
-        return window.socket
+        return /*window.*/socket
     }
 
     getAuth() {
-        return window.auth
+        return /*window.*/auth
     }
 
     getStore() {
-        return window.store
+        return /*window.*/store
     }
 
     getLogger() {
