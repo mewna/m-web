@@ -198,3 +198,17 @@ div.notification.is-outlined {
   width: 100%;
   height: 100%;
 }
+
+.is-underlined {
+  border-bottom: 1px solid $full-white;
+}
+.is-underlined-theme {
+  border-bottom: 2px solid $primary;
+}
+
+.flex-row {
+  flex-direction: row;
+}
+.flex-column {
+  flex-direction: column;
+}

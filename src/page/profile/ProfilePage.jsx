@@ -11,6 +11,8 @@ import ProgressiveImage from 'react-progressive-bg-image'
 import {NotFound} from '../NotFound'
 import bigInt from "big-integer"
 import {formatRelative} from 'date-fns'
+import ReactMarkdown from 'react-markdown'
+import {PostEditor} from "../../comp/profile/PostEditor";
 
 class BackgroundCard extends MComponent {
     constructor(props) {
@@ -221,7 +223,9 @@ export class ProfilePage extends MComponent {
             user: null,
             invalid: false,
             posts: [],
-            manifest: null
+            systemPosts: [],
+            manifest: null,
+            showUserPosts: true,
         }
     }
 
@@ -237,7 +241,6 @@ export class ProfilePage extends MComponent {
     handleShopMessage(e) {
         let data = e.data || e.data.data
         if(data) {
-            this.getLogger().debug(data)
             if(data.mode === "store") {
                 this.getLogger().debug("store ->", data)
                 if(data.finished) {
@@ -253,16 +256,6 @@ export class ProfilePage extends MComponent {
                     })
                 }
             }
-        }
-    }
-
-    renderEdit() {
-        if(this.props.match.params.id === this.getStore().getProfileId()) {
-            return (
-                <a className="button is-primary" onClick={() => this.setState({settingsModalOpen: true})}>Edit</a>
-            )
-        } else {
-            return ""
         }
     }
 
@@ -286,7 +279,7 @@ export class ProfilePage extends MComponent {
                         // Probably an invalid thing, say something
                         this.setState({invalid: true})
                     } else {
-                        this.setState({player: data, background: data.customBackground})
+                        this.setState({player: data, background: data.customBackground, showUserPosts: data.isInBeta})
                     }
                 })
                 axios.get(BACKEND_URL + "/api/v1/metadata/backgrounds/packs").then(e => {
@@ -297,24 +290,49 @@ export class ProfilePage extends MComponent {
                 axios.get(BACKEND_URL + `/api/v1/data/account/${this.props.match.params.id}/posts`).then(e => {
                     let data = e.data
                     this.getLogger().debug("fetched posts =>", data)
-                    this.setState({posts: data})
+                    const systemPosts = data.filter(p => p.system)
+                    const userPosts = [
+                        {
+                            "id": "60450023859630083",
+                            "author": "60403539487305728",
+                            "content": {
+                                "text": "this is a test post. wow!\n\nit has a lot of vvv long content and is generally very long and boring"
+                                    + " and frankly probably nobody wants to read this boring shit but it needed to be made so here we are,"
+                                    + " i guess"
+                            }
+                        }
+                    ] // data.filter(p => !p.system)
+                    this.setState({posts: userPosts, systemPosts: systemPosts})
                 })
                 axios.get(BACKEND_URL + `/api/v1/data/store/manifest`).then(e => {
                     let data = e.data
                     this.getLogger().debug("fetched manifest =>", data)
                     this.setState({manifest: data})
                 })
-                /*
-                axios.get(BACKEND_URL + "/api/v1/cache/user/" + this.props.match.params.id).then(e => {
-                    let data = e.data
-                    this.getLogger().debug("fetched cache =>", data)
-                    this.setState({user: data})
-                })
-                */
             } else {
                 this.tryLoad()
             }
         }, 100)
+    }
+
+    renderEdit() {
+        if(this.props.match.params.id === this.getStore().getProfileId()) {
+            return (
+                <a className="button is-primary" onClick={() => this.setState({settingsModalOpen: true})}>Edit</a>
+            )
+        } else {
+            return ""
+        }
+    }
+
+    renderNewPostDialog() {
+        if(this.props.match.params.id === this.getStore().getProfileId()) {
+            return (
+                <PostEditor />
+            )
+        } else {
+            return ""
+        }
     }
 
     renderSystemPostText(post) {
@@ -354,40 +372,63 @@ export class ProfilePage extends MComponent {
         }
     }
 
-    renderTimeline() {
+    renderUserPosts() {
         if(this.state.posts && this.state.posts.length > 0) {
             let posts = []
 
             let key = 0
+            posts.push(
+                <PostEditor key={key++} />
+            )
             const now = new Date()
             this.state.posts.forEach(post => {
-                if(post.system) {
-                    posts.push(
-                        <div className="column is-12 is-not-quite-black rounded-corners post-column is-flex flex-row" key={key++}>
-                            {/*<span style={{marginRight: "0.25em"}}><i className="far fa-money-bill-alt"></i></span>*/}
-                            <span><b>{this.state.player.displayName}</b> {this.renderSystemPostText(post)}</span>
-                            <span style={{marginLeft: "auto", marginRight: "0.5em"}} />
+                posts.push(
+                    <div className="column is-12 is-not-quite-black rounded-corners post-column is-flex flex-column" key={key++}>
+                        <div className="is-flex">
+                            <span><b>{this.state.player.displayName}</b></span><span style={{marginLeft: "auto", marginRight: "0.5em"}} />
                             <span>{formatRelative(new Date(bigInt(post.id).shiftRight(22).valueOf() + MEWNA_EPOCH), now)}</span>
                         </div>
-                    )
-                } else {
-                    posts.push(
-                        <div className="column is-12 is-not-quite-black rounded-corners post-column is-flex flex-row" key={key++}>
-                            {/*<span style={{marginRight: "0.25em"}}><i className="far fa-money-bill-alt"></i></span>*/}
-                            <span><b>{this.state.player.displayName}</b> {post.content.text}</span>
-                            <span style={{marginLeft: "auto", marginRight: "0.5em"}} />
-                            <span>{formatRelative(new Date(bigInt(post.id).shiftRight(22).valueOf() + MEWNA_EPOCH), now)}</span>
-                        </div>
-                    )
-                }
+                        <hr className="dark-hr" />
+                        <ReactMarkdown source={post.content.text} />
+                    </div>
+                )
             })
             return posts
         } else {
             return (
                 <div className="column is-12 is-not-quite-black rounded-corners">
-                    <b>{this.state.player.displayName}</b> hasn't done anything notable yet...
+                    <b>{this.state.player.displayName}</b> hasn't posted anything yet...
                 </div>
             )
+        }
+    }
+
+    renderTimeline() {
+        if(this.state.showUserPosts && this.state.player.isInBeta) {
+            return this.renderUserPosts()
+        } else {
+            if(this.state.systemPosts && this.state.systemPosts.length > 0) {
+                let posts = []
+
+                let key = 0
+                const now = new Date()
+                this.state.systemPosts.forEach(post => {
+                    posts.push(
+                        <div className="column is-12 is-not-quite-black rounded-corners post-column is-flex flex-row" key={key++}>
+                            <span><b>{this.state.player.displayName}</b> {this.renderSystemPostText(post)}</span>
+                            <span style={{marginLeft: "auto", marginRight: "0.5em"}} />
+                            <span>{formatRelative(new Date(bigInt(post.id).shiftRight(22).valueOf() + MEWNA_EPOCH), now)}</span>
+                        </div>
+                    )
+                })
+                return posts
+            } else {
+                return (
+                    <div className="column is-12 is-not-quite-black rounded-corners">
+                        <b>{this.state.player.displayName}</b> hasn't done anything notable yet...
+                </div>
+                )
+            }
         }
     }
 
@@ -399,6 +440,18 @@ export class ProfilePage extends MComponent {
         } else if(this.state.player && this.state.packs && this.state.manifest) {
             const split = this.state.background.split("/")
             const thumbnail = split[0] + '/' + split[1] + '/thumbs/' + split[2]
+            const postsClass = "profile-header-link" + (this.state.showUserPosts ? " is-underlined-theme" : "")
+            const notablesClass = "profile-header-link" + (this.state.showUserPosts ? "" : " is-underlined-theme")
+            const profileHeaderLinks = this.state.player.isInBeta ? (
+                <div>
+                    <a className={postsClass} onClick={() => {
+                        this.setState({showUserPosts: true})
+                    }}>Posts</a>
+                    <a className={notablesClass} onClick={() => {
+                        this.setState({showUserPosts: false})
+                    }}>Notable changes</a>
+                </div>
+            ) : ""
             return (
                 <div>
                     <div className="profile-background-section">
@@ -418,8 +471,7 @@ export class ProfilePage extends MComponent {
                             <div className="columns profile-column-container is-4em-h is-flex" style={{flexDirection: "row", alignItems: "center"}}>
                                 <div className="column is-3 profile-column is-4em-h" />
                                 <div className="column is-9 profile-column is-4em-h profile-top-bar-inner">
-                                    {/*<a className="profile-header-link">Timeline</a>
-                                    <a className="profile-header-link">More info</a>*/}
+                                    {profileHeaderLinks}
                                     <span style={{marginLeft: "auto", marginRight: "1em"}} />
                                     <div>
                                         {this.renderEdit()}

@@ -6,7 +6,13 @@ $dark-not-black: #2C2F33;
 $not-quite-black: #23272A;
 
 $text: $full-white;
+$text-strong: $full-white;
 $primary: $redple;
+
+// Code
+$code: $full-white;
+$code-background: $dark-not-black;
+$pre-background: $dark-not-black;
 
 // Fonts
 @import url('https://fonts.googleapis.com/css?family=Open+Sans');
