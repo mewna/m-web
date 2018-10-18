@@ -139,7 +139,7 @@
   .progress-bar-container {
     width: 100%; }
   .progress-bar {
-    height: calc(100% - $bar-padding); } }
+    height: calc(100% - 8px); } }
 
 @media screen and (min-width: 769px) {
   .leaderboards-card-content {

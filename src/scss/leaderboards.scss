@@ -181,7 +181,7 @@ $bar-width: 256px;
   }
   
   .progress-bar {
-    height: calc(100% - $bar-padding);
+    height: calc(100% - 8px /*$bar-padding*/);
   }
 }
 
