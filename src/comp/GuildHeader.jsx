@@ -8,12 +8,18 @@ export class GuildHeader extends MComponent {
     }
 
     render() {
+        let bg
+        if(this.props.player) {
+            bg = `${this.props.player.customBackground}.png`
+        } else {
+            bg = `https://cdn.discordapp.com/icons/${this.props.guild.id}/${this.props.guild.icon}.png?size=1024`
+        }
         return (
             <div>
                 <div style={{overflow: "hidden"}}>
-                    <section className={"section leaderboard-header-image"}
+                    <section className={"section leaderboards-header-image is-small"}
                         style={{
-                            backgroundImage: `url("https://cdn.discordapp.com/icons/${this.props.guild.id}/${this.props.guild.icon}.png?size=1024")`
+                            background: `url("${bg}") center / cover`
                         }}>
                     </section>
                 </div>

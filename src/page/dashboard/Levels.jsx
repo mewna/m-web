@@ -153,8 +153,12 @@ export class Levels extends DashboardPage {
                                 clearable={false}
                                 searchable={false}
                                 optionRenderer={option => {
+                                    let color = this.state.roles.filter(e => e.id === option.value)[0].color.toString(16)
+                                    if(color === "1fffffff") {
+                                        color = "ffffff"
+                                    }
                                     return (
-                                        <span id={option.value} style={{"color": "#" + this.state.roles.filter(e => e.id === option.value)[0].color.toString(16)}}>
+                                        <span id={option.value} style={{"color": "#" + color}}>
                                             {option.label}
                                         </span>
                                     )

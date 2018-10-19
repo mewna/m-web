@@ -28,7 +28,14 @@ class DashboardInternal extends MComponent {
     constructor(props) {
         super("DASHBOARD", props)
         // /api/v1/cache/guild/:id/exists
-        this.state = {guilds: null, connected: false, config: null, pluginMetadata: null, existStates: {}}
+        this.state = {
+            guilds: null,
+            connected: false,
+            config: null,
+            pluginMetadata: null,
+            existStates: {},
+            player: null,
+        }
     }
 
     async fetchGuildsExist(guilds) {
@@ -46,7 +53,6 @@ class DashboardInternal extends MComponent {
     }
 
     componentDidMount() {
-        // TODO: Figure out the smart thing to do with not wasting connections
         this.getLogger().debug("Starting dashboard join...")
         try {
             this.getSocket().joinChannel("dashboard:" + this.getAuth().getId(), {}, (e) => {
@@ -71,6 +77,11 @@ class DashboardInternal extends MComponent {
                         this.setState({pluginMetadata: e.data})
                         this.setState({connected: true})
                     })
+                    axios.get(BACKEND_URL + `/api/v1/data/account/${this.getStore().getProfileId()}/profile`).then(e => {
+                        let data = e.data
+                        this.getLogger().debug("fetched player =>", data)
+                        this.setState({player: data})
+                    })
                 }
             })
         } catch(e) {
@@ -94,7 +105,7 @@ class DashboardInternal extends MComponent {
     }
 
     renderGuilds() {
-        if(this.state.guilds && Object.keys(this.state.existStates).length === this.state.guilds.length) {
+        if(this.state.player && this.state.guilds && Object.keys(this.state.existStates).length === this.state.guilds.length) {
             let guilds = []
             let counter = 0
             this.state.guilds.filter(g => (g.permissions & MANAGE_GUILD) === MANAGE_GUILD).forEach(g => {
@@ -115,6 +126,12 @@ class DashboardInternal extends MComponent {
                 ++counter
             })
             return guilds
+        } else if(this.state.player && this.state.guilds && this.state.guilds.length === 0) {
+            return (
+                <div className="has-text-centered" style={{width: "100%"}}>
+                    You don't have any servers you can manage!
+                </div>
+            )
         } else {
             return (
                 <div className="has-text-centered" style={{width: "100%"}}>
@@ -228,7 +245,7 @@ class DashboardInternal extends MComponent {
                 </NavLink>
             )
             return (
-                <GuildHeader guild={guild} titleExtra={pageName}>
+                <GuildHeader player={this.state.player} guild={guild} titleExtra={pageName}>
                     {backLink}
                 </GuildHeader>
             )
