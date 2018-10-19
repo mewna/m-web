@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css?family=Open+Sans");
+@import url("https://fonts.googleapis.com/css?family=Lato");
 /*! bulma.io v0.7.1 | MIT License | github.com/jgthms/bulma */
 @keyframes spinAround {
   from {
@@ -263,7 +263,7 @@ button,
 input,
 select,
 textarea {
-  font-family: "Open Sans", sans-serif; }
+  font-family: "Lato", sans-serif; }
 
 code,
 pre {

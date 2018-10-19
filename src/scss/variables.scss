@@ -9,9 +9,10 @@ $text: $full-white;
 $primary: $redple;
 
 // Fonts
-@import url('https://fonts.googleapis.com/css?family=Open+Sans');
-//@import url('https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz');
-$family-sans-serif: "Open Sans", sans-serif; // "Ubuntu", sans-serif;
+// @import url('https://fonts.googleapis.com/css?family=Open+Sans');
+@import url('https://fonts.googleapis.com/css?family=Lato');
+// @import url('https://fonts.googleapis.com/css?family=Yanone+Kaffeesatz');
+$family-sans-serif: "Lato", sans-serif; // "Open Sans", sans-serif; // "Ubuntu", sans-serif;
 
 // navbar
 $navbar-background-color: transparent; // $redple;
