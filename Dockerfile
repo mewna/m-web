@@ -1,5 +1,5 @@
 FROM node:alpine
-RUN apk update && apk add git
+RUN apk update && apk add git python2
 
 RUN mkdir /app
 WORKDIR /app
