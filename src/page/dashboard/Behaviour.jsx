@@ -27,7 +27,7 @@ export class Behaviour extends DashboardPage {
                                 value={this.state.config.prefix} callback={(e) => {
                                     let config = Object.assign({}, this.state.config)
                                     config.prefix = e.value
-                                    this.setState({config: config}, () => this.updateConfig())
+                                    this.updateConfig(config)
                                 }} />
                         </div>
                     </div>

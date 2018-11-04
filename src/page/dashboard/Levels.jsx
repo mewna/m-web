@@ -44,7 +44,8 @@ export class Levels extends DashboardPage {
         let roleRewards = config.levelRoleRewards
         roleRewards[e.value] = 1
         config.roleRewards = roleRewards
-        this.setState({config: config}, () => this.updateConfig())
+        // this.setState({config: config}, () => this.updateConfig())
+        this.updateConfig(config)
     }
 
     handleRoleLevelChange(oldLevel, newLevel, role) {
@@ -52,7 +53,8 @@ export class Levels extends DashboardPage {
         let roleRewards = config.levelRoleRewards
         roleRewards[role.id] = newLevel
         config.roleRewards = roleRewards
-        this.setState({config: config}, () => this.updateConfig())
+        // this.setState({config: config}, () => this.updateConfig())
+        this.updateConfig(config)
     }
 
     handleRoleRemove(level, role) {
@@ -60,7 +62,8 @@ export class Levels extends DashboardPage {
         let roleRewards = config.levelRoleRewards
         delete roleRewards[role.id]
         config.roleRewards = roleRewards
-        this.setState({config: config}, () => this.updateConfig())
+        // this.setState({config: config}, () => this.updateConfig())
+        this.updateConfig(config)
     }
 
     renderRoleCards() {
@@ -100,21 +103,24 @@ export class Levels extends DashboardPage {
                         checkedCallback={() => this.state.config.levelsEnabled} callback={() => {
                             let config = Object.assign({}, this.state.config)
                             config.levelsEnabled = !config.levelsEnabled
-                            this.setState({config: config}, () => this.updateConfig())
+                            // this.setState({config: config}, () => this.updateConfig())
+                            this.updateConfig(config)
                             this.getLogger().debug("Toggled levelsEnabled: ", config.levelsEnabled)
                         }} />
                     <OptionToggle name="Enable level-up messages" desc="Whether or not messages should be sent when someone levels up."
                         checkedCallback={() => this.state.config.levelUpMessagesEnabled} callback={() => {
                             let config = Object.assign({}, this.state.config)
                             config.levelUpMessagesEnabled = !config.levelUpMessagesEnabled
-                            this.setState({config: config}, () => this.updateConfig())
+                            // this.setState({config: config}, () => this.updateConfig())
+                            this.updateConfig(config)
                             this.getLogger().debug("Toggled levelUpMessagesEnabled: ", config.levelUpMessagesEnabled)
                         }} />
                     <OptionToggle name="Remove previous role rewards" desc="If enabled, users will only have the highest role reward, otherwise they can have multiple."
                         checkedCallback={() => this.state.config.removePreviousRoleRewards} callback={() => {
                             let config = Object.assign({}, this.state.config)
                             config.removePreviousRoleRewards = !config.removePreviousRoleRewards
-                            this.setState({config: config}, () => this.updateConfig())
+                            // this.setState({config: config}, () => this.updateConfig())
+                            this.updateConfig(config)
                             this.getLogger().debug("Toggled removePreviousRoleRewards: ", config.removePreviousRoleRewards)
                         }} />
                     <div className={"column is-12 toggle-column-wrapper"}>
@@ -128,7 +134,8 @@ export class Levels extends DashboardPage {
                                 const val = e.textarea_value
                                 let config = Object.assign({}, this.state.config)
                                 config.levelUpMessage = val
-                                this.setState({config: config}, () => this.updateConfig())
+                                // this.setState({config: config}, () => this.updateConfig())
+                                this.updateConfig(config)
                                 this.getLogger().debug("Set levelUpMessage:", val)
                             }} value={this.state.config.levelUpMessage} />
                         </div>

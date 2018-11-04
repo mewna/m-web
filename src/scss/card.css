@@ -1,4 +1,10 @@
 @import url("https://fonts.googleapis.com/css?family=Lato");
+.card.detached.hover {
+  box-shadow: 0 0 8px 2px #202225 !important; }
+
+.card-content {
+  padding: 1.25rem !important; }
+
 .guild-card.shorter > .card.detached {
   height: 6.1rem; }
 

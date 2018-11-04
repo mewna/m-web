@@ -1,31 +1,39 @@
 @import "./variables.scss";
 
+.card.detached.hover {
+  box-shadow: 0 0 8px 2px darken($dark-not-black, 5%) !important;
+}
+
+.card-content {
+  padding: 1.25rem !important;
+}
+
 .guild-card.shorter > .card.detached {
-    height: 6.1rem;
+  height: 6.1rem;
+}
+  
+$card-outer-margin: 0rem;
+.guild-card {
+  flex: 1;
+  border-radius: 8px;
+  display: inline-block;
+  //height: 50% !important;
+  //min-height: 50% !important;
+
+  @media screen and (min-width: 769px) {
+    margin: $card-outer-margin !important;
   }
-  
-  $card-outer-margin: 0rem;
-  .guild-card {
-    flex: 1;
-    border-radius: 8px;
-    display: inline-block;
-    //height: 50% !important;
-    //min-height: 50% !important;
-  
-    @media screen and (min-width: 769px) {
-      margin: $card-outer-margin !important;
-    }
-  
-    @media screen and (max-width: 768px) {
-      margin: 0 !important;
-      margin-top: $card-outer-margin !important;
-      margin-bottom: $card-outer-margin !important;
-      width: 100%;
-    }
-    .card.detached {
-      height: 10rem;
-    }
+
+  @media screen and (max-width: 768px) {
+    margin: 0 !important;
+    margin-top: $card-outer-margin !important;
+    margin-bottom: $card-outer-margin !important;
+    width: 100%;
   }
+  .card.detached {
+    height: 10rem;
+  }
+}
 
 $card-border: transparent; // transparentize(#777, 0.5);
 .card-footer-item:not(:last-child) {

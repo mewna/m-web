@@ -7,6 +7,18 @@ export class TopBar extends MComponent {
     }
 
     render() {
+        let content = (
+            <div>
+                <div className="guild-header-name">{this.props.title}</div>
+                <div style={{marginLeft: "auto", marginRight: "1em"}} />
+                {this.props.children}
+            </div>
+        )
+        if(this.props.noTitle) {
+            content = (
+                this.props.children
+            )
+        }
         return (
             <div className="profile-top-bar">
                 <div className="container is-4em-h">
@@ -14,9 +26,7 @@ export class TopBar extends MComponent {
                         <div className="column is-10 is-4em-h">
                             <div className={"columns is-centered has-text-centered is-4em-h"}>
                                 <div className="column is-12 has-text-left is-4em-h profile-top-bar-inner">
-                                    <div className="guild-header-name">{this.props.title}</div>
-                                    <div style={{marginLeft: "auto", marginRight: "1em"}} />
-                                    {this.props.children}
+                                    {content}
                                 </div>
                             </div>
                         </div>

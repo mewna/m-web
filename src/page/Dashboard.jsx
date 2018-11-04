@@ -6,7 +6,7 @@ import {NavLink} from "react-router-dom"
 import BubblePreloader from 'react-bubble-preloader'
 import {matchPath} from 'react-router'
 import {DashboardCard} from "../comp/dashboard/DashboardCard"
-import {GuildHeader} from '../comp/GuildHeader'
+import {DashboardHeader} from '../comp/DashboardHeader'
 
 import {Behaviour} from './dashboard/Behaviour'
 import {Economy} from "./dashboard/Economy"
@@ -17,12 +17,69 @@ import {Music} from "./dashboard/Music"
 import {Twitch} from "./dashboard/Twitch"
 import {Welcoming} from "./dashboard/Welcoming"
 
+import {Webhooks} from "./dashboard/Webhooks"
+import {Pro} from "./dashboard/Pro"
+
 import axios from 'axios'
-import {BACKEND_URL} from "../const"
+import {BACKEND_URL, REDPLE, NOT_QUITE_BLACK, FULL_WHITE, DARK_NOT_BLACK} from "../const"
 import {VHContainer} from "./VHContainer"
 import {withRouter} from 'react-router-dom'
+import Select from "react-select"
+import styled from 'styled-components'
 
 const MANAGE_GUILD = 0x00000020
+
+const SelectIcon = styled.div`
+border: 1px solid white;
+border-radius: 50%;
+min-width: 24px;
+width: 24px;
+height: 24px;
+margin-right: 0.25em;
+`
+const SelectIconImg = styled.img`
+border: 1px solid white;
+border-radius: 50%;
+min-width: 24px;
+width: 24px;
+height: 24px;
+margin-right: 0.25em;
+`
+
+const GuildOption = styled.div`
+display: flex;
+flex-direction: row;
+flex: 1;
+flex-basis: auto;
+align-content: center;
+align-items: center;
+justify-content: left;
+height: 36px;
+line-height: 1;
+`
+
+const HeaderLink = styled.div`
+margin-left: 2em;
+font-weight: bold;
+border-bottom: 2px solid transparent;
+height: 100%;
+display: flex;
+align-items: center;
+padding-left: 1em;
+padding-right: 1em;
+
+&:hover {
+    background: ${DARK_NOT_BLACK};
+    border-bottom: 2px solid ${FULL_WHITE} !important;
+}
+`
+const HeaderLinkRed = styled(HeaderLink)`
+color: ${REDPLE};
+&:hover {
+    background: ${DARK_NOT_BLACK};
+    border-bottom: 2px solid ${REDPLE} !important;
+}
+`
 
 class DashboardInternal extends MComponent {
     constructor(props) {
@@ -35,6 +92,7 @@ class DashboardInternal extends MComponent {
             pluginMetadata: null,
             existStates: {},
             player: null,
+            guildOptions: []
         }
     }
 
@@ -58,7 +116,11 @@ class DashboardInternal extends MComponent {
             this.getSocket().joinChannel("dashboard:" + this.getAuth().getId(), {}, (e) => {
                 this.getLogger().debug("Dashboard got socket message:", e)
                 const data = e.d.data
-                this.setState({guilds: data.guilds.filter(g => (g.permissions & MANAGE_GUILD) === MANAGE_GUILD)}, 
+                const manageGuilds = data.guilds.filter(g => (g.permissions & MANAGE_GUILD) === MANAGE_GUILD)
+                this.setState({
+                        guilds: manageGuilds,
+                        guildOptions: manageGuilds.map(e => ({value: e.id, label: e.name, icon: e.icon})),
+                    }, 
                     () => this.fetchGuildsExist(this.state.guilds))
                 // So this works, because when the user first logs in, there are no guilds send in the login message
                 // which means that this will go "loading screen"
@@ -104,25 +166,27 @@ class DashboardInternal extends MComponent {
         }
     }
 
+    promptAdd(id) {
+        if(this.state.existStates[id].exists) {
+            // push history state
+            this.getLogger().info("Have guild", id, "->", this.state.existStates[id])
+            const link = `/discord/dashboard/${id}`
+            this.props.history.push(link)
+        } else {
+            // open oauth prompt
+            this.getLogger().info("Don't have guild", id)
+            this.getLogger().info("Creating guild add prompt...")
+            window.open(BACKEND_URL + `/api/v1/connect/discord/bot/add/start?guild=${id}`,
+                "Discord bot authorization", "resizable=no,menubar=no,scrollbars=yes,status=no,height=640,width=480")
+        }
+    }
+
     renderGuilds() {
         if(this.state.player && this.state.guilds && Object.keys(this.state.existStates).length === this.state.guilds.length) {
             let guilds = []
             let counter = 0
             this.state.guilds.filter(g => (g.permissions & MANAGE_GUILD) === MANAGE_GUILD).forEach(g => {
-                guilds.push(<GuildCard guild={g} key={counter} callback={guild => {
-                    if(this.state.existStates[guild.id].exists) {
-                        // push history state
-                        this.getLogger().info("Have guild", guild.id, "->", this.state.existStates[guild.id])
-                        const link = `/discord/dashboard/${guild.id}`
-                        this.props.history.push(link)
-                    } else {
-                        // open oauth prompt
-                        this.getLogger().info("Don't have guild", guild.id)
-                        this.getLogger().info("Creating guild add prompt...")
-                        window.open(BACKEND_URL + `/api/v1/connect/discord/bot/add/start?guild=${guild.id}`,
-                            "Discord webhook authorization", "resizable=no,menubar=no,scrollbars=yes,status=no,height=640,width=480")
-                    }
-                }}/>)
+                guilds.push(<GuildCard guild={g} key={counter} callback={guild => this.promptAdd(guild.id)}/>)
                 ++counter
             })
             return guilds
@@ -196,6 +260,12 @@ class DashboardInternal extends MComponent {
                 case "welcoming":
                     pageData = <Welcoming guild={guild} />
                     break
+                case "webhooks":
+                    pageData = <Webhooks guild={guild} />
+                    break
+                case "pro":
+                    pageData = <Pro guild={guild} />
+                    break
                 default:
                     pageData = "Unknown page?"
                     break
@@ -227,27 +297,86 @@ class DashboardInternal extends MComponent {
 
     renderHeader(match) {
         if(match.params.id && this.state.guilds) {
+            let modulesColor = NOT_QUITE_BLACK;
+            if(!match.params.page || (match.params.page !== "webhooks" && match.params.page !== "pro")) {
+                modulesColor = FULL_WHITE
+            }
+            let webhooksColor = NOT_QUITE_BLACK;
+            if(match.params.page && match.params.page === "webhooks") {
+                webhooksColor = FULL_WHITE
+            }
+            let proColor = NOT_QUITE_BLACK;
+            if(match.params.page && match.params.page === "pro") {
+                proColor = REDPLE
+            }
+
             const guild = this.state.guilds.filter(e => e.id === match.params.id)[0]
-            const page = match.params.page
-            let pageName = null
-            if(page) {
-                pageName = " - " + (page.charAt(0).toUpperCase() + page.substr(1))
-            }
-            let parent = "/discord/dashboard"
-            let backText = "Back to server list"
-            if(page) {
-                parent += "/" + guild.id
-                backText = "Back to dashboard"
-            }
-            let backLink = (
-                <NavLink to={parent} className={"button is-primary hover"} style={{marginRight: "1.25em"}}>
-                    {backText}
-                </NavLink>
-            )
             return (
-                <GuildHeader player={this.state.player} guild={guild} titleExtra={pageName}>
-                    {backLink}
-                </GuildHeader>
+                <DashboardHeader player={this.state.player} guild={guild}>
+                    <Select
+                        className="wide-select"
+                        name="guild-select"
+                        value={this.state.guildOptions.filter(e => e.value === match.params.id)[0]}
+                        onChange={e => /*this.handleGuildSelect(e)*/ this.promptAdd(e.value)}
+                        options={this.state.guildOptions}
+                        clearable={false}
+                        searchable={false}
+                        optionRenderer={option => {
+                            let icon = this.state.guilds.filter(e => e.id === option.value)[0].icon
+                            let iconElement = <SelectIcon />
+                            if(icon && icon !== "") {
+                                iconElement = <SelectIconImg src={`https://cdn.discordapp.com/icons/${option.value}/${icon}.png`} />
+                            }
+                            return (
+                                <GuildOption id={option.value}>
+                                    {iconElement}
+                                    {option.label}
+                                </GuildOption>
+                            )
+                        }}
+                        valueRenderer={option => {
+                            let icon = this.state.guilds.filter(e => e.id === option.value)[0].icon
+                            let iconElement = <SelectIcon />
+                            if(icon && icon !== "") {
+                                iconElement = <SelectIconImg src={`https://cdn.discordapp.com/icons/${option.value}/${icon}.png`} />
+                            }
+                            return (
+                                <GuildOption id={option.value}>
+                                    {iconElement}
+                                    {option.label}
+                                </GuildOption>
+                            )
+                        }}
+                    />
+                    <NavLink to={`/discord/dashboard/${match.params.id}`} style={{height: "100%"}}>
+                        <HeaderLink style={{borderBottom: `2px solid ${modulesColor}`}}>
+                            MODULES
+                        </HeaderLink>
+                    </NavLink>
+                    <NavLink to={`/discord/dashboard/${match.params.id}/webhooks`} style={{height: "100%"}}>
+                        <HeaderLink style={{borderBottom: `2px solid ${webhooksColor}`}}>
+                            WEBHOOKS
+                        </HeaderLink>
+                    </NavLink>
+                    <NavLink to={`/discord/dashboard/${match.params.id}/pro`} style={{color: REDPLE, height: "100%"}}>
+                        <HeaderLinkRed style={{borderBottom: `2px solid ${proColor}`}}>
+                            MEWNA PRO
+                        </HeaderLinkRed>
+                    </NavLink>
+                </DashboardHeader>
+            )
+        } else if(!match.params.id) {
+            return (
+                <DashboardHeader player={this.state.player}>
+                    <a href="/pro" target="_blank" rel="noopener noreferer" style={{color: REDPLE, height: "100%"}}>
+                        {/*
+                        <HeaderLinkRed>
+                            MEWNA PRO
+                        </HeaderLinkRed>
+                        */}
+                        idk what's gonna go here yet :clap:
+                    </a>
+                </DashboardHeader>
             )
         } else {
             return ""
@@ -270,8 +399,8 @@ class DashboardInternal extends MComponent {
         } else {
             return (
                 <div className="has-text-centered" style={{width: "100%"}}>
-                    <section className="section is-small" />
-                    <p className="is-size-3">Select a server</p>
+                    {/*<section className="section is-small" />
+                    <p className="is-size-3">Select a server</p>*/}
                     <div className={"columns is-multiline is-paddingless is-marginless is-centered has-text-centered card-columns"}>
                         {this.renderGuilds()}
                     </div>

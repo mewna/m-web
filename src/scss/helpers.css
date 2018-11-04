@@ -55,7 +55,8 @@ div.toggle-row {
   width: 100%;
   min-height: 7rem !important;
   max-height: 14rem;
-  position: relative; }
+  position: relative;
+  box-shadow: 0 0 8px 2px #202225 !important; }
 
 div.toggle-col {
   padding: 2rem;
@@ -69,7 +70,8 @@ div.toggle-col {
   align-content: left;
   justify-content: left;
   width: 100%;
-  position: relative; }
+  position: relative;
+  box-shadow: 0 0 8px 2px #202225 !important; }
 
 .toggle-column-wrapper {
   margin-bottom: 2em;

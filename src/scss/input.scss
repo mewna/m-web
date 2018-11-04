@@ -4,14 +4,12 @@
 .toggle-corner-button {
   width: 2rem !important;
   height: 2rem !important;
-
   top: -1rem !important;
   left: 100% !important;
-
   border-radius: 50% !important;
   margin-left: -16px !important;
-
   position: absolute !important;
+  box-shadow: 0 0 8px 2px darken($dark-not-black, 5%) !important;
 }
 
 // Textarea

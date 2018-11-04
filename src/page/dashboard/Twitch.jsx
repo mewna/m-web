@@ -105,11 +105,14 @@ export class Twitch extends DashboardPage {
     }
 
     handleHookChannelChange(val) {
-        let state = Object.assign({}, this.state)
-        state.config.twitchWebhookChannel = val.value
+        let config = Object.assign({}, this.state.config)
+        config.twitchWebhookChannel = val.value
+        this.updateConfig(config)
+        /*
         this.setState(state, () => {
             this.updateConfig()
         })
+        */
     }
 
     handleStreamerConfigUpdate(incomingConfig) {
@@ -126,9 +129,12 @@ export class Twitch extends DashboardPage {
             streamers[idx] = incomingConfig
             let config = Object.assign({}, this.state.config)
             config.twitchStreamers = streamers
+            /*
             this.setState({config: config}, () => {
                 this.updateConfig()
             })
+            */
+            this.updateConfig(config)
         } else {
             this.getLogger().warn("Couldn't find streamer for id:", incomingConfig.id)
         }
@@ -210,11 +216,9 @@ export class Twitch extends DashboardPage {
                                                             let config = Object.assign({}, this.state.config)
                                                             config.twitchStreamers = twitchStreamers
                                                             this.setState({streamers: streamers}, () => {
-                                                                this.setState({config: config}, () => {
-                                                                    this.updateConfig(() => {
-                                                                        this.setState({searchState: SEARCH_READY}, () => {
-                                                                            this.getLogger().debug("SEARCH_READY")
-                                                                        })
+                                                                this.updateConfig(config, () => {
+                                                                    this.setState({searchState: SEARCH_READY}, () => {
+                                                                        this.getLogger().debug("SEARCH_READY")
                                                                     })
                                                                 })
                                                             })
@@ -272,9 +276,12 @@ export class Twitch extends DashboardPage {
                             config.twitchStreamers = []
                             this.setState({config: config}, () => {
                                 config.twitchStreamers = streamers
+                                /*
                                 this.setState({config: config}, () => {
                                     this.updateConfig(() => this.getLogger().debug("Updated config:", config))
                                 })
+                                */
+                                this.updateConfig(config, () => this.getLogger().debug("Updated config:", config))
                             })
                         }}
                         resolveStreamerCallback={streamer => {

@@ -3,6 +3,7 @@ import {BACKEND_URL} from "../../const"
 import axios from 'axios'
 import {OptionToggle} from "../../comp/dashboard/OptionToggle"
 import React from 'react'
+import deepEquals from "lodash.isequal";
 
 export class DashboardPage extends MComponent {
     constructor(name, props) {
@@ -20,15 +21,16 @@ export class DashboardPage extends MComponent {
         })
     }
 
-    updateConfig(callback) {
-        //this.getLogger().debug("Updating config with data:", this.state.config)
-        axios.post(BACKEND_URL + `/api/v1/data/guild/${this.props.guild.id}/config/${this.kind}`, this.state.config,
-            {headers: {"Authorization": this.getAuth().getToken()}})
-            .then(e => {
-                let data = JSON.parse(e.data)
-                //this.getLogger().debug("Got config API response:", data)
-                callback && callback(data)
-            })
+    updateConfig(data, callback) {
+        this.setState({config: data}, () => {
+            axios.post(BACKEND_URL + `/api/v1/data/guild/${this.props.guild.id}/config/${this.kind}`, this.state.config,
+                {headers: {"Authorization": this.getAuth().getToken()}})
+                .then(e => {
+                    let data = JSON.parse(e.data)
+                    //this.getLogger().debug("Got config API response:", data)
+                    callback && callback(data)
+                })
+        })
     }
 
     renderCommands(divider) {
@@ -44,7 +46,8 @@ export class DashboardPage extends MComponent {
                         states[name].enabled = !states[name].enabled
                         let config = Object.assign({}, this.state.config)
                         config.commandSettings = states
-                        this.setState({config: config}, () => this.updateConfig())
+                        // this.setState({config: config}, () => this.updateConfig())
+                        this.updateConfig(config)
                         this.getLogger().debug("Toggled command:", name, "to:", states[name].enabled)
                     }} />)
                 ++key

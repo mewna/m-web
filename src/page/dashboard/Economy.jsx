@@ -27,7 +27,7 @@ export class Economy extends DashboardPage {
                                 value={this.state.config.currencySymbol} callback={(e) => {
                                     let config = Object.assign({}, this.state.config)
                                     config.currencySymbol = e.value
-                                    this.setState({config: config}, () => this.updateConfig())
+                                    this.updateConfig(config)
                                 }} />
                         </div>
                     </div>

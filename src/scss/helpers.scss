@@ -73,6 +73,7 @@ div.toggle-row {
   min-height: 7rem !important;
   max-height: 14rem;
   position: relative;
+  box-shadow: 0 0 8px 2px darken($dark-not-black, 5%) !important;
 }
 
 div.toggle-col {
@@ -88,6 +89,7 @@ div.toggle-col {
   justify-content: left;
   width: 100%;
   position: relative;
+  box-shadow: 0 0 8px 2px darken($dark-not-black, 5%) !important;
 }
 
 .toggle-column-wrapper {

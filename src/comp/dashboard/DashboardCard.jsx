@@ -12,6 +12,7 @@ export class DashboardCard extends MComponent {
         if(this.props.className) {
             className += " " + this.props.className
         }
+        /*
         let buttons = (
             <footer className="card-footer detached">
                 <NavLink to={`/discord/dashboard/${this.props.guild.id}/${this.props.shortlink}`} className="card-footer-item fa-pull-left hover">
@@ -19,6 +20,7 @@ export class DashboardCard extends MComponent {
                 </NavLink>
             </footer>
         )
+        */
         let children = null;
         if(this.props.children) {
             children = (
@@ -31,15 +33,17 @@ export class DashboardCard extends MComponent {
         }
         return (
             <div className={className}>
-                <div className="card detached">
-                    <header className="card-header guild-header">
-                        <p className="card-header-title guild-title">
-                            {this.props.name}
-                        </p>
-                    </header>
-                    {children}
-                </div>
-                {buttons}
+                <NavLink to={`/discord/dashboard/${this.props.guild.id}/${this.props.shortlink}`}>
+                    <div className="card detached hover">
+                        <header className="card-header guild-header">
+                            <p className="card-header-title guild-title">
+                                {this.props.name}
+                            </p>
+                        </header>
+                        {children}
+                    </div>
+                </NavLink>
+                {/*buttons*/}
             </div>
         )
     }

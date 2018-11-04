@@ -97,6 +97,7 @@ $bar-width: 256px;
   position: relative;
 
   display: flex;
+  box-shadow: 0 0 8px 2px darken($dark-not-black, 5%) !important;
 }
 
 .leaderboard-header-image {

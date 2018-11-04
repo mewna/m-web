@@ -18,3 +18,10 @@ export const BACKEND_URL = backendUrl // process.env.REACT_APP_BACKEND_URL
 export const DISCORD_EPOCH = 1420070400000
 export const MEWNA_EPOCH = 1518566400000
 export const PROD = prod
+
+export const BLURPLE = "#7289DA"
+export const REDPLE = "#DB325C"
+export const GREYPLE = "#565b6b"
+export const FULL_WHITE = "#FFFFFF"
+export const DARK_NOT_BLACK = "#2C2F33"
+export const NOT_QUITE_BLACK = "#23272A"

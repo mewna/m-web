@@ -6,7 +6,8 @@
   left: 100% !important;
   border-radius: 50% !important;
   margin-left: -16px !important;
-  position: absolute !important; }
+  position: absolute !important;
+  box-shadow: 0 0 8px 2px #202225 !important; }
 
 textarea.dark-textarea {
   color: #FFFFFF;

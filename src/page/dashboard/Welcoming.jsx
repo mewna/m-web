@@ -50,13 +50,15 @@ export class Welcoming extends DashboardPage {
     handleChannelChange(e) {
         let config = Object.assign({}, this.state.config)
         config.messageChannel = e.value
-        this.setState({config: config}, () => this.updateConfig())
+        // this.setState({config: config}, () => this.updateConfig())
+        this.updateConfig(config)
     }
 
     handleRoleChange(e) {
         let config = Object.assign({}, this.state.config)
         config.joinRoleId = e.label === "@everyone" ? null : e.value
-        this.setState({config: config}, () => this.updateConfig())
+        // this.setState({config: config}, () => this.updateConfig())
+        this.updateConfig(config)
     }
 
     render() {
@@ -106,7 +108,8 @@ export class Welcoming extends DashboardPage {
                         checkedCallback={() => this.state.config.enableWelcomeMessages} callback={() => {
                             let config = Object.assign({}, this.state.config)
                             config.enableWelcomeMessages = !config.enableWelcomeMessages
-                            this.setState({config: config}, () => this.updateConfig())
+                            // this.setState({config: config}, () => this.updateConfig())
+                            this.updateConfig(config)
                             this.getLogger().debug("Toggled enableWelcomeMessages: ", config.enableWelcomeMessages)
                         }} />
                     <div className={"column is-12 toggle-column-wrapper"}>
@@ -122,7 +125,8 @@ export class Welcoming extends DashboardPage {
                                     const val = e.textarea_value
                                     let config = Object.assign({}, this.state.config)
                                     config.welcomeMessage = val
-                                    this.setState({config: config}, () => this.updateConfig())
+                                    // this.setState({config: config}, () => this.updateConfig())
+                                    this.updateConfig(config)
                                     this.getLogger().debug("Set welcomeMessage:", val)
                                 }} />
                         </div>
@@ -134,7 +138,8 @@ export class Welcoming extends DashboardPage {
                         checkedCallback={() => this.state.config.enableGoodbyeMessages} callback={() => {
                             let config = Object.assign({}, this.state.config)
                             config.enableGoodbyeMessages = !config.enableGoodbyeMessages
-                            this.setState({config: config}, () => this.updateConfig())
+                            // this.setState({config: config}, () => this.updateConfig())
+                            this.updateConfig(config)
                             this.getLogger().debug("Toggled enableGoodbyeMessages: ", config.enableGoodbyeMessages)
                         }} />
                     <div className={"column is-12 toggle-column-wrapper"}>
@@ -149,7 +154,8 @@ export class Welcoming extends DashboardPage {
                                     const val = e.textarea_value
                                     let config = Object.assign({}, this.state.config)
                                     config.goodbyeMessage = val
-                                    this.setState({config: config}, () => this.updateConfig())
+                                    // this.setState({config: config}, () => this.updateConfig())
+                                    this.updateConfig(config)
                                     this.getLogger().debug("Set goodbyeMessage:", val)
                                 }} />
                         </div>

@@ -6927,7 +6927,8 @@ div.toggle-row {
   width: 100%;
   min-height: 7rem !important;
   max-height: 14rem;
-  position: relative; }
+  position: relative;
+  box-shadow: 0 0 8px 2px #202225 !important; }
 
 div.toggle-col {
   padding: 2rem;
@@ -6941,7 +6942,8 @@ div.toggle-col {
   align-content: left;
   justify-content: left;
   width: 100%;
-  position: relative; }
+  position: relative;
+  box-shadow: 0 0 8px 2px #202225 !important; }
 
 .toggle-column-wrapper {
   margin-bottom: 2em;
@@ -7028,6 +7030,12 @@ div.notification.is-outlined {
   text-align: left;
   width: 100%;
   height: 100%; }
+
+.card.detached.hover {
+  box-shadow: 0 0 8px 2px #202225 !important; }
+
+.card-content {
+  padding: 1.25rem !important; }
 
 .guild-card.shorter > .card.detached {
   height: 6.1rem; }
@@ -7170,7 +7178,8 @@ p.logo-container {
   left: 100% !important;
   border-radius: 50% !important;
   margin-left: -16px !important;
-  position: absolute !important; }
+  position: absolute !important;
+  box-shadow: 0 0 8px 2px #202225 !important; }
 
 textarea.dark-textarea {
   color: #FFFFFF;
@@ -7581,7 +7590,8 @@ div.profile-background-image-container .profile-background-image-locked {
   margin-top: 0.75rem;
   margin-bottom: 0.75rem;
   position: relative;
-  display: flex; }
+  display: flex;
+  box-shadow: 0 0 8px 2px #202225 !important; }
 
 .leaderboard-header-image {
   margin: 0.75rem;

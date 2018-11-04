@@ -72,7 +72,8 @@
   margin-top: 0.75rem;
   margin-bottom: 0.75rem;
   position: relative;
-  display: flex; }
+  display: flex;
+  box-shadow: 0 0 8px 2px #202225 !important; }
 
 .leaderboard-header-image {
   margin: 0.75rem;
