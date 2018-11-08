@@ -1,5 +1,4 @@
 import {Component} from 'react'
-
 import {Logger} from "./logger"
 
 export class MComponent extends Component {

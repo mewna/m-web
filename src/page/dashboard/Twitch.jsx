@@ -84,14 +84,18 @@ export class Twitch extends DashboardPage {
                 axios.get(BACKEND_URL + `/api/v1/data/guild/${this.props.guild.id}/webhooks`, {headers: {"Authorization": this.getAuth().getToken()}}).then(f => {
                     let hooks = JSON.parse(f.data)
                     this.setState({
-                        channels: channels.filter(e => e.type === 0).sort((a, b) => a.name.localeCompare(b.name)).map(e => {
-                            return {
-                                label: "#" + e.name,
-                                value: e.id,
-                                guild: this.props.guild.id,
-                                hook: hooks.filter(hook => hook.channel === e.id).length > 0
-                            }
-                        })
+                        channels: channels.filter(e => e.type === 0).sort((a, b) => a.name.localeCompare(b.name))
+                            .filter(e => hooks.filter(hook => hook.channel === e.id).length > 0)
+                            .map(e => {
+                                return {
+                                    label: "#" + e.name,
+                                    value: e.id,
+                                    guild: this.props.guild.id,
+                                    hook: hooks.filter(hook => hook.channel === e.id).length > 0
+                                }
+                            })
+                    }, () => {
+                        this.getLogger().debug("Loaded", this.state.channels.length, "channels:", this.state.channels)
                     })
                 })
             })
@@ -156,8 +160,8 @@ export class Twitch extends DashboardPage {
                     <div className={"column is-12 toggle-column-wrapper"}>
                         <div className={"toggle-row"}>
                             <div className={"is-inline-block"}>
-                                <p className={"title is-size-5"}>Message channel</p>
-                                The channel where stream notifications are posted.
+                                <p className={"title is-size-5"}>Stream webhook</p>
+                                The webhook that sends stream notifications. Create webhooks in the "webhooks" tab above.
                             </div>
                             <span style={{marginLeft: "auto", marginRight: "1.5rem"}} />
                             <Select

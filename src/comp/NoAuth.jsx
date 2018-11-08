@@ -1,9 +1,6 @@
 import {withRouter} from 'react-router-dom'
-
 import {MComponent} from "../MComponent"
-
 import axios from 'axios'
-
 import {BACKEND_URL} from "../const"
 
 class NoAuthInternal extends MComponent {
@@ -31,9 +28,7 @@ class NoAuthInternal extends MComponent {
     }
 
     render() {
-        return (
-            ""
-        )
+        return ""
     }
 }
 

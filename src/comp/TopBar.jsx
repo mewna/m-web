@@ -21,11 +21,11 @@ export class TopBar extends MComponent {
         }
         return (
             <div className="profile-top-bar">
-                <div className="container is-4em-h">
-                    <div className="columns has-text-centered is-centered is-4em-h" style={{width: "100%"}}>
+                <div className="container is-4em-h-m-8em">
+                    <div className="columns has-text-centered is-centered is-4em-h-m-8em" style={{width: "100%"}}>
                         <div className="column is-10 is-4em-h">
-                            <div className={"columns is-centered has-text-centered is-4em-h"}>
-                                <div className="column is-12 has-text-left is-4em-h profile-top-bar-inner">
+                            <div className={"columns is-centered has-text-centered is-4em-h-m-8em"}>
+                                <div className="column is-12 has-text-left is-4em-h-m-8em profile-top-bar-inner">
                                     {content}
                                 </div>
                             </div>

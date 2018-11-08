@@ -72,6 +72,9 @@ padding-right: 1em;
     background: ${DARK_NOT_BLACK};
     border-bottom: 2px solid ${FULL_WHITE} !important;
 }
+@media screen and (max-width: 768px) {
+    margin-left: 0 !important;
+}
 `
 const HeaderLinkRed = styled(HeaderLink)`
 color: ${REDPLE};
@@ -313,56 +316,60 @@ class DashboardInternal extends MComponent {
             const guild = this.state.guilds.filter(e => e.id === match.params.id)[0]
             return (
                 <DashboardHeader player={this.state.player} guild={guild}>
-                    <Select
-                        className="wide-select"
-                        name="guild-select"
-                        value={this.state.guildOptions.filter(e => e.value === match.params.id)[0]}
-                        onChange={e => /*this.handleGuildSelect(e)*/ this.promptAdd(e.value)}
-                        options={this.state.guildOptions}
-                        clearable={false}
-                        searchable={false}
-                        optionRenderer={option => {
-                            let icon = this.state.guilds.filter(e => e.id === option.value)[0].icon
-                            let iconElement = <SelectIcon />
-                            if(icon && icon !== "") {
-                                iconElement = <SelectIconImg src={`https://cdn.discordapp.com/icons/${option.value}/${icon}.png`} />
-                            }
-                            return (
-                                <GuildOption id={option.value}>
-                                    {iconElement}
-                                    {option.label}
-                                </GuildOption>
-                            )
-                        }}
-                        valueRenderer={option => {
-                            let icon = this.state.guilds.filter(e => e.id === option.value)[0].icon
-                            let iconElement = <SelectIcon />
-                            if(icon && icon !== "") {
-                                iconElement = <SelectIconImg src={`https://cdn.discordapp.com/icons/${option.value}/${icon}.png`} />
-                            }
-                            return (
-                                <GuildOption id={option.value}>
-                                    {iconElement}
-                                    {option.label}
-                                </GuildOption>
-                            )
-                        }}
-                    />
-                    <NavLink to={`/discord/dashboard/${match.params.id}`} style={{height: "100%"}}>
-                        <HeaderLink style={{borderBottom: `2px solid ${modulesColor}`}}>
-                            MODULES
-                        </HeaderLink>
-                    </NavLink>
-                    <NavLink to={`/discord/dashboard/${match.params.id}/webhooks`} style={{height: "100%"}}>
-                        <HeaderLink style={{borderBottom: `2px solid ${webhooksColor}`}}>
-                            WEBHOOKS
-                        </HeaderLink>
-                    </NavLink>
-                    <NavLink to={`/discord/dashboard/${match.params.id}/pro`} style={{color: REDPLE, height: "100%"}}>
-                        <HeaderLinkRed style={{borderBottom: `2px solid ${proColor}`}}>
-                            MEWNA PRO
-                        </HeaderLinkRed>
-                    </NavLink>
+                    <div className="mobile-breaking-div">
+                        <Select
+                            className="wide-select"
+                            name="guild-select"
+                            value={this.state.guildOptions.filter(e => e.value === match.params.id)[0]}
+                            onChange={e => /*this.handleGuildSelect(e)*/ this.promptAdd(e.value)}
+                            options={this.state.guildOptions}
+                            clearable={false}
+                            searchable={false}
+                            optionRenderer={option => {
+                                let icon = this.state.guilds.filter(e => e.id === option.value)[0].icon
+                                let iconElement = <SelectIcon />
+                                if(icon && icon !== "") {
+                                    iconElement = <SelectIconImg src={`https://cdn.discordapp.com/icons/${option.value}/${icon}.png`} />
+                                }
+                                return (
+                                    <GuildOption id={option.value}>
+                                        {iconElement}
+                                        {option.label}
+                                    </GuildOption>
+                                )
+                            }}
+                            valueRenderer={option => {
+                                let icon = this.state.guilds.filter(e => e.id === option.value)[0].icon
+                                let iconElement = <SelectIcon />
+                                if(icon && icon !== "") {
+                                    iconElement = <SelectIconImg src={`https://cdn.discordapp.com/icons/${option.value}/${icon}.png`} />
+                                }
+                                return (
+                                    <GuildOption id={option.value}>
+                                        {iconElement}
+                                        {option.label}
+                                    </GuildOption>
+                                )
+                            }}
+                        />
+                    </div>
+                    <div className="flex-row" style={{height: "100%"}}>
+                        <NavLink to={`/discord/dashboard/${match.params.id}`} style={{height: "100%"}}>
+                            <HeaderLink style={{borderBottom: `2px solid ${modulesColor}`}}>
+                                MODULES
+                            </HeaderLink>
+                        </NavLink>
+                        <NavLink to={`/discord/dashboard/${match.params.id}/webhooks`} style={{height: "100%"}}>
+                            <HeaderLink style={{borderBottom: `2px solid ${webhooksColor}`}}>
+                                WEBHOOKS
+                            </HeaderLink>
+                        </NavLink>
+                        <NavLink to={`/discord/dashboard/${match.params.id}/pro`} style={{color: REDPLE, height: "100%"}}>
+                            <HeaderLinkRed style={{borderBottom: `2px solid ${proColor}`}}>
+                                MEWNA PRO
+                            </HeaderLinkRed>
+                        </NavLink>
+                    </div>
                 </DashboardHeader>
             )
         } else if(!match.params.id) {

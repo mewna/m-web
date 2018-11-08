@@ -96,6 +96,12 @@ div.toggle-col {
 .is-4em-h {
   height: 4em !important; }
 
+.is-4em-h-m-8em {
+  height: 4em !important; }
+  @media screen and (max-width: 768px) {
+    .is-4em-h-m-8em {
+      height: 8em !important; } }
+
 .is-borderless {
   border: none; }
 
@@ -158,3 +164,7 @@ div.notification.is-outlined {
   text-align: left;
   width: 100%;
   height: 100%; }
+
+.flex-row {
+  display: flex;
+  flex-direction: row; }

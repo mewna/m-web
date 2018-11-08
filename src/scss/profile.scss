@@ -37,6 +37,9 @@ div.profile-top-bar {
   padding-top: 0;
   padding-bottom: 0;
   padding-right: 0;
+  @media screen and (max-width: 768px) {
+    flex-direction: column !important;
+  }
 }
 
 div.post-column {
