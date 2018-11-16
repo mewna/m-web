@@ -3,22 +3,22 @@ html, body {
   font-size: 14px !important; }
 
 .is-blurple {
-  background: #7289DA !important; }
+  background: #7289DA; }
 
 .is-redple {
-  background: #db325c !important; }
+  background: #db325c; }
 
 .is-full-white {
-  background: #FFFFFF !important; }
+  background: #FFFFFF; }
 
 .is-greyple {
-  background: #7b91a0 !important; }
+  background: #7b91a0; }
 
 .is-dark-not-black {
-  background: #2C2F33 !important; }
+  background: #2C2F33; }
 
 .is-not-quite-black {
-  background: #23272A !important; }
+  background: #23272A; }
 
 .circle {
   border-radius: 50% !important; }
@@ -135,7 +135,15 @@ i.navbar-icon {
   .nav-discord::after {
     font-size: 0.75em;
     margin-left: 0.75em;
-    content: "Discord"; } }
+    content: "Discord"; }
+  .mobile-breaking-div {
+    width: 100%;
+    display: flex;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+    padding-top: 1em;
+    padding-bottom: 1em; } }
 
 .has-text-supercentered {
   display: flex;

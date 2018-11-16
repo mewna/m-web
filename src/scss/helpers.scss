@@ -6,27 +6,27 @@ html, body {
 
 // Colour helpers
 .is-blurple {
-  background: $blurple !important;
+  background: $blurple;
 }
 
 .is-redple {
-  background: $redple !important;
+  background: $redple;
 }
 
 .is-full-white {
-  background: $full-white !important;
+  background: $full-white;
 }
 
 .is-greyple {
-  background: $greyple !important;
+  background: $greyple;
 }
 
 .is-dark-not-black {
-  background: $dark-not-black !important;
+  background: $dark-not-black;
 }
 
 .is-not-quite-black {
-  background: $not-quite-black !important;
+  background: $not-quite-black;
 }
 
 .circle {
@@ -170,6 +170,15 @@ i.navbar-icon {
     font-size: 0.75em;
     margin-left: 0.75em;
     content: "Discord";
+  }
+  .mobile-breaking-div {
+    width: 100%;
+    display: flex;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+    padding-top: 1em;
+    padding-bottom: 1em;
   }
 }
 

@@ -15,18 +15,20 @@
 // Textarea
 textarea.dark-textarea {
   color: $full-white;
-  background: $not-quite-black;
+  background: transparentize($greyple, 0.5);
   width: 100%;
-  border-radius: 2px;
+  border-radius: 4px;
   border: 1px solid lighten($not-quite-black, 15%);
   font-size: 1em;
   min-height: 8em;
   resize: vertical;
+  padding: 8px;
 }
 
 textarea.dark-textarea:focus {
   outline: none !important;
-  border: 1px solid transparentize($redple, 0.75);
+  // border: 1px solid transparentize($redple, 0.75);
+  box-shadow: none !important;
 }
 
 .textarea-container {

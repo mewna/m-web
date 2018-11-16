@@ -11,17 +11,18 @@
 
 textarea.dark-textarea {
   color: #FFFFFF;
-  background: #23272A;
+  background: rgba(123, 145, 160, 0.5);
   width: 100%;
-  border-radius: 2px;
+  border-radius: 4px;
   border: 1px solid #464e54;
   font-size: 1em;
   min-height: 8em;
-  resize: vertical; }
+  resize: vertical;
+  padding: 8px; }
 
 textarea.dark-textarea:focus {
   outline: none !important;
-  border: 1px solid rgba(219, 50, 92, 0.25); }
+  box-shadow: none !important; }
 
 .textarea-container {
   min-height: 4rem;

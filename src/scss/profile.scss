@@ -7,6 +7,7 @@
   border-radius: 8px;
   width: 128px;
   height: 128px;
+  margin-top: 24px;
   display: inline-block;
   //margin-left: -0.75em;
 }
@@ -25,9 +26,11 @@ div.profile-top-bar {
 .profile-header-link:hover {
   text-decoration: underline;
 }
+/*
 .profile-top-bar-inner:last-child {
   margin-right: -1em !important;
 }
+*/
 .profile-top-bar-inner {
   display: flex;
   flex-direction: row;
@@ -44,6 +47,7 @@ div.profile-top-bar {
 
 div.post-column {
   margin-bottom: 1em;
+  box-shadow: 0 0 8px 2px darken($dark-not-black, 5%) !important;
 }
 
 .profile-name {
@@ -51,6 +55,7 @@ div.post-column {
   display: flex;
   flex-direction: row;
   align-items: center;
+  height: 3rem;
 }
 .profile-about-text-title {
   font-size: 1.5em;
@@ -84,9 +89,27 @@ div.post-column {
   }
 
   .profile-avatar {
+    position: absolute;
     left: calc(50% - 64px);
-    // TODO: Figure out how this is actually calculated...
-    margin-top: -8px;
+    margin-top: -128px;
+  }
+
+  .profile-top-bar {
+    margin-top: 0 !important;
+  }
+
+  .profile-name {
+    display: flex;
+    justify-content: center;
+  }
+
+  .profile-column.profile-top-bar-inner {
+    display: flex;
+    flex-direction: row !important;
+    align-content: center;
+    justify-content: flex-end;
+    align-items: center;
+    padding-right: 1em;
   }
 }
 
@@ -152,6 +175,18 @@ div.profile-background-image-container .profile-background-image-locked {
   background-size: cover;
   width: 100vw;
   height: 24rem;
+  overflow-y: hidden;
+}
+.profile-background-section-editing {
+  position: absolute;
+  top: 56px;
+  width: 100%;
+  height: 24em;
+  display: flex;
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
 }
 
 .profile-background-pack-container {}
