@@ -16,6 +16,7 @@ import { DiscordLeaderboards } from "./page/discord/DiscordLeaderboards";
 import { PaypalCheckout } from "./page/paypal/PaypalCheckout";
 import { Features } from "./page/Features";
 import { Commands } from "./page/discord/Commands";
+import { ServerPage } from "./page/server/ServerPage";
 
 class App extends MComponent {
   constructor(props) {
@@ -34,6 +35,7 @@ class App extends MComponent {
                 <Route exact path="/features" component={Features} />
                 <Route exact path="/discord/dashboard*" component={Dashboard} />
                 <Route exact path="/profile/:id" component={ProfilePageRedux} />
+                <Route exact path="/server/:id/:post?" component={ServerPage} />
                 <Route
                   exact
                   path="/noauth"

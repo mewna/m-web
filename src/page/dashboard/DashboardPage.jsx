@@ -3,7 +3,8 @@ import {BACKEND_URL} from "../../const"
 import axios from 'axios'
 import {OptionToggle} from "../../comp/dashboard/OptionToggle"
 import React from 'react'
-import deepEquals from "lodash.isequal";
+// eslint-disable-next-line no-unused-vars
+import deepEquals from "lodash.isequal"
 
 export class DashboardPage extends MComponent {
     constructor(name, props) {

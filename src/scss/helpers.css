@@ -176,3 +176,6 @@ div.notification.is-outlined {
 .flex-row {
   display: flex;
   flex-direction: row; }
+
+code, pre {
+  border-radius: 4px; }

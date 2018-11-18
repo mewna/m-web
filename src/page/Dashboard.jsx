@@ -76,6 +76,7 @@ padding-right: 1em;
     margin-left: 0 !important;
 }
 `
+// eslint-disable-next-line no-unused-vars
 const HeaderLinkRed = styled(HeaderLink)`
 color: ${REDPLE};
 &:hover {
@@ -308,6 +309,7 @@ class DashboardInternal extends MComponent {
             if(match.params.page && match.params.page === "webhooks") {
                 webhooksColor = FULL_WHITE
             }
+            // eslint-disable-next-line no-unused-vars
             let proColor = NOT_QUITE_BLACK;
             if(match.params.page && match.params.page === "pro") {
                 proColor = REDPLE
@@ -356,7 +358,7 @@ class DashboardInternal extends MComponent {
                     <div className="flex-row" style={{height: "100%"}}>
                         <NavLink to={`/discord/dashboard/${match.params.id}`} style={{height: "100%"}}>
                             <HeaderLink style={{borderBottom: `2px solid ${modulesColor}`}}>
-                                MODULES
+                                SETTINGS
                             </HeaderLink>
                         </NavLink>
                         <NavLink to={`/discord/dashboard/${match.params.id}/webhooks`} style={{height: "100%"}}>
@@ -364,11 +366,11 @@ class DashboardInternal extends MComponent {
                                 WEBHOOKS
                             </HeaderLink>
                         </NavLink>
-                        <NavLink to={`/discord/dashboard/${match.params.id}/pro`} style={{color: REDPLE, height: "100%"}}>
+                        {/*<NavLink to={`/discord/dashboard/${match.params.id}/pro`} style={{color: REDPLE, height: "100%"}}>
                             <HeaderLinkRed style={{borderBottom: `2px solid ${proColor}`}}>
                                 MEWNA PRO
                             </HeaderLinkRed>
-                        </NavLink>
+                        </NavLink>*/}
                     </div>
                 </DashboardHeader>
             )

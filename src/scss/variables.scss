@@ -6,6 +6,7 @@ $dark-not-black: #2C2F33;
 $not-quite-black: #23272A;
 
 $text: $full-white;
+$text-strong: $text;
 $primary: $redple;
 
 // Fonts
@@ -79,3 +80,8 @@ $link-active: $full-white;
 
 // Menus
 $menu-label-color: darken($full-white, 15%);
+
+// Code
+$code-background: $dark-not-black;
+$pre-background: $code-background;
+$code: $full-white;

@@ -295,8 +295,8 @@ a {
     color: #FFFFFF; }
 
 code {
-  background-color: whitesmoke;
-  color: #ff3860;
+  background-color: #2C2F33;
+  color: #FFFFFF;
   font-size: 0.875em;
   font-weight: normal;
   padding: 0.25em 0.5em 0.25em; }
@@ -324,12 +324,12 @@ span {
   font-weight: inherit; }
 
 strong {
-  color: #363636;
+  color: #FFFFFF;
   font-weight: 700; }
 
 pre {
   -webkit-overflow-scrolling: touch;
-  background-color: whitesmoke;
+  background-color: #2C2F33;
   color: #FFFFFF;
   font-size: 0.875em;
   overflow-x: auto;
@@ -348,7 +348,7 @@ table th {
   vertical-align: top; }
 
 table th {
-  color: #363636; }
+  color: #FFFFFF; }
 
 .is-clearfix::after {
   clear: both;
@@ -1149,10 +1149,10 @@ a.box:active {
     text-decoration: underline; }
     .button.is-text:hover, .button.is-text.is-hovered, .button.is-text:focus, .button.is-text.is-focused {
       background-color: whitesmoke;
-      color: #363636; }
+      color: #FFFFFF; }
     .button.is-text:active, .button.is-text.is-active {
       background-color: #e8e8e8;
-      color: #363636; }
+      color: #FFFFFF; }
     .button.is-text[disabled] {
       background-color: transparent;
       border-color: transparent;
@@ -1873,7 +1873,7 @@ a.box:active {
 .content h4,
 .content h5,
 .content h6 {
-  color: #363636;
+  color: #FFFFFF;
   font-weight: 600;
   line-height: 1.125; }
 
@@ -1963,16 +1963,16 @@ a.box:active {
     padding: 0.5em 0.75em;
     vertical-align: top; }
   .content table th {
-    color: #363636;
+    color: #FFFFFF;
     text-align: left; }
   .content table thead td,
   .content table thead th {
     border-width: 0 0 2px;
-    color: #363636; }
+    color: #FFFFFF; }
   .content table tfoot td,
   .content table tfoot th {
     border-width: 2px 0 0;
-    color: #363636; }
+    color: #FFFFFF; }
   .content table tbody tr:last-child td,
   .content table tbody tr:last-child th {
     border-bottom-width: 0; }
@@ -3181,7 +3181,7 @@ a.box:active {
       .table th.is-selected strong {
         color: currentColor; }
   .table th {
-    color: #363636;
+    color: #FFFFFF;
     text-align: left; }
   .table tr.is-selected {
     background-color: #db325c;
@@ -3196,11 +3196,11 @@ a.box:active {
   .table thead td,
   .table thead th {
     border-width: 0 0 2px;
-    color: #363636; }
+    color: #FFFFFF; }
   .table tfoot td,
   .table tfoot th {
     border-width: 2px 0 0;
-    color: #363636; }
+    color: #FFFFFF; }
   .table tbody tr:last-child td,
   .table tbody tr:last-child th {
     border-bottom-width: 0; }
@@ -3467,7 +3467,7 @@ a.tag:hover {
     .breadcrumb li:first-child a {
       padding-left: 0; }
     .breadcrumb li.is-active a {
-      color: #363636;
+      color: #FFFFFF;
       cursor: default;
       pointer-events: none; }
     .breadcrumb li + li::before {
@@ -3750,7 +3750,7 @@ a.dropdown-item {
     padding: 0.5em 0.75em; }
     .menu-list a:hover {
       background-color: whitesmoke;
-      color: #363636; }
+      color: #FFFFFF; }
     .menu-list a.is-active {
       background-color: #FFFFFF;
       color: #fff; }
@@ -3955,7 +3955,7 @@ a.dropdown-item {
   border-top-right-radius: 6px; }
 
 .modal-card-title {
-  color: #363636;
+  color: #FFFFFF;
   flex-grow: 1;
   flex-shrink: 0;
   font-size: 1.5rem;
@@ -4829,7 +4829,7 @@ a.navbar-item,
 .panel-heading {
   background-color: whitesmoke;
   border-radius: 4px 4px 0 0;
-  color: #363636;
+  color: #FFFFFF;
   font-size: 1.25em;
   font-weight: 300;
   line-height: 1.25;
@@ -4855,7 +4855,7 @@ a.navbar-item,
 
 .panel-block {
   align-items: center;
-  color: #363636;
+  color: #FFFFFF;
   display: flex;
   justify-content: flex-start;
   padding: 0.5em 0.75em; }
@@ -4915,8 +4915,8 @@ label.panel-block {
     padding: 0.5em 1em;
     vertical-align: top; }
     .tabs a:hover {
-      border-bottom-color: #363636;
-      color: #363636; }
+      border-bottom-color: #FFFFFF;
+      color: #FFFFFF; }
   .tabs li {
     display: block; }
     .tabs li.is-active a {
@@ -7049,6 +7049,10 @@ div.notification.is-outlined {
   display: flex;
   flex-direction: row; }
 
+code,
+pre {
+  border-radius: 4px; }
+
 .card.detached.hover {
   box-shadow: 0 0 8px 2px #202225 !important; }
 
@@ -7457,6 +7461,19 @@ div.profile-background-image-container .profile-background-image-locked {
   justify-content: center;
   align-content: center;
   align-items: center; }
+
+.editor-tabs > .editor-tab-link:first-child {
+  margin-left: 0.125rem !important; }
+
+.editor-tab-link {
+  margin: 1rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0rem;
+  text-transform: uppercase;
+  text-weight: bold; }
+
+.editor-tab-link.is-active {
+  border-bottom: 2px solid #db325c; }
 
 /*
 @keyframes modalFadeInDown {

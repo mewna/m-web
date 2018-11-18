@@ -163,3 +163,16 @@ div.profile-background-image-container .profile-background-image-locked {
   justify-content: center;
   align-content: center;
   align-items: center; }
+
+.editor-tabs > .editor-tab-link:first-child {
+  margin-left: 0.125rem !important; }
+
+.editor-tab-link {
+  margin: 1rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0rem;
+  text-transform: uppercase;
+  text-weight: bold; }
+
+.editor-tab-link.is-active {
+  border-bottom: 2px solid #db325c; }

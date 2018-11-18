@@ -468,7 +468,7 @@ export class ProfilePage extends MComponent {
             return posts
         } else {
             return (
-                <div className="column is-12 is-not-quite-black rounded-corners">
+                <div className="column is-12 is-not-quite-black rounded-corners post-column">
                     <b>{this.state.player.displayName}</b> hasn't done anything notable yet...
                 </div>
             )
@@ -481,8 +481,6 @@ export class ProfilePage extends MComponent {
                 <div className="profile-name" style={{
                     display: "flex",
                     alignItems: "center",
-                    justifyContent: "flex-start",
-                    alignContent: "center",
                 }}>
                     <DebouncedText value={this.state.editState.displayName} callback={(e) => {
                                     let editState = this.state.editState
@@ -601,7 +599,6 @@ export class ProfilePage extends MComponent {
                             closeModal={() => {this.setState({settingsModalOpen: false})}}
                             packs={this.state.packs}
                             manifest={this.state.manifest}
-                            //user={this.state.user}
                             player={() => this.state.player}
                             onAboutUpdate={(text) => {
                                 this.getLogger().debug("Update aboutText =>", text)
@@ -609,37 +606,9 @@ export class ProfilePage extends MComponent {
                                 player.aboutText = text
                                 this.setState({player: player})
                             }}
-                            backgroundMouseOver={bg => {
-                                /*
-                                if(this.state.editState.customBackground !== bg) {
-                                    let editState = Object.assign({}, this.state.editState)
-                                    editState.customBackground = bg
-                                    this.setState({editState: editState})
-                                }
-                                */
-                            }}
-                            backgroundMouseOut={() => {
-                                /*
-                                if(this.state.editState.customBackground !== this.state.player.customBackground) {
-                                    let editState = Object.assign({}, this.state.editState)
-                                    editState.customBackground = this.state.player.customBackground
-                                    this.setState({editState: editState})
-                                }
-                                */
-                            }}
+                            backgroundMouseOver={bg => {}}
+                            backgroundMouseOut={() => {}}
                             backgroundOnClick={(name, pack, src) => {
-                                /*
-                                const bg = `${pack}/${name}`
-                                axios.post(BACKEND_URL + `/api/v1/data/account/${this.state.player.id}/update`,
-                                    {customBackground: bg, id: this.state.player.id},
-                                    {headers: {"Authorization": this.getAuth().getToken()}})
-                                    .then(e => {
-                                        this.getLogger().debug("Update customBackground =>", bg)
-                                        let player = Object.assign({}, this.state.player)
-                                        player.customBackground = src.replace(".png", "")
-                                        this.setState({background: player.customBackground, player: player})
-                                    })
-                                    */
                                 const bg = `/backgrounds/${pack}/${name}`
                                 this.getLogger().debug("Current =>", this.state.editState.customBackground, "New =>", bg)
                                 let editState = Object.assign({}, this.state.editState)
