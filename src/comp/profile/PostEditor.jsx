@@ -58,6 +58,9 @@ export class PostEditor extends MComponent {
                     <div className="textarea-counter">{MAX_CHARS - this.state.charsLeft}/{MAX_CHARS}</div>
                 </div>
                 <hr className="dark-hr" />
+                <div style={{marginBottom: "1.5em"}}>
+                    Supports Reddit-style markdown, as well as <code>![images](url)</code>.
+                </div>
                 {error}
                 <a className="button is-primary" onClick={e => {
                     e.preventDefault()
