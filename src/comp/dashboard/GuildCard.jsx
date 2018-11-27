@@ -1,3 +1,5 @@
+/* eslint jsx-a11y/anchor-is-valid: 0 */
+
 import {MComponent} from "../../MComponent";
 import React from "react";
 import {GuildIcon} from "../GuildIcon";

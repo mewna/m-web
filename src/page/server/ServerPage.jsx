@@ -67,7 +67,7 @@ export class ServerPage extends MComponent {
             <div className="column is-3 profile-column profile-about-column">
                 <div>
                     <img src={`https://cdn.discordapp.com/icons/${this.state.server.id}/${this.state.server.icon}.png`} 
-                        alt="server icon" className="profile-avatar"
+                            alt="server icon" className="profile-avatar"
                         />
                     {this.renderServerName()}
                     <hr className="dark-hr" />
