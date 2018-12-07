@@ -17,8 +17,8 @@ class UserMenuInternal extends MComponent {
     }
 
     getAvatar() {
-        const base = `https://cdn.discordapp.com/avatars/${this.props.user.id}`
         if(this.props.user.avatar) {
+            const base = `https://cdn.discordapp.com/avatars/${this.props.user.id}`
             const avatar = this.props.user.avatar
             if(avatar.startsWith("a_")) {
                 return `${base}/${avatar}.gif`
@@ -27,7 +27,7 @@ class UserMenuInternal extends MComponent {
             }
         } else {
             const avatar = parseInt(this.props.user.discriminator, 10) % 5
-            return `${base}/${avatar}.png`
+            return `https://cdn.discordapp.com/embed/avatars/${avatar}.png`
         }
     }
 

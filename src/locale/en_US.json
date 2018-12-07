@@ -1,0 +1,299 @@
+{
+  "commands": {
+    "economy": {
+      "balance": "Check your balance, or someone else's balance.",
+      "pay": "Send money to another user.",
+      "daily": "Collect some money once a day.",
+      "crime": "Shake down some people for some money.",
+      "heist": "Execute a daring raid on the impenetrable Fort Knick-Knacks.",
+      "slots": "Gamble your life away at the slot machines.",
+      "baltop": "See the 10 richest users.",
+      "gamble": "Bet big on the Wumpus Races.",
+      "items": "View your items.",
+      "market": "Show available items.",
+      "buy": "Buy some items.",
+      "sell": "Sell some items.",
+      "mine": "Go mining for shines!",
+      "fish": "Go fishing for tasty fish!"
+    },
+    "emotes": "Fun little emote commands. You need to mention someone to use them.",
+    "levels": {
+      "rank": "Check your rank, or someone else's rank.",
+      "profile": "Check your profile card, or someone else's.",
+      "score": "Check your score, or someone else's.",
+      "leaderboards": "View the server leaderboards."
+    },
+    "misc": {
+      "cat": "Get a random cat picture.",
+      "dog": "Get a random dog picture.",
+      "catgirl": "Get a random (SFW) catgirl picture.",
+      "rubeface": "Rubeface, the perfect meme for every situation.",
+      "memetext": "Convert stuff to big characters.",
+      "snowman": "Do you want to build a snowman?",
+      "bootlegcat": "See a bootleg cat, for when mew.cat doesn't work.",
+      "clappify": "👏 Clap 👏 some 👏 text 👏 (or 🍞, or 🥔, whatever)",
+      "help": "Get links to helpful information.",
+      "roll": "Roll some dice, D&D style.",
+      "ping": "Check if Mewna's still working.",
+      "page": "Get the link to this server's page.",
+      "tato": "Mewna Miner - Like Cookie Clicker, but tato-flavoured.",
+      "dnd": "Get useful information for your D&D 5e game."
+    },
+    "music": {
+      "join": "Bring Mewna into a voice channel with you.",
+      "leave": "Make Mewna leave the voice channel she's in.",
+      "queue": "Queue a song for Mewna to play.",
+      "play": "Make Mewna start playing the song queue.",
+      "np": "Get the current song Mewna's playing."
+    }
+  },
+  "plugins": {
+    "economy": {
+      "commands": {
+        "empty-payment": "You can't pay nothing!",
+        "payment-not-number": "`$number` isn't a number!",
+        "poor-no-money": "You don't have any money!",
+        "poor-not-enough": "You tried to spend **$amount$symbol**, but only have **$balance$symbol**.",
+        "too-cheap": "You tried to spend **$amount$symbol**, but you need to spend at least **$minAmount$symbol**.",
+        "too-much": "You tried to spend **$amount$symbol**, but you can only spend up to **$maxAmount$symbol**.",
+        "balance": {
+          "self": "**You** have **$amount$symbol**.",
+          "other": "**$target** has **$amount$symbol**."
+        },
+        "pay": {
+          "needs-mention": "You need to mention someone to pay.",
+          "needs-mention-amount": "You need to mention someone to pay, and specify an amount to pay.",
+          "no-self-pay": "You can't pay yourself!",
+          "success": "**$user**, you sent **$amount$symbol** to **$target**."
+        },
+        "daily": {
+          "failure-wait": "You can collect your daily again in **$time**.",
+          "collect-base": "You collect your daily **$amount$symbol**.",
+          "collect-streak": "Streak up! New streak: `$streak`, bonus: **$amount$symbol**.",
+          "streak-break": "It's been more than 2 days since you last collected your daily $symbol, so your streak has reset."
+        },
+        "crime": {
+          "1": "You steal candy from a baby and sell it back to him, netting you **$amount$symbol**.",
+          "2": "You sell someone a shiny (but worthless) rock for **$amount$symbol**.",
+          "3": "You pretend to get hit by someone's Wumpus, and scam Bamboozle Insurance:tm: out of **$amount$symbol**.",
+          "4": "You successfully steal a cash register, and take the **$amount$symbol** inside.",
+          "5": "You sell someone a rotten :potato: for **$amount$symbol**.",
+          "6": "You robbed the Society of Schmoogaloo and ended up in a lake, but still managed to steal **$amount$symbol**.",
+          "7": "You start the Cult of Wumpus, and scam the cult members out of **$amount$symbol**.",
+          "8": "You kidnap someone's pet Wumpus, only returning it after they pay the ransom of **$amount$symbol**.",
+          "9": "You sell candy to young school children, bringing in **$amount$symbol**.",
+          "10": "You sell a Wumpus to the circus for **$amount$symbol**."
+        },
+        "heist": {
+          "success": "You break into Fort Knick-Knacks and steal **$amount$symbol** from inside.",
+          "failure": "Oh no! The guards caught you! They take **$amount$symbol** from you and let you go."
+        },
+        "slots": {
+          "result": "The slot machines rolled up",
+          "nothing": "The slot machine paid out nothing...",
+          "win": "You won **$amount$symbol**!",
+          "boom": "Oh no! The slot machine exploded! You pay out **$amount$symbol** to cover the repair cost."
+        },
+        "baltop": "The 10 richest users are:",
+        "gamble": {
+          "result": "You head off to the Wumpus Races to gamble your life away. You bet **$amount$symbol** on wumpus **#$number**.",
+          "winner": "And the winner is wumpus **#$number**!",
+          "success": "You bet on the right one! You win **$amount$symbol** for betting right.",
+          "failure": "You bet on a loser! Your **$amount$symbol** is gone forever..."
+        },
+        "inventory": {
+          "empty": "You have nothing!"
+        },
+        "market": {
+          "buy-sell": "You can buy and sell items with the `buy` and `sell`."
+        },
+        "buy": {
+          "full-inventory": "Your inventory is full! Try selling some stuff first...",
+          "invalid-number": "**$number** isn't a valid number...",
+          "buy-success": "You bought **$number $thing** for **$amount$symbol**.",
+          "cant-buy": "That item cannot be bought.",
+          "item-doesnt-exist": "That item doesn't exist.",
+          "no-item": "You have to tell me what to buy."
+        },
+        "sell": {
+          "invalid-number": "**$number** isn't a valid number...",
+          "sell-success": "You sold **$number $thing** for **$amount$symbol**.",
+          "not-enough-item": "You don't have enough of that to sell.",
+          "cant-sell": "You don't have that item.",
+          "item-doesnt-exist": "That item doesn't exist.",
+          "no-item": "You have to tell me what to sell."
+        },
+        "mine": {
+          "full-inventory": "Your inventory is full! Try selling some stuff first.",
+          "no-pick": "You don't have a `pickaxe`, so you can't mine. Perhaps you should `buy` one...",
+          "pick-break": "Oh no! Your pickaxe broke when you tried to use it!",
+          "got-dust": "You mined all day, but found nothing but dust.",
+          "success": "You dug up:"
+        },
+        "fish": {
+          "full-inventory": "Your inventory is full! Try selling some stuff first.",
+          "no-rod": "You don't have a `fishingrod`, so you can't mine. Perhaps you should `buy` one...",
+          "rod-break": "Oh no! Your fishing rod broke when you tried to use it!",
+          "got-water": "You fished all day, but found nothing but empty water.",
+          "success": "You fished up:"
+        }
+      }
+    },
+    "disabled-command": "Sorry, but that command is disabled here.",
+    "ratelimited-command": "You're using that command too fast! Try again in **$time**.",
+    "emotes": {
+      "base": "**$target**, you were just $action by **$user**!",
+      "commands": {
+        "bap": "bapped",
+        "chew": "chewed on",
+        "cookie": "given a :cookie:",
+        "hug": "hugged",
+        "lick": "licked",
+        "nom": "nommed on",
+        "pat": "were lovingly patted <:blobhyperpat:352487540785414155>",
+        "poke": "poked",
+        "prod": "prodded",
+        "shoot": "shot :gun:",
+        "stab": "stabbed :knife:",
+        "tickle": "tickled"
+      }
+    },
+    "levels": {
+      "not-enabled": "Levels are not enabled in this server. The server owner (or administrators) can enable levels in the dashboard: <https://mewna.com/>",
+      "bot": "Bots can't have levels!",
+      "change-background": "You can change your background on your profile.",
+      "change-background-description": "You can change your description and background on your profile.",
+      "view-full-profile": "View full profile",
+      "commands": {
+        "rank": {
+          "generating": {
+            "self": "$mention > Generating your rank card (this will take a few seconds)...",
+            "other": "$mention > Generating **$target**'s rank card (this will take a few seconds)..."
+          }
+        },
+        "profile": {
+          "generating": {
+            "self": "$mention > Generating your profile card (this will take a few seconds)...",
+            "other": "$mention > Generating **$target**'s profile card (this will take a few seconds)..."
+          }
+        },
+        "score": "**$target**'s score: **$score**"
+      }
+    },
+    "misc": {
+      "commands": {
+        "cat": {
+          "invalid": "Couldn't find cat :("
+        },
+        "dog": {
+          "invalid": "Couldn't find dog :("
+        },
+        "catgirl": {
+          "invalid": "Couldn't find catgirl :("
+        },
+        "memetext": {
+          "invalid": "You need to give me something to meme!"
+        },
+        "bootlegcat": {
+          "base": "Do any of these describe YOU?",
+          "1": "Slow internet speeds?",
+          "2": "Limited cellular data plan?",
+          "3": "Too lazy to click a cat image?",
+          "4": "`bootlegcat` has you covered! 🎉🎉🎉"
+        },
+        "emojify": {
+          "invalid": "You need to give me something to $category!"
+        },
+        "roll": {
+          "input": "Input",
+          "output": "Output",
+          "invalid": "Invalid dice expression."
+        },
+        "tato": {
+          "and": "and",
+          "unknown": "I don't know how to do that...",
+          "no-upgrades": "No upgrades!",
+          "no-buildings": "No buildings!",
+          "try-help": "(Try `$command help` if you're confused)",
+          "stats-header": "**$target**'s tato stats",
+          "help": {
+            "1": "Mewna Miner Help",
+            "2": "- Get this info with `tato help`.",
+            "3": "- Check your stats by running `tato`.\n",
+            "4": "- View upgrades, or buy them, with `tato upgrade [buy <name>]`.\n",
+            "5": "- View or buy buildings with `tato build [buy <name>]`.\n",
+            "6": "- Remember to check back regularly to get your tato!"
+          },
+          "upgrades": {
+            "upgrades": "Upgrades",
+            "only-once": "Upgrades can be bought exactly once.",
+            "buy": {
+              "no-upgrade": "You need to tell me what upgrade you want to buy!",
+              "invalid-upgrade": "That's not a real upgrade!",
+              "already-owned": "You already own that upgrade!",
+              "need-items": "You don't have the items needed to buy that!",
+              "success": "You bought the **$upgrade** upgrade."
+            }
+          },
+          "buildings": {
+            "buildings": "Buildings",
+            "many-times": "Buildings can be bought many times.",
+            "you-have": "You have: **$count**",
+            "output": "Output: $tato tato per second",
+            "buy": {
+              "no-building": "You need to tell me what building you want to buy!",
+              "invalid-building": "That's not a real building!",
+              "need-items": "You don't have the items needed to buy that!",
+              "success": "You bought a **$building** building."
+            }
+          },
+          "top": {
+            "loading": "Counting tato (this will take a few seconds)"
+          }
+        },
+        "dnd": {
+          "not-enough-args": "Not enough arguments provided.",
+          "invalid-search-type": "Invalid search type.",
+          "invalid-search": "Invalid search.",
+          "invalid-length": "Searches must be at least 3 characters long.",
+          "too-many-matches": "Too many possible matches"
+        }
+      }
+    },
+    "music": {
+      "user-not-in-voice": "You're not in a voice channel!",
+      "user-not-in-same-voice": "You're not in this voice channel!",
+      "bot-not-in-voice": "I'm not in a voice channel!",
+      "bot-already-in-voice": "I'm already in a voice channel!",
+      "commands": {
+        "join": {
+          "joined": "Joined"
+        },
+        "leave": {
+          "left": "Left "
+        },
+        "queue": {
+          "no-spotify": "Mewna currently doesn't support Spotify.",
+          "invalid-url": "That isn't a valid URL!"
+        }
+      },
+      "events": {
+        "song-queued": "Song queued",
+        "song-started": "Song started",
+        "queue-ended": "Queue ended",
+        "title": "Title",
+        "artist": "Artist",
+        "length": "Length",
+        "time": "Time",
+        "now-playing": {
+          "nothing": "Nothing is playing!",
+          "now-playing": "Now playing"
+        },
+        "queue": {
+          "many": "Queued $amount tracks.",
+          "no-matches": "No songs found!"
+        }
+      }
+    }
+  }
+}

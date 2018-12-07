@@ -183,21 +183,7 @@ class ProfileSettingsModal extends MComponent {
                         Custom Background
                     </p>
                     <div className="modal-body">
-                        {/*<div>
-                            <p className="modal-title">About</p>
-                            <DebouncedTextarea maxChars={150} rows={3} min-rows={3} value={this.state.aboutText} callback={(e) => {
-                                const val = e.textarea_value.replace(/\r?\n|\r/g, "")
-                                axios.post(BACKEND_URL + `/api/v1/data/account/${this.props.player().id}/update`,
-                                    {aboutText: val, id: this.props.player().id}, {headers: {"Authorization": this.getAuth().getToken()}})
-                                    .then(e => {
-                                        this.props.onAboutUpdate(val)
-                                        this.setState({aboutText: this.props.player().aboutText})
-                                    })
-                            }} />
-                        </div>
-                        <br />*/}
                         <div>
-                            {/*<p className="modal-title">Custom Background</p>*/}
                             {this.renderPacks()}
                         </div>
                     </div>
@@ -229,7 +215,8 @@ export class ProfilePage extends MComponent {
                 displayName: "",
                 aboutText: "",
                 backgroundImage: "",
-            }
+            },
+            counter: 1
         }
     }
 
@@ -268,10 +255,6 @@ export class ProfilePage extends MComponent {
 
     renderEdit() {
         if(this.props.match.params.id === this.props.profileId) {
-            /*
-            return (
-                <a className="button is-primary" onClick={() => this.setState({settingsModalOpen: true})}>Edit</a>
-            )*/
             if(this.state.editing) {
                 return (
                     <div>
@@ -324,6 +307,7 @@ export class ProfilePage extends MComponent {
     componentDidUpdate() {
         if(this.state.id && this.props.match.params.id) {
             if(this.props.match.params.id !== this.state.id) {
+                this.getLogger().debug("IDs not the same, reloading!")
                 this.tryLoad()
             }
         }

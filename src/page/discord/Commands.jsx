@@ -4,6 +4,7 @@ import React from "react"
 import axios from 'axios'
 import {VHContainer} from "../VHContainer";
 import {BACKEND_URL} from "../../const";
+import translate from "../../translate"
 
 export class Commands extends MComponent {
     constructor(props) {
@@ -73,17 +74,17 @@ export class Commands extends MComponent {
                         <div className="command-card">
                             <div className="is-size-5"><span className="has-text-grey">mew.</span>{c.name}</div>
                             <div className="is-size-6">
-                                Aliases: {aliases}
+                                <strong>Aliases:</strong> {aliases}
                             </div>
                             <div className="is-size-6">
-                                {c.desc}
+                                <em>{translate(c.desc)}</em>
                             </div>
                             <div className="is-size-6">
-                                Usage:<br />
+                                <strong>Usage:</strong><br />
                                 {usage}
                             </div>
                             <div className="is-size-6">
-                                Examples:<br />
+                                <strong>Examples:</strong><br />
                                 {examples}
                             </div>
                         </div>

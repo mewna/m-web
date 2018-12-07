@@ -3,9 +3,16 @@ jobs:
   build:
     machine: true
     steps:
+    # Grab source
     - checkout
+    # Set up Docker
     - run: docker login -u $DOCKER_USER -p $DOCKER_PASS
+    # Grab backgrounds
     - run: git submodule sync --recursive
     - run: git submodule update --init --recursive --remote
+    # Grab en_US locale
+    # TODO: Make this a submodule!!!
+    - run: wget -O src/locale/en_US.json "https://translate-api.mewna.com/export/?project_id=2ba63f93-d1d6-4b73-8c64-518d9cda1fd4&language=en&document_format=json&document_path=en_US.json"
+    # Build and push
     - run: docker build -t mewna/website:$CIRCLE_BRANCH .
     - run: docker push mewna/website:$CIRCLE_BRANCH
