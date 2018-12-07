@@ -14,5 +14,5 @@ jobs:
     # TODO: Make this a submodule!!!
     - run: wget -O src/locale/en_US.json "https://translate-api.mewna.com/export/?project_id=2ba63f93-d1d6-4b73-8c64-518d9cda1fd4&language=en&document_format=json&document_path=en_US.json"
     # Build and push
-    - run: docker build -t mewna/website:$CIRCLE_BRANCH .
-    - run: docker push mewna/website:$CIRCLE_BRANCH
+    - run: docker build -t mewna/website:$CIRCLE_BRANCH-$CIRCLE_BUILD_NUM .
+    - run: docker push mewna/website:$CIRCLE_BRANCH-$CIRCLE_BUILD_NUM
