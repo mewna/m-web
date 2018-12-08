@@ -10,6 +10,7 @@ import {NotFound} from '../NotFound'
 import bigInt from "big-integer"
 import {formatRelative} from 'date-fns'
 import ReactMarkdown from 'react-markdown'
+import {NavLink} from 'react-router-dom'
 
 export class ServerPage extends MComponent {
     constructor(props) {
@@ -20,6 +21,7 @@ export class ServerPage extends MComponent {
             post: null,
             postAuthor: null,
             editingPost: false,
+            postTitles: []
         }
     }
 
@@ -39,7 +41,9 @@ export class ServerPage extends MComponent {
             }
         }
         if(postCheck) {
-            // await this.fetchPost()
+            await this.fetchPost()
+        } else if(prev.match.params.post && !this.props.match.params.post) {
+            await this.fetchPostTitles()
         }
     }
 
@@ -52,6 +56,8 @@ export class ServerPage extends MComponent {
         this.setState({manages: managesRes.data.manages, server: serverRes.data}, async () => {
             if(this.props.match.params.post) {
                 await this.fetchPost()
+            } else {
+                await this.fetchPostTitles()
             }
         })
     }
@@ -64,6 +70,13 @@ export class ServerPage extends MComponent {
         let user = f.data
         this.getLogger().debug("Got author:", user)
         this.setState({post: data, postAuthor: user})
+    }
+
+    async fetchPostTitles() {
+        const e = await axios.get(`${BACKEND_URL}/api/v1/blog/server/${this.props.match.params.id}/posts/all/titles`)
+        const data = JSON.parse(e.data)
+        this.getLogger().debug("Got post data:", data)
+        this.setState({postTitles: data})
     }
 
     renderBackground() {
@@ -157,11 +170,36 @@ export class ServerPage extends MComponent {
     }
 
     renderTimeline() {
-        return (
-            <div className="column is-12 is-not-quite-black rounded-corners post-column">
-                <b>{this.state.server.name}</b> has no posts...
-            </div>
-        )
+        if(this.state.postTitles.length === 0) {
+            return (
+                <div className="column is-12 is-not-quite-black rounded-corners post-column">
+                    <b>{this.state.server.name}</b> has no posts...
+                </div>
+            )
+        } else {
+            const cards = []
+            let key = 0
+            const now = new Date()
+            this.state.postTitles.forEach(e => {
+                cards.push(
+                    <div className="column is-12" key={key++} style={{padding: "0"}}>
+                        <NavLink to={`/server/${this.props.match.params.id}/${e.id}`}>
+                            <div className="is-flex is-not-quite-black rounded-corners post-column" style={{alignItems: "center", padding: "0.75em"}}>
+                                <strong style={{marginRight: "0.25em"}}>{e.title}</strong>
+                                by <img src={e.author.avatar} alt="" className="circle is-inline-block" style={{
+                                    width: "16px", height: "16px", marginLeft: "0.25em", marginRight: "0.25em"
+                                }} />{e.author.displayName}
+                                <span style={{marginLeft: "auto", marginRight: "auto"}} />
+                                {formatRelative(new Date(bigInt(e.id).shiftRight(22).valueOf() + MEWNA_EPOCH), now)}
+                            </div>
+                        </NavLink>
+                    </div>
+                )
+            })
+            return (
+                cards
+            )
+        }
     }
 
     renderCurrentPost() {
@@ -174,7 +212,7 @@ export class ServerPage extends MComponent {
                     {formatRelative(new Date(bigInt(this.state.post.id).shiftRight(22).valueOf() + MEWNA_EPOCH), now)}
                 </div>
                 <div className="is-flex" style={{alignItems: "center"}}>
-                    by <a href={`/profile/${this.state.postAuthor.id}`} target="_blank" rel="noreferrer noopener">
+                    by <a href={`/profile/${this.state.postAuthor.id}`} target="_blank" rel="noreferrer noopener" style={{display: "flex", alignItems: "center"}}>
                         <img src={this.state.postAuthor.avatar} alt="" className="circle is-inline-block" style={{
                             width: "16px", height: "16px", marginLeft: "0.25em", marginRight: "0.25em"
                         }} />{this.state.postAuthor.displayName}
@@ -202,7 +240,7 @@ export class ServerPage extends MComponent {
                 return (
                     <div>
                         <hr className="dark-hr" />
-                        <a className="button is-primary" onClick={async (e) => {
+                        <a className="button is-primary" style={{marginRight: "0.5em"}} onClick={async (e) => {
                             e.preventDefault()
                             const res = await axios.put(`${BACKEND_URL}/api/v1/blog/server/${this.props.match.params.id}/post/${this.props.match.params.post}`,
                                 {title: title, content: content},
@@ -220,7 +258,7 @@ export class ServerPage extends MComponent {
                 return (
                     <div>
                         <hr className="dark-hr" />
-                        <a className="button is-primary" onClick={async (e) => {
+                        <a className="button is-primary" style={{marginRight: "0.5em"}} onClick={async (e) => {
                             this.setState({editingPost: true})
                         }}>Edit</a>
                         <a className="button is-primary" onClick={async (e) => {
