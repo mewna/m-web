@@ -186,7 +186,13 @@ class DashboardInternal extends MComponent {
     }
 
     renderGuilds() {
-        if(this.state.player && this.state.guilds && Object.keys(this.state.existStates).length === this.state.guilds.length) {
+        if(this.state.player && this.state.guilds && this.state.guilds.length === 0) {
+            return (
+                <div className="has-text-centered" style={{width: "100%"}}>
+                    You don't have any servers you can manage!
+                </div>
+            )
+        } else if(this.state.player && this.state.guilds && Object.keys(this.state.existStates).length === this.state.guilds.length) {
             let guilds = []
             let counter = 0
             this.state.guilds.filter(g => (g.permissions & MANAGE_GUILD) === MANAGE_GUILD).forEach(g => {
@@ -194,12 +200,6 @@ class DashboardInternal extends MComponent {
                 ++counter
             })
             return guilds
-        } else if(this.state.player && this.state.guilds && this.state.guilds.length === 0) {
-            return (
-                <div className="has-text-centered" style={{width: "100%"}}>
-                    You don't have any servers you can manage!
-                </div>
-            )
         } else {
             return (
                 <div className="has-text-centered" style={{width: "100%"}}>
@@ -223,13 +223,7 @@ class DashboardInternal extends MComponent {
                 )
                 ++key
             })
-            if(key != 0) {
-                return cards
-            } else {
-                return (
-                    "You don't have any servers you manage!"
-                )
-            }
+            return cards
         } else {
             return []
         }
