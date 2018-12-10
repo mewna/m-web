@@ -223,7 +223,13 @@ class DashboardInternal extends MComponent {
                 )
                 ++key
             })
-            return cards
+            if(key != 0) {
+                return cards
+            } else {
+                return (
+                    "You don't have any servers you manage!"
+                )
+            }
         } else {
             return []
         }
@@ -383,7 +389,7 @@ class DashboardInternal extends MComponent {
                             MEWNA PRO
                         </HeaderLinkRed>
                         */}
-                        idk what's gonna go here yet :clap:
+                        {/*idk what's gonna go here yet :clap:*/}
                     </a>
                 </DashboardHeader>
             )
