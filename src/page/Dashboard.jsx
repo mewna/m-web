@@ -367,7 +367,7 @@ class DashboardInternal extends MComponent {
                             </HeaderLink>
                         </NavLink>
                         <a href={`/server/${match.params.id}`} style={{height: "100%"}} target="_blank" rel="noopener noreferrer">
-                            <HeaderLink style={{borderBottom: `2px solid ${webhooksColor}`}}>
+                            <HeaderLink style={{borderBottom: `2px solid ${NOT_QUITE_BLACK}`}}>
                                 BLOG
                             </HeaderLink>
                         </a>
