@@ -35,7 +35,7 @@ class App extends MComponent {
                 <Route exact path="/features" component={Features} />
                 <Route exact path="/discord/dashboard*" component={Dashboard} />
                 <Route exact path="/profile/:id" component={ProfilePageRedux} />
-                <Route exact path="/server/:id/:post?" component={ServerPageRedux} />
+                {/*<Route exact path="/server/:id/:post?" component={ServerPageRedux} />*/}
                 <Route
                   exact
                   path="/noauth"
