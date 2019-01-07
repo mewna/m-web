@@ -41,6 +41,9 @@ if(window.auth.getToken() && window.auth.getId()) {
                 axios.get(BACKEND_URL + "/api/v1/cache/user/" + window.auth.getId()).then(user => {
                     axios.get(BACKEND_URL + "/api/v1/data/account/links/discord/" + window.auth.getId()).then(profile => {
                         const userData = user.data
+                        if(!userData.id && userData.idAsLong) {
+                            userData.id = userData.idAsLong
+                        }
                         const profileId = profile.data
                         window.store.updateUser(userData)
                         window.store.updateProfileId(profileId)
