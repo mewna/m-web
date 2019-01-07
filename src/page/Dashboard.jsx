@@ -366,11 +366,11 @@ class DashboardInternal extends MComponent {
                                 WEBHOOKS
                             </HeaderLink>
                         </NavLink>
-                        <a href={`/server/${match.params.id}`} style={{height: "100%"}} target="_blank" rel="noopener noreferrer">
+                        {/*<a href={`/server/${match.params.id}`} style={{height: "100%"}} target="_blank" rel="noopener noreferrer">
                             <HeaderLink style={{borderBottom: `2px solid ${NOT_QUITE_BLACK}`}}>
                                 BLOG
                             </HeaderLink>
-                        </a>
+                        </a>*/}
                         {/*<NavLink to={`/discord/dashboard/${match.params.id}/pro`} style={{color: REDPLE, height: "100%"}}>
                             <HeaderLinkRed style={{borderBottom: `2px solid ${proColor}`}}>
                                 MEWNA PRO
