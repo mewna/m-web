@@ -97,6 +97,16 @@ div.toggle-col {
   padding: 0;
 }
 
+.toggle-row > * > .toggle-row,
+.toggle-row > * > * > .toggle-row,
+.toggle-row > * > * > * > .toggle-row,
+.toggle-row > * > .toggle-col,
+.toggle-row > * > * > .toggle-col,
+.toggle-row > * > * > * > .toggle-col
+{
+    box-shadow: none !important;
+}
+
 // hr
 .dark-hr {
   background-color: lighten($not-quite-black, 10%);
