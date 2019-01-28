@@ -146,6 +146,28 @@ export class Levels extends DashboardPage {
 
                     <div className={"column is-12 toggle-column-wrapper"}>
                         <div className={"toggle-row"}>
+                            <div className={"is-inline-block"}>
+                                <p className={"title is-size-5"}>Import MEE6 levels</p>
+                                Import this server's levels and role rewards from MEE6. THIS OVERWRITES OLD LEVELS AND CANNOT BE UNDONE.
+                            </div>
+                            <span style={{marginLeft: "auto", marginRight: "1.5rem"}} />
+                            <a className="button is-primary hover" onClick={e => {
+                                e.preventDefault()
+                                // Fire off the request and get going~
+                                axios.post(BACKEND_URL + `/api/v1/data/guild/${this.props.guild.id}/levels/import/mee6`, {},
+                                    {headers: {"Authorization": this.getAuth().getToken()}})
+                            }}>
+                                Import
+                            </a>
+                        </div>
+                    </div>
+
+                    <div className={"column is-12 toggle-column-wrapper"}>
+                        <hr className={"dark-hr"} />
+                    </div>
+
+                    <div className={"column is-12 toggle-column-wrapper"}>
+                        <div className={"toggle-row"}>
                             <div>
                                 <p className={"title is-size-5"}>Role rewards</p>
                                 Award roles to people when they reach certain levels.
