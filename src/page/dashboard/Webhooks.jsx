@@ -45,9 +45,11 @@ export class Webhooks extends MComponent {
             let cards = []
             this.state.webhooks.forEach(e => {
                 let channel = this.state.channels.filter(c => c.id === e.channel)[0]
-                cards.push(
-                    <Webhook hook={e} channel={channel} key={key++} del={e => this.updateHooksLater(e)} />
-                )
+                if(channel) {
+                    cards.push(
+                        <Webhook hook={e} channel={channel} key={key++} del={e => this.updateHooksLater(e)} />
+                    )
+                }
             })
             return cards
         } else {
