@@ -77,6 +77,14 @@ div.toggle-col {
   margin-bottom: 2em;
   padding: 0; }
 
+.toggle-row > * > .toggle-row,
+.toggle-row > * > * > .toggle-row,
+.toggle-row > * > * > * > .toggle-row,
+.toggle-row > * > .toggle-col,
+.toggle-row > * > * > .toggle-col,
+.toggle-row > * > * > * > .toggle-col {
+  box-shadow: none !important; }
+
 .dark-hr {
   background-color: #3a4146; }
 

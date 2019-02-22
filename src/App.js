@@ -16,7 +16,7 @@ import { DiscordLeaderboards } from "./page/discord/DiscordLeaderboards";
 import { PaypalCheckout } from "./page/paypal/PaypalCheckout";
 import { Features } from "./page/Features";
 import { Commands } from "./page/discord/Commands";
-import { ServerPageRedux } from "./page/server/ServerPage";
+// import { ServerPageRedux } from "./page/server/ServerPage";
 
 class App extends MComponent {
   constructor(props) {
