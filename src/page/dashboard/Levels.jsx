@@ -238,6 +238,9 @@ class RoleReward extends MComponent {
     }
 
     render() {
+        if(!this.props.role || !this.props.role.name) {
+            return ""
+        }
         return (
             <div className={"column is-12 toggle-column-wrapper"}>
                 <div className={"toggle-row"}>
