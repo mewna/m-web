@@ -10,6 +10,7 @@ class NoAuthInternal extends MComponent {
     }
 
     tryRedir() {
+        /*
         setTimeout(() => {
             axios.get(BACKEND_URL + "/api/v1/heartbeat", {headers: {"authorization": this.getAuth().getToken()}})
                 .then(data => {
@@ -30,6 +31,7 @@ class NoAuthInternal extends MComponent {
                     }
                 })
         }, 500)
+        */
     }
 
     componentDidMount() {
