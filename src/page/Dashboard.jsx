@@ -434,7 +434,8 @@ class DashboardInternal extends MComponent {
                 This wraps the page in a nice div to give us a container and other main-element-features. 
                 */}
                 <VHContainer>
-                    <NoAuth />
+                    {/* Some fucking retarded auth bug that I don't understand but it breaks some sessions... */}
+                    {/* <NoAuth /> */}
                     <div className={"columns has-text-centered is-centered is-paddingless is-marginless"}>
                         <div className="column is-10">
                             {this.chooseRender(match)}
