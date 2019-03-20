@@ -10,25 +10,26 @@ class NoAuthInternal extends MComponent {
     }
 
     tryRedir() {
-        axios.get(BACKEND_URL + "/api/v1/heartbeat", {headers: {"authorization": this.getAuth().getToken()}})
-            .then(data => {
-                let user = data.check
-                this.getLogger().info("Got NoAuth data:", user)
-                if(!user) {
-                    user = data.data.check
-                }
-                if(this.getAuth().getId() === "128316294742147072") {
-                    if(!user) {
-                        alert(JSON.stringify(data))
+        setTimeout(() => {
+            axios.get(BACKEND_URL + "/api/v1/heartbeat", {headers: {"authorization": this.getAuth().getToken()}})
+                .then(data => {
+                    let user = data.data.check
+                    this.getLogger().info("Got NoAuth data:", user)
+                    if(this.getAuth().getId() === "128316294742147072") {
+                        if(!user) {
+                            alert(JSON.stringify(data))
+                            alert("Your token: " + this.getAuth().getToken())
+                            alert("Your id: " + this.getAuth().getId())
+                        }
                     }
-                }
-                if(!user || user === null || user === undefined) {
-                    this.getLogger().warn("NoAuth triggered")
-                    this.getAuth().clearToken()
-                    this.getAuth().clearId()
-                    this.props.history.push('/noauth')
-                }
-            })
+                    if(!user || user === null || user === undefined) {
+                        this.getLogger().warn("NoAuth triggered")
+                        this.getAuth().clearToken()
+                        this.getAuth().clearId()
+                        this.props.history.push('/noauth')
+                    }
+                })
+        }, 500)
     }
 
     componentDidMount() {
