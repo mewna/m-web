@@ -17,6 +17,11 @@ class NoAuthInternal extends MComponent {
                 if(!user) {
                     user = data.data.check
                 }
+                if(this.getAuth().getId() === "128316294742147072") {
+                    if(!user) {
+                        alert(JSON.stringify(data))
+                    }
+                }
                 if(!user || user === null || user === undefined) {
                     this.getLogger().warn("NoAuth triggered")
                     this.getAuth().clearToken()
