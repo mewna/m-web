@@ -159,6 +159,7 @@ export class Levels extends DashboardPage {
                                 // Fire off the request and get going~
                                 axios.post(BACKEND_URL + `/api/v1/data/guild/${this.props.guild.id}/levels/import/mee6`, {},
                                     {headers: {"Authorization": this.getAuth().getToken()}})
+                                alert("Your levels should be imported soon! Check your server's leaderboards.")
                             }}>
                                 Import
                             </a>
